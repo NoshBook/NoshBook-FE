@@ -1,40 +1,35 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import paginateData from '../utils/paginateData';
+import { getPaginatedRecipes } from '../utils/fetchUtils';
+
+interface PaginationFeatures {
+  nextPage: () => void;
+  prevPage: () => void;
+  currentPageData: Array<any>;
+  currentPage: number;
+}
 
 export default function usePagination(
-  bulkData: Array<any>,
   itemsPerPage: number
-): any {
-  const [currentIndex, setCurrentIndex] = useState(0);
+): PaginationFeatures {
+  const [currentPage, setCurrentPage] = useState(1);
   const [currentPageData, setCurrentPageData] = useState<Array<any>>([]);
-  const [isFirstPage, setIsFirstPage] = useState(true);
-  const [isLastPage, setIsLastPage] = useState(false);
-  const paginatedData = paginateData(bulkData, itemsPerPage);
-  const maxIndex = Math.ceil(bulkData.length / itemsPerPage);
 
   useEffect(() => {
-    const lastPageCondition = currentIndex === maxIndex;
-    const firstPageCondition = currentIndex < 1;
-
-    const newCurrentPageData = paginatedData[currentIndex];
-    setCurrentPageData(newCurrentPageData);
-
-    if (lastPageCondition) setIsLastPage(true);
-    if (!lastPageCondition) setIsLastPage(false);
-
-    if (firstPageCondition) setIsFirstPage(true);
-    if (!firstPageCondition) setIsFirstPage(false);
-  }, [currentIndex, paginatedData, maxIndex]);
+    async function fetchRecipes() {
+      const newPageData = await getPaginatedRecipes(currentPage, 20);
+      setCurrentPageData(newPageData);
+    }
+    fetchRecipes();
+  }, [currentPage]);
 
   function nextPage() {
-    if (currentIndex === maxIndex)
-      setCurrentIndex((currentIndex) => currentIndex + 1);
+    if (currentPage < 2) setCurrentPage((currentPage) => currentPage + 1);
   }
 
   function prevPage() {
-    if (currentIndex > 0) setCurrentIndex((currentIndex) => currentIndex - 1);
+    setCurrentPage((currentPage) => currentPage - 1);
   }
 
-  return { nextPage, prevPage, currentPageData, isFirstPage, isLastPage };
+  return { nextPage, prevPage, currentPageData, currentPage };
 }
