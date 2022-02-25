@@ -4,6 +4,7 @@ import Header from './components/Header/Header';
 import { useAuth } from './context/AuthContext';
 import Auth from './views/Auth';
 import Browse from './views/Browse/Browse';
+import Planner from './views/Planner/Planner';
 
 function App() {
   /* including user console log below for dev purposes - remove later */
@@ -17,6 +18,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/auth' element={<Auth />} />
+          <Route path='/planner' element={<Planner />} />
           <Route path='/' element={<Browse />} />
         </Routes>
       </Router>
