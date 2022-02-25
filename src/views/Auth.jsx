@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { logIn, signUp } from '../utils/users';
+import { getUser, logIn, signUp } from '../utils/users';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Auth() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
+  const { setUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from || '/';
@@ -28,6 +30,7 @@ export default function Auth() {
       //if sign up is successful, log user in and redirect home
       if (res.id) {
         await logIn(username, password);
+        setUser(res.username);
         navigate(from, { replace: true });
       }
     } catch (error) {
@@ -41,6 +44,8 @@ export default function Auth() {
     try {
       const res = await logIn(username, password);
       if (res.message === 'Signed in successfully!') {
+        const loggedInUser = await getUser();
+        setUser(loggedInUser.username);
         navigate(from, { replace: true });
       }
     } catch (error) {
