@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, useState, useEffect } from 'react';
-import { getUser } from '../utils/getUser';
+import { getUser } from '../utils/users';
 
 const AuthContext = createContext();
 
@@ -10,7 +10,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const getCurrentUser = async () => {
       const res = await getUser();
-      console.log(res);
       setUser(res.username);
       setLoading(false);
     };

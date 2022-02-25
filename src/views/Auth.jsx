@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { getUser } from '../utils/getUser';
-import { signUp } from '../utils/users';
-import { logIn } from '../utils/getUser';
+import { logIn, signUp } from '../utils/users';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Auth() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
-  //   const { user, setUser } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || '/';
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
@@ -25,6 +25,11 @@ export default function Auth() {
         throw new Error();
       }
       const res = await signUp(username, password);
+      //if sign up is successful, log user in and redirect home
+      if (res.id) {
+        await logIn(username, password);
+        navigate(from, { replace: true });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -34,10 +39,8 @@ export default function Auth() {
     event.preventDefault();
     setFormError('');
     try {
-      const res = await logIn(username, password);
-      console.log(res);
-      const loggedinUser = await getUser();
-      console.log(loggedinUser);
+      await logIn(username, password);
+      navigate(from, { replace: true });
     } catch (error) {
       setFormError('Invalid credentials. Please try again.');
     }
