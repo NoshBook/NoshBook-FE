@@ -1,6 +1,6 @@
 import request from 'superagent';
 
-const URL = 'http://localhost:3000/api/v1/users';
+const URL = 'https://noshbook-staging.herokuapp.com/api/v1/users';
 
 //create user
 export const signUp = async (username: string, password: string) => {
