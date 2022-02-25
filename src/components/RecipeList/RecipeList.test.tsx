@@ -3,7 +3,6 @@ import { MemoryRouter } from 'react-router';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import Browse from '../../views/Browse/Browse';
-import { arrayBuffer } from 'stream/consumers';
 
 const mockRecipe = {
   id: 1,
