@@ -3,10 +3,14 @@ import { useState } from 'react';
 interface RecipeListProps {
   currentPageData: Array<any>;
   // add handleclick fn type
+  handleAddRecipeToCookbook: (id: string) => Promise<void>;
 }
 
 // add handleClick fn to props for recipe->cookbook button
-export default function RecipeList({ currentPageData }: RecipeListProps) {
+export default function RecipeList({
+  currentPageData,
+  handleAddRecipeToCookbook,
+}: RecipeListProps) {
   const [searchInput, setSearchInput] = useState<string>('');
 
   return (
@@ -33,6 +37,9 @@ export default function RecipeList({ currentPageData }: RecipeListProps) {
             {/*   - if user is not logged in, this button should add prompt the user to log in */}
             {/* if rendering in cookbook view, this button should remove a recipe from the cookbook */}
             {/* button */}
+            <button onClick={() => handleAddRecipeToCookbook(recipe.id)}>
+              Add Recipe to Cookbook
+            </button>
           </div>
         );
       })}
