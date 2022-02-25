@@ -1,46 +1,40 @@
-import { useState, useEffect } from 'react';
-import { getRecipes } from '../../utils/fetchUtils';
+// import { useState } from 'react';
+import usePagination from '../../hooks/usePagination';
 
 export default function RecipeList() {
-  const [recipes, setRecipes] = useState<any>([]);
-  const [searchResults, setSearchResults] = useState<any>([]);
-  const [searchInput, setSearchInput] = useState<any>([]);
-  const [list, setList] = useState(searchResults ? searchResults : recipes);
+  // const [searchResults, setSearchResults] = useState<any>([]);
+  // const [searchInput, setSearchInput] = useState<any>('');
+  const { nextPage, prevPage, currentPageData, currentPage } =
+    usePagination(20);
+  // const [list, setList] = useState(
+  //   searchResults ? searchResults : currentPageData
+  // );
 
-  useEffect(() => {
-    const getAllRecipes = async () => {
-      const res = await getRecipes();
-      setRecipes(res);
-      setList(res);
-    };
-    getAllRecipes();
-  }, []);
-
-  const searchItems = (query: string) => {
-    setSearchInput(query.toLowerCase());
-    const results = recipes.filter((recipe: any) => {
-      const name = recipe.name.toLowerCase();
-      return name.includes(query);
-    });
-    setSearchResults(results);
-    setList(results);
-  };
+  // const searchItems = (query: string) => {
+  //   setSearchInput(query.toLowerCase());
+  //   const results = currentPageData.filter((recipe: any) => {
+  //     const name = recipe.name.toLowerCase();
+  //     return name.includes(query);
+  //   });
+  //   setSearchResults(results);
+  //   setList(results);
+  // };
 
   return (
     <div>
       <h1>Recipes</h1>
-      <form>
-        <label htmlFor='search-items'></label>
+      {/* <form>
+        <label htmlFor="search-items"></label>
         <input
-          id='search-items'
-          type='text'
-          name='search-items'
+          id="search-items"
+          type="text"
+          name="search-items"
           value={searchInput}
-          autoComplete='off'
+          autoComplete="off"
           onChange={({ target }) => searchItems(target.value)}
         />
-      </form>
-      {list.map((recipe: any) => {
+      </form> */}
+      {currentPageData.map((recipe: any) => {
         return (
           <div key={recipe.id}>
             <h2>{recipe.name}</h2>
@@ -48,6 +42,14 @@ export default function RecipeList() {
           </div>
         );
       })}
+      <article>
+        <button onClick={prevPage} disabled={currentPage === 1}>
+          prev page
+        </button>
+        <button onClick={nextPage} disabled={currentPageData.length < 20}>
+          next page
+        </button>
+      </article>
     </div>
   );
 }
