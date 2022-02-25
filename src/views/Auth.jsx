@@ -39,8 +39,10 @@ export default function Auth() {
     event.preventDefault();
     setFormError('');
     try {
-      await logIn(username, password);
-      navigate(from, { replace: true });
+      const res = await logIn(username, password);
+      if (res.message === 'Signed in successfully!') {
+        navigate(from, { replace: true });
+      }
     } catch (error) {
       setFormError('Invalid credentials. Please try again.');
     }
