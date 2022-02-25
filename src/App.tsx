@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+import Header from './components/Header/Header';
 import { useAuth } from './context/AuthContext';
 import Auth from './views/Auth';
 import Browse from './views/Browse/Browse';
@@ -10,12 +11,13 @@ function App() {
   console.log(user);
 
   return (
-    <div className="App">
+    <div className='App'>
+      <Header />
       <h1>NoshBook</h1>
       <Router>
         <Routes>
           <Route path='/auth' element={<Auth />} />
-          <Route path="/" element={<Browse />} />
+          <Route path='/' element={<Browse />} />
         </Routes>
       </Router>
     </div>
