@@ -1,18 +1,10 @@
 import { useState } from 'react';
 
 interface RecipeListProps {
-  nextPage: () => void;
-  prevPage: () => void;
   currentPageData: Array<any>;
-  currentPage: number;
 }
 
-export default function RecipeList({
-  nextPage,
-  prevPage,
-  currentPageData,
-  currentPage,
-}: RecipeListProps) {
+export default function RecipeList({ currentPageData }: RecipeListProps) {
   const [searchInput, setSearchInput] = useState<string>('');
 
   return (
@@ -37,14 +29,6 @@ export default function RecipeList({
           </div>
         );
       })}
-      <article>
-        <button onClick={prevPage} disabled={currentPage === 1}>
-          prev page
-        </button>
-        <button onClick={nextPage} disabled={currentPageData.length < 20}>
-          next page
-        </button>
-      </article>
     </div>
   );
 }

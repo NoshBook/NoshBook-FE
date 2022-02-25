@@ -7,12 +7,17 @@ export default function Browse() {
     usePagination(20);
   return (
     <main>
-      <RecipeList
-        nextPage={nextPage}
-        prevPage={prevPage}
-        currentPageData={currentPageData}
-        currentPage={currentPage}
-      />
+      <section>
+        <RecipeList currentPageData={currentPageData} />
+      </section>
+      <section>
+        <button onClick={prevPage} disabled={currentPage === 1}>
+          prev page
+        </button>
+        <button onClick={nextPage} disabled={currentPageData.length < 20}>
+          next page
+        </button>
+      </section>
     </main>
   );
 }

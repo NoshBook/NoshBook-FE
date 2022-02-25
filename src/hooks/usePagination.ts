@@ -29,6 +29,5 @@ export default function usePagination(
   function prevPage() {
     if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
   }
-  console.log(currentPage, currentPageData);
   return { nextPage, prevPage, currentPageData, currentPage };
 }
