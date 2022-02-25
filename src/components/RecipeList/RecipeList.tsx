@@ -1,46 +1,27 @@
-import { useState, useEffect } from 'react';
-import { getRecipes } from '../../utils/fetchUtils';
+import { useState } from 'react';
 
-export default function RecipeList() {
-  const [recipes, setRecipes] = useState<any>([]);
-  const [searchResults, setSearchResults] = useState<any>([]);
-  const [searchInput, setSearchInput] = useState<any>([]);
-  const [list, setList] = useState(searchResults ? searchResults : recipes);
+interface RecipeListProps {
+  currentPageData: Array<any>;
+}
 
-  useEffect(() => {
-    const getAllRecipes = async () => {
-      const res = await getRecipes();
-      setRecipes(res);
-      setList(res);
-    };
-    getAllRecipes();
-  }, []);
-
-  const searchItems = (query: string) => {
-    setSearchInput(query.toLowerCase());
-    const results = recipes.filter((recipe: any) => {
-      const name = recipe.name.toLowerCase();
-      return name.includes(query);
-    });
-    setSearchResults(results);
-    setList(results);
-  };
+export default function RecipeList({ currentPageData }: RecipeListProps) {
+  const [searchInput, setSearchInput] = useState<string>('');
 
   return (
     <div>
       <h1>Recipes</h1>
       <form>
-        <label htmlFor='search-items'></label>
+        <label htmlFor="search-items"></label>
         <input
-          id='search-items'
-          type='text'
-          name='search-items'
+          id="search-items"
+          type="text"
+          name="search-items"
           value={searchInput}
-          autoComplete='off'
-          onChange={({ target }) => searchItems(target.value)}
+          autoComplete="off"
+          onChange={({ target }) => setSearchInput(target.value)}
         />
       </form>
-      {list.map((recipe: any) => {
+      {currentPageData.map((recipe: any) => {
         return (
           <div key={recipe.id}>
             <h2>{recipe.name}</h2>
