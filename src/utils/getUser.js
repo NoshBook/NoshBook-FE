@@ -1,4 +1,4 @@
-const URL = 'https://noshbook-staging.herokuapp.com/api/v1/users/';
+const URL = 'https://noshbook-staging.herokuapp.com/api/v1/users';
 
 export const getUser = async () => {
   try {
