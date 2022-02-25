@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getPaginatedRecipes } from '../utils/fetchUtils';
+import { getPaginatedRecipes } from '../services/recipe';
 
 interface PaginationFeatures {
   nextPage: () => void;
