@@ -11,3 +11,6 @@ export const getPaginatedRecipes = async (
     console.error(error);
   }
 };
+
+// export placeRecipeInCookBook
+// discuss with team, should this go in cookbook.ts on the frontend,  and the cookbook route/model in the backend?
