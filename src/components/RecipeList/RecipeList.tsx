@@ -1,29 +1,24 @@
-// import { useState } from 'react';
-import usePagination from '../../hooks/usePagination';
+import { useState } from 'react';
 
-export default function RecipeList() {
-  // const [searchResults, setSearchResults] = useState<any>([]);
-  // const [searchInput, setSearchInput] = useState<any>('');
-  const { nextPage, prevPage, currentPageData, currentPage } =
-    usePagination(20);
-  // const [list, setList] = useState(
-  //   searchResults ? searchResults : currentPageData
-  // );
+interface RecipeListProps {
+  nextPage: () => void;
+  prevPage: () => void;
+  currentPageData: Array<any>;
+  currentPage: number;
+}
 
-  // const searchItems = (query: string) => {
-  //   setSearchInput(query.toLowerCase());
-  //   const results = currentPageData.filter((recipe: any) => {
-  //     const name = recipe.name.toLowerCase();
-  //     return name.includes(query);
-  //   });
-  //   setSearchResults(results);
-  //   setList(results);
-  // };
+export default function RecipeList({
+  nextPage,
+  prevPage,
+  currentPageData,
+  currentPage,
+}: RecipeListProps) {
+  const [searchInput, setSearchInput] = useState<string>('');
 
   return (
     <div>
       <h1>Recipes</h1>
-      {/* <form>
+      <form>
         <label htmlFor="search-items"></label>
         <input
           id="search-items"
@@ -31,9 +26,9 @@ export default function RecipeList() {
           name="search-items"
           value={searchInput}
           autoComplete="off"
-          onChange={({ target }) => searchItems(target.value)}
+          onChange={({ target }) => setSearchInput(target.value)}
         />
-      </form> */}
+      </form>
       {currentPageData.map((recipe: any) => {
         return (
           <div key={recipe.id}>

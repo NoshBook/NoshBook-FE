@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import RecipeList from './components/RecipeList/RecipeList';
+import Browse from './views/Browse/Browse';
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <h1>NoshBook</h1>
       <Router>
         <Routes>
-          <Route path="/" element={<RecipeList />} />
+          <Route path="/" element={<Browse />} />
         </Routes>
       </Router>
     </div>
