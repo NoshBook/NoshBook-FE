@@ -44,6 +44,7 @@
     ]
   },
   "devDependencies": {
-    "@types/superagent": "^4.1.15"
+    "@types/superagent": "^4.1.15",
+    "@types/react-router-dom": "^5.3.3"
   }
 }
