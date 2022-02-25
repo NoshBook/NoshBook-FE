@@ -45,5 +45,6 @@
   },
   "devDependencies": {
     "@types/superagent": "^4.1.15"
-  }
+  },
+  "proxy": "https://noshbook-staging.herokuapp.com/"
 }

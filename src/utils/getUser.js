@@ -1,4 +1,4 @@
-const URL = 'https://noshbook-staging.herokuapp.com/api/v1/users';
+const URL = 'http://localhost:3000/api/v1/users';
 
 export const getUser = async () => {
   try {
@@ -11,6 +11,7 @@ export const getUser = async () => {
 
 export const logIn = async (username, password) => {
   const res = await fetch(`${URL}/sessions`, {
+    credentials: 'include',
     method: 'POST',
     headers: {
       Accept: 'application/json',
