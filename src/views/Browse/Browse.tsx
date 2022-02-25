@@ -4,9 +4,13 @@ import usePagination from '../../hooks/usePagination';
 export default function Browse() {
   const { nextPage, prevPage, currentPageData, currentPage } =
     usePagination(20);
+
+  // declare handleClick fn for recipe->cookbook
+
   return (
     <main>
       <section>
+        {/* pass new handleClick fn as prop to RecipeList */}
         <RecipeList currentPageData={currentPageData} />
       </section>
       <section>
