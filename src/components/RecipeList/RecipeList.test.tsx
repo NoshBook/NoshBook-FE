@@ -7,7 +7,8 @@ import RecipeList from './RecipeList';
 const mockRecipeList = [
   {
     id: 1,
-    name: 'test',
+    name: 'test recipe',
+    description: 'test',
     ingredients: 'test',
     tags: 'test',
     servings: 'test',
@@ -40,6 +41,6 @@ describe('RecipeList', () => {
         <RecipeList />
       </MemoryRouter>
     );
-    await screen.findByText('test');
+    await screen.findByText('test recipe');
   });
 });

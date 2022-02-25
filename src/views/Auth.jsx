@@ -1,0 +1,78 @@
+import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { getUser } from '../utils/getUser';
+import { signUp } from '../utils/users';
+import { logIn } from '../utils/getUser';
+
+export default function Auth() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [formError, setFormError] = useState('');
+  //   const { user, setUser } = useAuth();
+
+  const handleFormChange = (event) => {
+    const { name, value } = event.target;
+    if (name === 'username') setUsername(value);
+    if (name === 'password') setPassword(value);
+  };
+
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+    setFormError('');
+    try {
+      if (password.length < 8) {
+        setFormError('Password must be at least 8 characters long.');
+        throw new Error();
+      }
+      const res = await signUp(username, password);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    setFormError('');
+    try {
+      const res = await logIn(username, password);
+      console.log(res);
+      const loggedinUser = await getUser();
+      console.log(loggedinUser);
+    } catch (error) {
+      setFormError('Invalid credentials. Please try again.');
+    }
+  };
+
+  return (
+    <form>
+      <fieldset>
+        <legend>Enter NoshBook</legend>
+        <section>
+          <label htmlFor='username'>Username</label>
+          <input
+            required
+            id='username'
+            type='username'
+            name='username'
+            value={username}
+            onChange={handleFormChange}
+          />
+        </section>
+        <section>
+          <label htmlFor='password'>Password</label>
+          <input
+            required
+            id='password'
+            type='password'
+            name='password'
+            value={password}
+            onChange={handleFormChange}
+          />
+        </section>
+        <button onClick={handleLogin}>Log in</button>
+        <button onClick={handleSignUp}>Sign up</button>
+        {formError && <p>{formError}</p>}
+      </fieldset>
+    </form>
+  );
+}
