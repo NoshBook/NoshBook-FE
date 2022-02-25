@@ -2,7 +2,7 @@ import { screen, render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
-import RecipeList from './RecipeList';
+import Browse from '../../views/Browse/Browse';
 
 const mockRecipeList = [
   {
@@ -37,7 +37,7 @@ describe('RecipeList', () => {
   it('should render a list of recipes', async () => {
     render(
       <MemoryRouter>
-        <RecipeList />
+        <Browse />
       </MemoryRouter>
     );
     await screen.findByText('test');
