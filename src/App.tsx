@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import Header from './components/Header/Header';
 import { useAuth } from './context/AuthContext';
 import Auth from './views/Auth';
 import Browse from './views/Browse/Browse';
@@ -14,6 +15,7 @@ function App() {
 
   return (
     <div className='App'>
+      <Header />
       <h1>NoshBook</h1>
       <Router>
         <Routes>
