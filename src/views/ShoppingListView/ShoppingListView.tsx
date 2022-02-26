@@ -31,7 +31,7 @@ export default function ShoppingListView() {
   return (
     <div>
       <div>ShoppingList</div>
-      <button onClick={getNewShoppingList}>aa</button>
+      <button onClick={getNewShoppingList}>Generate</button>
       <div>
         <ShoppingList items={items} setChecked={setChecked} />
       </div>

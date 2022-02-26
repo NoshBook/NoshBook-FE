@@ -1,0 +1,10 @@
+.header {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.avatar {
+  display: flex;
+  align-self: flex-end;
+}
