@@ -1,4 +1,5 @@
 import RecipeList from '../../components/RecipeList/RecipeList';
+import { useAuth } from '../../context/AuthContext';
 import usePagination from '../../hooks/usePagination';
 import { BrowseRecipe } from '../../interfaces/BrowseRecipe';
 import { insertRecipeIntoCookbook } from '../../services/cookbook/cookbook';
@@ -6,18 +7,22 @@ import { insertRecipeIntoCookbook } from '../../services/cookbook/cookbook';
 export default function Browse() {
   const { nextPage, prevPage, currentPageData, currentPage } =
     usePagination(20);
+  const { user } = useAuth();
 
-  // declare handleClick fn for recipe->cookbook
   async function handleAddRecipeToCookbook(recipe: BrowseRecipe) {
-    const { id, name } = recipe;
-    await insertRecipeIntoCookbook(id);
-    window.alert(`${name} added to your cookbook!`);
+    if (user) {
+      const { id, name } = recipe;
+      await insertRecipeIntoCookbook(id);
+      window.alert(`${name} added to your cookbook!`);
+    } else {
+      // could be a redirect if desired
+      window.alert('Login to add recipes to your cookbook!');
+    }
   }
 
   return (
     <main>
       <section>
-        {/* pass new handleClick fn as prop to RecipeList */}
         <RecipeList
           currentPageData={currentPageData}
           handleAddRecipeToCookbook={handleAddRecipeToCookbook}
