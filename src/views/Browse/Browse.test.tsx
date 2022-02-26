@@ -2,7 +2,7 @@ import { screen, render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
-import Browse from '../../views/Browse/Browse';
+import Browse from './Browse';
 
 const mockRecipe = {
   id: 1,

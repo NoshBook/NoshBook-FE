@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import type { BrowseRecipe } from '../../interfaces/BrowseRecipe';
 
 interface RecipeListProps {
   currentPageData: Array<any>;
   // add handleclick fn type
-  handleAddRecipeToCookbook: (id: string) => Promise<void>;
+  handleAddRecipeToCookbook: (recipe: BrowseRecipe) => Promise<void>;
 }
 
 // add handleClick fn to props for recipe->cookbook button
@@ -37,7 +38,7 @@ export default function RecipeList({
             {/*   - if user is not logged in, this button should add prompt the user to log in */}
             {/* if rendering in cookbook view, this button should remove a recipe from the cookbook */}
             {/* button */}
-            <button onClick={() => handleAddRecipeToCookbook(recipe.id)}>
+            <button onClick={() => handleAddRecipeToCookbook(recipe)}>
               Add Recipe to Cookbook
             </button>
           </div>

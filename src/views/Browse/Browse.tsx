@@ -1,14 +1,17 @@
 import RecipeList from '../../components/RecipeList/RecipeList';
 import usePagination from '../../hooks/usePagination';
-import { insertRecipeIntoCookbook } from '../../services/cookbook';
+import { BrowseRecipe } from '../../interfaces/BrowseRecipe';
+import { insertRecipeIntoCookbook } from '../../services/cookbook/cookbook';
 
 export default function Browse() {
   const { nextPage, prevPage, currentPageData, currentPage } =
     usePagination(20);
 
   // declare handleClick fn for recipe->cookbook
-  async function handleAddRecipeToCookbook(recipeId: string) {
-    await insertRecipeIntoCookbook(recipeId); // ❓ does success here trigger any events or user feedback?
+  async function handleAddRecipeToCookbook(recipe: BrowseRecipe) {
+    const { id, name } = recipe;
+    await insertRecipeIntoCookbook(id);
+    window.alert(`${name} added to your cookbook!`);
   }
 
   return (
