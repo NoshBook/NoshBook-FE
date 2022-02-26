@@ -1,20 +1,9 @@
-interface Recipe {
-  description: string;
-  id: string;
-  image: string;
-  ingredients: Array<string>;
-  instructions: Array<string>;
-  name: string;
-  rating: number;
-  servings: string;
-  tags: Array<string>;
-  totalTime: string;
-}
+import type { BrowseRecipe } from '../interfaces/BrowseRecipe';
 
 export const getPaginatedRecipes = async (
   newPage: number,
   itemQuantity: number
-): Promise<Recipe[]> => {
+): Promise<BrowseRecipe[]> => {
   try {
     const res = await fetch(
       `https://noshbook-staging.herokuapp.com/api/v1/recipes?page=${newPage}&quantity=${itemQuantity}`
