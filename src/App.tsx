@@ -12,14 +12,14 @@ function App() {
   console.log(user);
 
   return (
-    <div className='App'>
+    <div className="App">
       <Header />
       <h1>NoshBook</h1>
       <Router>
         <Routes>
-          <Route path='/auth' element={<Auth />} />
-          <Route path='/planner' element={<Planner />} />
-          <Route path='/' element={<Browse />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/planner" element={<Planner />} />
+          <Route path="/" element={<Browse />} />
         </Routes>
       </Router>
     </div>

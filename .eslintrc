@@ -21,7 +21,7 @@
   "plugins": ["babel", "react"],
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
-    "no-console": "warn",
+    "no-console": "off",
     "react/prop-types": 0,
     "indent": [
       "warn",
@@ -31,7 +31,7 @@
       }
     ],
     "quotes": [
-      "warn",
+      "off",
       "single",
       {
         "allowTemplateLiterals": true
@@ -58,7 +58,7 @@
     "rest-spread-spacing": "warn",
     "prefer-arrow-callback": "warn",
     "object-shorthand": ["warn", "always"],
-    "max-len": "warn",
+    "max-len": "off",
     "jsx-quotes": "warn",
     "babel/no-invalid-this": 1,
     "babel/semi": 0,
