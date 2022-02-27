@@ -21,11 +21,14 @@ function App() {
         <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route path="/planner" element={<Planner />} />
-          <Route path="/shoppinglist" element={
-            <PrivateRoute>
-              <ShoppingListView />
-            </PrivateRoute>
-          } />
+          <Route
+            path="/shoppinglist"
+            element={
+              <PrivateRoute>
+                <ShoppingListView />
+              </PrivateRoute>
+            }
+          />
           <Route path="/" element={<Browse />} />
         </Routes>
       </Router>
