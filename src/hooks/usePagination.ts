@@ -9,7 +9,7 @@ interface PaginationFeatures {
 }
 
 export default function usePagination(
-  itemsPerPage: number
+  itemsPerPage: number,
 ): PaginationFeatures {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageData, setCurrentPageData] = useState<Array<any>>([]);
