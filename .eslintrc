@@ -21,6 +21,7 @@
   "plugins": ["babel", "react"],
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
+    "no-undef": "off",
     "no-console": "off",
     "react/prop-types": 0,
     "indent": [
@@ -59,7 +60,7 @@
     "prefer-arrow-callback": "warn",
     "object-shorthand": ["warn", "always"],
     "max-len": "off",
-    "jsx-quotes": "warn",
+    "jsx-quotes": "off",
     "babel/no-invalid-this": 1,
     "babel/semi": 0,
     "react/jsx-uses-react": "off",
