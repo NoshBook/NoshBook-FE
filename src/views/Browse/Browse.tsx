@@ -9,11 +9,23 @@ export default function Browse() {
     usePagination(20);
   const { user } = useAuth();
 
+  // ✔ if user is logged out, prompt them to login.
+  // if user is logged in, and the recipe doesn't already exist, add to DB and on success prompt them of the success.
+  // if user is logged in, and the recipe does already exist, prompt the user that the recipe is already in their cookbook.
   async function handleAddRecipeToCookbook(recipe: BrowseRecipe) {
     if (user) {
-      const { id, name } = recipe;
-      await insertRecipeIntoCookbook(id);
-      window.alert(`${name} added to your cookbook!`);
+      try {
+        const { id, name } = recipe;
+        console.log(user);
+        const addRecipeResponse = await insertRecipeIntoCookbook(id, user.id);
+        if (addRecipeResponse.id) {
+          window.alert(`${name} added to your cookbook!`);
+        } else {
+          console.log(addRecipeResponse);
+        }
+      } catch (error: any) {
+        console.log(error);
+      }
     } else {
       // could be a redirect if desired
       window.alert('Login to add recipes to your cookbook!');
