@@ -1,5 +1,5 @@
 import { useAuth } from '../../context/AuthContext';
-import { logOut } from '../../utils/users';
+import { logOut } from '../../services/users';
 import { BsPersonCircle } from 'react-icons/bs';
 import { Navigate } from 'react-router-dom';
 

@@ -110,6 +110,5 @@ describe('ShoppingList', () => {
     fireEvent.click(generateButton);
     const item1Checked = await screen.findByText(/test3 isChecked: false/i);
     expect(item1Checked).toBeInTheDocument();
-
   });
 });

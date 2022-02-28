@@ -1,4 +1,4 @@
-import { beUrl } from "./beUrl.js";
+import { beUrl } from "../utils/beUrl.js";
 
 const getShoppingList = async () => {
   const res = await fetch(`${beUrl}/shoppinglist`, { credentials: 'include' });
