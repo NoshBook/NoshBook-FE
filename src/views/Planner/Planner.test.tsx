@@ -1,12 +1,34 @@
-import { screen, render } from '@testing-library/react';
+import { screen, render, fireEvent } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
-import Planner from '../../views/Planner/Planner';
+import Planner from './Planner';
 import { MemoryRouter } from 'react-router-dom';
 
 const server = setupServer(
   rest.get(
     'https://noshbook-staging.herokuapp.com/api/v1/planners',
+    (req, res, ctx) => {
+      const mockResponse = [
+        {
+          day: 'monday',
+          recipes: [
+            {
+              id: 1,
+              name: 'banana bread',
+            },
+            {
+              id: 2,
+              name: 'corndog',
+            },
+          ],
+        },
+      ];
+
+      return res(ctx.json(mockResponse));
+    },
+  ),
+  rest.delete(
+    'https://noshbook-staging.herokuapp.com/api/v1/planners/clear',
     (req, res, ctx) => {
       const mockResponse = [
         {
@@ -38,7 +60,7 @@ describe('PlannerList', () => {
     server.close();
   });
 
-  it('should render a list of recipes that have been added to planner', async () => {
+  it('should delete recipes from the planner on Reset click', async () => {
     render(
       <MemoryRouter>
         <Planner />
@@ -46,6 +68,8 @@ describe('PlannerList', () => {
     );
 
     await screen.findByText(/banana bread/i);
-    await screen.findByText(/corndog/i);
+    const resetButton = screen.getByText(/reset/i);
+    fireEvent.click(resetButton);
+    expect(await screen.findByText(/no recipes to display/i)).toBeVisible();
   });
 });
