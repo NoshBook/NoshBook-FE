@@ -36,6 +36,7 @@ export default function Browse() {
         <Switch
           checked={user.showUserContent}
           onChange={updateUserPreference}
+          disabled={!user.id}
         />
       </article>
       <section>
