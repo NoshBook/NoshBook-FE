@@ -1,4 +1,7 @@
+import styles from './Recipe.module.css';
+
 export default function Recipe({
+  id,
   name,
   instructions,
   description,
@@ -8,15 +11,16 @@ export default function Recipe({
   total_time,
   source_url,
   rating,
-  ratings_count,
+  handleRecipe,
+  addOrRemove,
 }) {
   return (
-    <main>
+    <main className={styles.container}>
       <h2>{name}</h2>
       <p>{source_url}</p>
       <p>{rating}</p>
-      <p>{ratings_count}</p>
-      <img src={image} alt={name} />
+      <button onClick={() => handleRecipe(id, name)}>{addOrRemove}</button>
+      <img className={styles.img} src={image} alt={name} />
       <p>{description}</p>
       <article>
         <section>
