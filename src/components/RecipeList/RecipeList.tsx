@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { BrowseRecipe } from '../../interfaces/BrowseRecipe';
 
 interface RecipeListProps {
@@ -11,6 +12,7 @@ export default function RecipeList({
   handleAddRecipeToCookbook,
 }: RecipeListProps) {
   const [searchInput, setSearchInput] = useState<string>('');
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -28,7 +30,10 @@ export default function RecipeList({
       </form>
       {currentPageData.map((recipe: any) => {
         return (
-          <div key={recipe.id}>
+          <div
+            key={recipe.id}
+            onClick={() => navigate(`/recipes/${recipe.id}`)}
+          >
             <h2>{recipe.name}</h2>
             <p>{recipe.description}</p>
             {/* if rendering in cookbook view, this button should remove a recipe from the cookbook */}
