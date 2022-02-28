@@ -91,4 +91,8 @@ describe('RecipeList', () => {
     fireEvent.click(prevPageButton);
     await screen.findAllByText('test');
   });
+
+  // if user is logged out, alerts user to login on click of 'add recipe to cookbook'
+  // if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
+  // if user is logged in, if recipe already exists in cookbook, alerts user of failure.
 });
