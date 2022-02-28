@@ -1,4 +1,4 @@
-import { beUrl } from "../utils/beUrl";
+import { beUrl } from '../utils/beUrl';
 
 export const getPlannerRecipes = async () => {
   try {
@@ -11,7 +11,7 @@ export const getPlannerRecipes = async () => {
 
 export const clearPlannerRecipes = async () => {
   try {
-    const res = await fetch(`${beUrl}/planners/clear`, {
+    const res = await fetch(`${beUrl}/planners/delete`, {
       credentials: 'include',
       method: 'DELETE',
     });
@@ -42,6 +42,17 @@ export const addPlannerRecipe = async ({
       }),
     });
     return res.json();
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deletePlannerRecipe = async (id: number) => {
+  try {
+    const res = await fetch(`${beUrl}/planners/delete/${id}`, {
+      credentials: 'include',
+      method: 'DELETE',
+    });
   } catch (e) {
     console.log(e);
   }
