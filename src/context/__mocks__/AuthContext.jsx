@@ -11,7 +11,7 @@ const AuthProvider = ({ mockUser = { showUserContent: false }, children }) => {
   useEffect(() => {
     const getCurrentUser = async () => {
       const res = await getUser();
-      console.log(res);
+      console.log('MOCK USER: ', res);
       setUser(res);
       setLoading(false);
     };
@@ -29,7 +29,7 @@ const AuthProvider = ({ mockUser = { showUserContent: false }, children }) => {
 
   const value = useMemo(
     () => ({ user, setUser, updateUserPreference }),
-    [user]
+    [user],
   );
   if (loading) {
     return <h2>Loading...</h2>;
