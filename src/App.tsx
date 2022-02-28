@@ -7,6 +7,7 @@ import Auth from './views/Auth';
 import Browse from './views/Browse/Browse';
 import Planner from './views/Planner/Planner';
 import ShoppingListView from './views/ShoppingListView/ShoppingListView';
+import RecipeDetail from './views/RecipeDetail/RecipeDetail';
 
 function App() {
   /* including user console log below for dev purposes - remove later */
@@ -29,6 +30,7 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/recipes/:id" element={<RecipeDetail />} />
           <Route path="/" element={<Browse />} />
         </Routes>
       </Router>
