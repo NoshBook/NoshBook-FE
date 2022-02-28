@@ -57,6 +57,11 @@ export default function Planner(): JSX.Element {
   return (
     <main>
       <section>
+        <a href="/shopping">
+          View a shopping list of all the ingredients in your weekly planner.
+        </a>
+      </section>
+      <section>
         <button onClick={handleAdd}>Add Fake Recipe</button>
         <button onClick={handleClear}>Reset</button>
       </section>
