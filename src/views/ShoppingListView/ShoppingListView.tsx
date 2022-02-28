@@ -4,7 +4,7 @@ import {
   generateShoppingList,
   getShoppingList,
   putCheckedValue,
-} from '../../utils/shoppinglistUtils';
+} from '../../services/shoppinglist';
 
 export default function ShoppingListView() {
   const [items, setItems] = useState([]);
@@ -35,7 +35,7 @@ export default function ShoppingListView() {
   return (
     <div>
       <div>ShoppingList</div>
-      <button onClick={getNewShoppingList}>Generate</button>
+      <button onClick={getNewShoppingList}>Generate New List</button>
       <div>
         <ShoppingList items={items} setChecked={setChecked} />
       </div>

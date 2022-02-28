@@ -1,4 +1,4 @@
-import { beUrl } from './beUrl.js';
+import { beUrl } from '../utils/beUrl.js';
 
 // get user currently logged in
 export const getUser = async () => {
@@ -40,7 +40,7 @@ export const signUp = async (username, password) => {
 
 // log out user
 export const logOut = async () => {
-  const res = await fetch(`${beUrl}/sessions`, {
+  const res = await fetch(`${beUrl}/users/sessions`, {
     credentials: 'include',
     method: 'DELETE',
   });

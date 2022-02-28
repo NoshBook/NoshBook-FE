@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getUser, logIn, signUp } from '../utils/users';
+import { getUser, logIn, signUp } from '../services/users';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
