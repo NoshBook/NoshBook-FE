@@ -1,5 +1,6 @@
 export interface RecipeType {
   id: number | null;
+  recipeId: number | null;
   name: string | null;
 }
 
