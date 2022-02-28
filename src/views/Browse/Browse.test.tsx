@@ -1,9 +1,27 @@
+/* eslint-disable testing-library/no-debugging-utils */
 import { screen, render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import Browse from './Browse';
 import { AuthProvider } from '../../context/AuthContext';
+import App from '../../App';
+
+// TODO:
+// - Redirects user to recipe detail on click of recipe.
+// - if user is logged out, 'add recipe to cookbook' button is disabled.
+// - if user is logged out, 'toggle user content' switch is disabled.
+// - if user is logged out, clicking 'toggle user content' switch renders the correct data (test on and off)
+//   🟡 NOTE: Return to these tests once alerts are removed from document. Jest does not have a window.alert equivelant, throwing 'Error: window.alert('text here') no implmented.'
+//     - if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
+//     - if user is logged in, if recipe already exists in cookbook, alerts user of failure.
+
+// urls
+// const DEV_RECIPE_URL = `http://localhost:7890/api/v1/recipes`;
+const STAGING_RECIPE_URL = `https://noshbook-staging.herokuapp.com/api/v1/recipes`;
+
+// const DEV_USERS_URL = 'http://localhost:7890/api/v1/users';
+const STAGING_USERS_URL = 'https://noshbook-staging.herokuapp.com/api/v1/users';
 
 // mocks
 jest.mock('../../context/AuthContext');
@@ -17,6 +35,27 @@ const mockRecipe = {
   image: 'test',
   totalTime: 'test',
 };
+
+const server = setupServer(
+  // pagination route
+  rest.get(STAGING_RECIPE_URL, (req, res, ctx) => {
+    const page = req.url.searchParams.get('page');
+    if (page === '1') return res(ctx.json(mockPageOneRecipes));
+    if (page === '2') return res(ctx.json(mockPageTwoRecipes));
+    if (page === '3') return res(ctx.json(mockPageThreeRecipes));
+  }),
+  // automatically puts user in context on render
+  rest.get(`${STAGING_USERS_URL}/me`, (req, res, ctx) => {
+    return res(
+      ctx.json({ id: 1, username: 'mock-bob', showUserContent: false }),
+    );
+  }),
+  rest.delete(`${STAGING_USERS_URL}/sessions`, (req, res, ctx) => {
+    return res(
+      ctx.json({ success: true, message: 'Signed out successfully!' }),
+    );
+  }),
+);
 
 // pagination setup
 function generateRandomNumber() {
@@ -37,32 +76,6 @@ const mockPageTwoRecipes = appendUniqueIds(newArray2);
 
 const newArray3 = new Array(20).fill({ ...mockRecipe, name: 'test3' });
 const mockPageThreeRecipes = appendUniqueIds(newArray3);
-
-const server = setupServer(
-  // pagination route
-  rest.get(
-    'https://noshbook-staging.herokuapp.com/api/v1/recipes',
-    (req, res, ctx) => {
-      const page = req.url.searchParams.get('page');
-      if (page === '1') return res(ctx.json(mockPageOneRecipes));
-      if (page === '2') return res(ctx.json(mockPageTwoRecipes));
-      if (page === '3') return res(ctx.json(mockPageThreeRecipes));
-    },
-  ),
-  // automatically puts user in context on render
-  rest.get(
-    'https://noshbook-staging.herokuapp.com/api/v1/users/me',
-    (req, res, ctx) => {
-      return res(ctx.json({ id: 1, username: 'bob' }));
-    },
-  ),
-  // rest.delete(
-  //   'https://noshbook-staging.herokuapp.com/api/v1/users/sessions',
-  //   (req, res, ctx) => {
-  //     return res(ctx.json({ message: 'test-success' }));
-  //   }
-  // )
-);
 
 describe('RecipeList', () => {
   beforeAll(() => {
@@ -115,37 +128,22 @@ describe('RecipeList', () => {
     await screen.findAllByText('test');
   });
 
-  // it redirects user to recipe detail on click of recipe.
+  // failing for unknown reason
+  it.skip('should render a disabled add recipe to cookbook button when user is logged out', async () => {
+    render(
+      <AuthProvider>
+        <App />
+      </AuthProvider>,
+    );
 
-  // 🟡 NOTE:
-  // Return to these tests once alerts are removed from document.
-  // Jest does not have a window.alert equivelant, throwing 'Error: window.alert('text here') no implmented.'
+    await screen.findAllByText('test');
 
-  // if user is logged out, alerts user to login on click of 'add recipe to cookbook'
-  // it('should alert user to login', async () => {
-  //   render(
-  //     <AuthProvider>
-  //       <App />
-  //     </AuthProvider>
-  //   );
+    // logout
+    const logoutButton = await screen.findByRole('button', { name: /logout/i });
+    fireEvent.click(logoutButton);
 
-  //   // logout
-  //   const logoutButton = await screen.findByRole('button', {
-  //     name: /logout/i,
-  //   });
-  //   fireEvent.click(logoutButton);
-
-  //   // add recipe
-  //   const buttons = await screen.findAllByRole('button', {
-  //     name: /add recipe to cookbook/i,
-  //   });
-  //   const addRecipeToCookbookButton = buttons[0];
-
-  //   fireEvent.click(addRecipeToCookbookButton);
-
-  //   expect(windowAlertSpy).toBeCalledTimes(1);
-  // });
-
-  // if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
-  // if user is logged in, if recipe already exists in cookbook, alerts user of failure.
+    const buttons = await screen.findAllByText(/add recipe to cookbook/i);
+    console.log(buttons[0]);
+    buttons.forEach((button) => expect(button).toBeDisabled());
+  });
 });

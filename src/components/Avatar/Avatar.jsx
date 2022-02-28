@@ -8,7 +8,7 @@ export default function Avatar() {
 
   const handleLogout = async () => {
     await logOut();
-    setUser({});
+    setUser({ showUserContent: false });
     <Navigate to="/" />;
   };
 
