@@ -13,7 +13,7 @@ export default function RecipeList({
   currentPageData,
   handleAddRecipeToCookbook,
 }: RecipeListProps) {
-  const [searchInput, setSearchInput] = useState<string>('');
+  const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -60,7 +60,7 @@ export default function RecipeList({
               <button
                 onClick={(e) => handleClick(e, recipe)}
                 // --- Can be removed
-                disabled={!user.id}
+                disabled={user.id ? false : true}
                 title={
                   user.id
                     ? 'Click to add Recipe to your Cookbook'
