@@ -5,7 +5,9 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ mockUser, children }) => {
   console.log('<<<<<<AUTHPROVIDER MOCK INITIATED>>>>>>');
-  const [user, setUser] = useState(mockUser ? { ...mockUser } : {});
+  const [user, setUser] = useState(
+    mockUser ? { ...mockUser } : { showUserContent: false }
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,7 +20,19 @@ const AuthProvider = ({ mockUser, children }) => {
     getCurrentUser();
   }, []);
 
-  const value = useMemo(() => ({ user, setUser }), [user]);
+  const updateUserPreference = () => {
+    setUser((prevState) => {
+      return {
+        ...prevState,
+        showUserContent: !prevState.showUserContent,
+      };
+    });
+  };
+
+  const value = useMemo(
+    () => ({ user, setUser, updateUserPreference }),
+    [user]
+  );
   if (loading) {
     return <h2>Loading...</h2>;
   } else {
