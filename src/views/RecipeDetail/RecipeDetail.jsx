@@ -5,7 +5,6 @@ import { getRecipeById } from '../../services/recipe';
 
 export default function RecipeDetail() {
   const { id } = useParams();
-  console.log(typeof id);
   const [loading, setLoading] = useState(true);
   const [recipe, setRecipe] = useState(null);
 

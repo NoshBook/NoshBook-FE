@@ -24,5 +24,7 @@ export const getRecipeById = async (id: any) => {
     // const res = await fetch(`${DEV_URL}/${id}`);
 
     return await res.json();
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 };
