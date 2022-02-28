@@ -9,4 +9,5 @@ export interface BrowseRecipe {
   servings: string;
   tags: Array<string>;
   totalTime: string;
+  ownerId: string | null;
 }

@@ -4,7 +4,7 @@ import { getUser } from '../utils/users';
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({ showUserContent: false });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +17,19 @@ const AuthProvider = ({ children }) => {
     getCurrentUser();
   }, []);
 
-  const value = useMemo(() => ({ user, setUser }), [user]);
+  const updateUserPreference = () => {
+    setUser((prevState) => {
+      return {
+        ...prevState,
+        showUserContent: !prevState.showUserContent,
+      };
+    });
+  };
+
+  const value = useMemo(
+    () => ({ user, setUser, updateUserPreference }),
+    [user]
+  );
   if (loading) {
     return <h2>Loading...</h2>;
   } else {

@@ -3,22 +3,34 @@ import { getUser } from '../../utils/users.js';
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ mockUser, children }) => {
+const AuthProvider = ({ mockUser = { showUserContent: false }, children }) => {
   console.log('<<<<<<AUTHPROVIDER MOCK INITIATED>>>>>>');
-  const [user, setUser] = useState(mockUser ? { ...mockUser } : {});
+  const [user, setUser] = useState({ ...mockUser });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getCurrentUser = async () => {
       const res = await getUser();
-      console.log(res);
+      console.log('MOCK USER: ', res);
       setUser(res);
       setLoading(false);
     };
     getCurrentUser();
   }, []);
 
-  const value = useMemo(() => ({ user, setUser }), [user]);
+  const updateUserPreference = () => {
+    setUser((prevState) => {
+      return {
+        ...prevState,
+        showUserContent: !prevState.showUserContent,
+      };
+    });
+  };
+
+  const value = useMemo(
+    () => ({ user, setUser, updateUserPreference }),
+    [user],
+  );
   if (loading) {
     return <h2>Loading...</h2>;
   } else {
