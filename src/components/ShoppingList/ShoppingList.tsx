@@ -1,9 +1,5 @@
-import ShoppingItem, { IShoppingItem } from '../ShoppingItem/ShoppingItem';
-
-interface ShoppingListProps {
-  items: IShoppingItem[];
-  setChecked: (id: string, checked: boolean) => any;
-}
+import ShoppingItem from './ShoppingItem';
+import { IShoppingItem, ShoppingListProps } from './shoppingListTypes';
 
 export default function ShoppingList({
   items = [],
