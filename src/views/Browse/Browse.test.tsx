@@ -15,11 +15,11 @@ import { AuthProvider } from '../../context/AuthContext';
 //     - if user is logged in, if recipe already exists in cookbook, alerts user of failure.
 
 // urls
-const DEV_RECIPE_URL = `http://localhost:7890/api/v1/recipes`;
-// const STAGING_RECIPE_URL = `https://noshbook-staging.herokuapp.com/api/v1/cookbooks/recipes`;
+// const DEV_RECIPE_URL = `http://localhost:7890/api/v1/recipes`;
+const STAGING_RECIPE_URL = `https://noshbook-staging.herokuapp.com/api/v1/cookbooks/recipes`;
 
-const DEV_USERS_URL = 'http://localhost:7890/api/v1/users';
-// const STAGING_USERS_URL = 'https://noshbook-staging.herokuapp.com/api/v1/users';
+// const DEV_USERS_URL = 'http://localhost:7890/api/v1/users';
+const STAGING_USERS_URL = 'https://noshbook-staging.herokuapp.com/api/v1/users';
 
 // mocks
 jest.mock('../../context/AuthContext');
@@ -36,14 +36,14 @@ const mockRecipe = {
 
 const server = setupServer(
   // pagination route
-  rest.get(DEV_RECIPE_URL, (req, res, ctx) => {
+  rest.get(STAGING_RECIPE_URL, (req, res, ctx) => {
     const page = req.url.searchParams.get('page');
     if (page === '1') return res(ctx.json(mockPageOneRecipes));
     if (page === '2') return res(ctx.json(mockPageTwoRecipes));
     if (page === '3') return res(ctx.json(mockPageThreeRecipes));
   }),
   // automatically puts user in context on render
-  rest.get(`${DEV_USERS_URL}/me`, (req, res, ctx) => {
+  rest.get(`${STAGING_USERS_URL}/me`, (req, res, ctx) => {
     return res(ctx.json({ id: 1, username: 'bob' }));
   })
 );
@@ -83,7 +83,7 @@ describe('RecipeList', () => {
         <MemoryRouter>
           <Browse />
         </MemoryRouter>
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     await screen.findAllByText('test');
@@ -95,7 +95,7 @@ describe('RecipeList', () => {
         <MemoryRouter>
           <Browse />
         </MemoryRouter>
-      </AuthProvider>
+      </AuthProvider>,
     );
     await screen.findAllByText('test');
     const nextPageButton = screen.getByRole('button', {
