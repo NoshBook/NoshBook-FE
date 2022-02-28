@@ -18,26 +18,6 @@ const mockRecipe = {
   totalTime: 'test',
 };
 
-// pagination setup
-function generateRandomNumber() {
-  return Math.ceil(Math.random() * 10000);
-}
-
-function appendUniqueIds(arr: Array<any>) {
-  return arr.map((item) => {
-    return { ...item, id: generateRandomNumber() };
-  });
-}
-
-const newArray1 = new Array(20).fill(mockRecipe);
-const mockPageOneRecipes = appendUniqueIds(newArray1);
-
-const newArray2 = new Array(20).fill({ ...mockRecipe, name: 'test2' });
-const mockPageTwoRecipes = appendUniqueIds(newArray2);
-
-const newArray3 = new Array(20).fill({ ...mockRecipe, name: 'test3' });
-const mockPageThreeRecipes = appendUniqueIds(newArray3);
-
 const server = setupServer(
   // pagination route
   rest.get(
@@ -63,6 +43,26 @@ const server = setupServer(
   //   }
   // )
 );
+
+// pagination setup
+function generateRandomNumber() {
+  return Math.ceil(Math.random() * 10000);
+}
+
+function appendUniqueIds(arr: Array<any>) {
+  return arr.map((item) => {
+    return { ...item, id: generateRandomNumber() };
+  });
+}
+
+const newArray1 = new Array(20).fill(mockRecipe);
+const mockPageOneRecipes = appendUniqueIds(newArray1);
+
+const newArray2 = new Array(20).fill({ ...mockRecipe, name: 'test2' });
+const mockPageTwoRecipes = appendUniqueIds(newArray2);
+
+const newArray3 = new Array(20).fill({ ...mockRecipe, name: 'test3' });
+const mockPageThreeRecipes = appendUniqueIds(newArray3);
 
 describe('RecipeList', () => {
   beforeAll(() => {
@@ -147,5 +147,6 @@ describe('RecipeList', () => {
   // });
 
   // if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
+
   // if user is logged in, if recipe already exists in cookbook, alerts user of failure.
 });

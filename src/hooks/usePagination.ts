@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { getPaginatedRecipes } from '../services/recipe';
 
 interface PaginationFeatures {
@@ -13,13 +14,19 @@ export default function usePagination(
 ): PaginationFeatures {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageData, setCurrentPageData] = useState<Array<any>>([]);
+  const { user } = useAuth();
+
   useEffect(() => {
     async function fetchRecipes() {
-      const newPageData: any = await getPaginatedRecipes(currentPage, 20);
+      const newPageData: any = await getPaginatedRecipes(
+        currentPage,
+        20,
+        user.showUserContent
+      );
       setCurrentPageData(newPageData);
     }
     fetchRecipes();
-  }, [currentPage]);
+  }, [currentPage, user.showUserContent]);
 
   function nextPage() {
     setCurrentPage((currentPage) => currentPage + 1);

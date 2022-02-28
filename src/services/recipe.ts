@@ -1,12 +1,22 @@
 import type { BrowseRecipe } from '../interfaces/BrowseRecipe';
 
+const DEV_URL = `http://localhost:7890/api/v1/recipes`;
+// const STAGING_URL = `https://noshbook-staging.herokuapp.com/api/v1/cookbooks/recipes`;
+
 export const getPaginatedRecipes = async (
   newPage: number,
-  itemQuantity: number
+  itemQuantity: number,
+  withUserContent: boolean
 ): Promise<BrowseRecipe[]> => {
   try {
+    if (withUserContent) {
+      const res = await fetch(
+        `${DEV_URL}?page=${newPage}&quantity=${itemQuantity}&withUserContent='true'`
+      );
+      return await res.json();
+    }
     const res = await fetch(
-      `https://noshbook-staging.herokuapp.com/api/v1/recipes?page=${newPage}&quantity=${itemQuantity}`
+      `${DEV_URL}?page=${newPage}&quantity=${itemQuantity}`
     );
     return await res.json();
   } catch (error) {
