@@ -3,8 +3,11 @@ import { RecipesByDayType, RecipeType } from './plannerTypes';
 
 export default function PlannerDay({
   day,
-  recipes,
-}: RecipesByDayType): JSX.Element {
+  handleDelete,
+}: {
+  day: RecipesByDayType;
+  handleDelete: any;
+}): JSX.Element {
   return (
     <div
       style={{
@@ -13,12 +16,13 @@ export default function PlannerDay({
         width: '30vw',
       }}
     >
-      <h1 style={{ textTransform: 'uppercase', color: 'coral' }}>{day}</h1>
-      {recipes.map((recipe: RecipeType, index: number): JSX.Element => {
+      <h1 style={{ textTransform: 'uppercase', color: 'coral' }}>{day.day}</h1>
+      {day.recipes.map((recipe: RecipeType, index: number): JSX.Element => {
         return (
-          <Link to={`/recipes/${recipe.id}`} key={index}>
-            {recipe.name}
-          </Link>
+          <div key={index}>
+            <Link to={`/recipes/${recipe.recipeId}`}>{recipe.name}</Link>
+            <button onClick={() => handleDelete(recipe.id)}>x</button>
+          </div>
         );
       })}
     </div>
