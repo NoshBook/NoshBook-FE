@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import ShoppingList from '../../components/ShoppingList/ShoppingList';
-import { generateShoppingList, getShoppingList, putCheckedValue } from '../../utils/shoppinglistUtils';
+import {
+  generateShoppingList,
+  getShoppingList,
+  putCheckedValue,
+} from '../../utils/shoppinglistUtils';
 
 export default function ShoppingListView() {
   const [items, setItems] = useState([]);
@@ -11,8 +15,8 @@ export default function ShoppingListView() {
       const items = await getShoppingList();
       setItems(items);
       setIsLoading(false);
-    })()
-  }, [])
+    })();
+  }, []);
 
   async function getNewShoppingList() {
     setIsLoading(true);
@@ -26,7 +30,11 @@ export default function ShoppingListView() {
     setItems(list);
   }
 
+<<<<<<< HEAD
   if(isLoading) return <h2>Loading...</h2>
+=======
+  if (isLoading) return <h2>...</h2>;
+>>>>>>> b52f96d2563ef04ba9956de7550891acab6368ea
 
   return (
     <div>
@@ -36,5 +44,5 @@ export default function ShoppingListView() {
         <ShoppingList items={items} setChecked={setChecked} />
       </div>
     </div>
-  )
+  );
 }

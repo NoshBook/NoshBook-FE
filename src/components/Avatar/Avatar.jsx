@@ -8,20 +8,20 @@ export default function Avatar() {
 
   const handleLogout = async () => {
     await logOut();
-    setUser('');
-    <Navigate to='/' />;
+    setUser({});
+    <Navigate to="/" />;
   };
 
   return (
     <div>
-      {user ? (
+      {user.username ? (
         <div>
           <BsPersonCircle />
-          {user}{' '}
+          {user.username}{' '}
           <button onClick={async () => await handleLogout()}>Logout</button>
         </div>
       ) : (
-        <a href='/auth' alt='log in'>
+        <a href="/auth" alt="log in">
           Login/Signup
         </a>
       )}
