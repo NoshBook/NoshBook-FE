@@ -1,10 +1,10 @@
 {
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 12,
+    "ecmaVersion": 2018,
     "sourceType": "module",
     "requireConfigFile": false
   },
-  "parser": "@babel/eslint-parser",
   "globals": {
     "process": true
   },
@@ -18,8 +18,16 @@
     "browser": true,
     "jest": true
   },
-  "plugins": ["babel", "react"],
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "plugins": [
+    "@typescript-eslint",
+    "babel",
+    "react"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "rules": {
     "no-unused-vars": "off",
     "no-undef": "off",
@@ -65,6 +73,7 @@
     "babel/no-invalid-this": 1,
     "babel/semi": 0,
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
