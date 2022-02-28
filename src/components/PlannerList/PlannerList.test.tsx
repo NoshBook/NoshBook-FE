@@ -15,10 +15,12 @@ const server = setupServer(
           recipes: [
             {
               id: 1,
+              recipeId: 1,
               name: 'banana bread',
             },
             {
               id: 2,
+              recipeId: 2,
               name: 'corndog',
             },
           ],

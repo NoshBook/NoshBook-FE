@@ -3,8 +3,10 @@ import { RecipesByDayType } from './plannerTypes';
 
 export default function PlannerList({
   days,
+  handleDelete,
 }: {
   days: RecipesByDayType[];
+  handleDelete: any;
 }): JSX.Element {
   return (
     <div
@@ -19,7 +21,7 @@ export default function PlannerList({
       ) : (
         days.map(
           (day: RecipesByDayType, index: number): JSX.Element => (
-            <PlannerDay {...day} key={index} />
+            <PlannerDay day={day} handleDelete={handleDelete} key={index} />
           ),
         )
       )}
