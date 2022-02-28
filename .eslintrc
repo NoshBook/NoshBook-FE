@@ -21,6 +21,7 @@
   "plugins": ["babel", "react"],
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
+    "no-unused-vars": "off",
     "no-undef": "off",
     "no-console": "off",
     "react/prop-types": 0,
