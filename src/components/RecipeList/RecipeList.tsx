@@ -15,6 +15,14 @@ export default function RecipeList({
   const [searchInput, setSearchInput] = useState<string>('');
   const navigate = useNavigate();
 
+  function handleClick(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    recipe: BrowseRecipe
+  ) {
+    e.stopPropagation();
+    handleAddRecipeToCookbook(recipe);
+  }
+
   return (
     <div>
       <h1>Recipes</h1>
@@ -47,7 +55,11 @@ export default function RecipeList({
               />
               <p>{recipe.description}</p>
               {/* if rendering in cookbook view, this button should remove a recipe from the cookbook */}
-              <button onClick={() => handleAddRecipeToCookbook(recipe)}>
+              <button
+                onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+                  handleClick(e, recipe)
+                }
+              >
                 Add Recipe to Cookbook
               </button>
             </li>
