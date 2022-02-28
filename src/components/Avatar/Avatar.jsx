@@ -8,16 +8,16 @@ export default function Avatar() {
 
   const handleLogout = async () => {
     await logOut();
-    setUser('');
+    setUser({});
     <Navigate to="/" />;
   };
 
   return (
     <div>
-      {user.name ? (
+      {user.username ? (
         <div>
           <BsPersonCircle />
-          {user.name}{' '}
+          {user.username}{' '}
           <button onClick={async () => await handleLogout()}>Logout</button>
         </div>
       ) : (
