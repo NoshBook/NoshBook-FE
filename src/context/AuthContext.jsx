@@ -4,7 +4,7 @@ import { getUser } from '../utils/users';
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({ showUserContent: false });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
