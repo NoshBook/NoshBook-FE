@@ -14,29 +14,29 @@ export default function Browse() {
   const { user, updateUserPreference } = useAuth();
 
   async function handleAddRecipeToCookbook(recipe: BrowseRecipe) {
-    if (user.id) {
-      const { id, name } = recipe;
-      const response = await insertRecipeIntoCookbook(id, user.id);
-      if (response.message === 'Recipe already exists in user cookbook.') {
-        window.alert(response.message);
-      } else {
-        window.alert(`${name} added to your cookbook!`);
-      }
+    const { id, name } = recipe;
+    const response = await insertRecipeIntoCookbook(id, user.id);
+    if (response.message === 'Recipe already exists in user cookbook.') {
+      window.alert(response.message);
     } else {
-      // could be a redirect if desired
-      // could disable the buttons if desired
-      window.alert('Login to add recipes to your cookbook!');
+      window.alert(`${name} added to your cookbook!`);
     }
   }
 
   return (
     <main>
-      <article>
+      <article
+        title={
+          user.id
+            ? 'Click to toggle user content'
+            : 'Login to toggle user content'
+        }
+      >
         <p>Show User Content:</p>
         <Switch
           checked={user.showUserContent}
           onChange={updateUserPreference}
-          disabled={!user.id}
+          disabled={user.id ? false : true}
         />
       </article>
       <section>
