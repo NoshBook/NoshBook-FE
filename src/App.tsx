@@ -23,7 +23,7 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/planner" element={<Planner />} />
           <Route
-            path="/shoppinglist"
+            path="/shopping"
             element={
               <PrivateRoute>
                 <ShoppingListView />
