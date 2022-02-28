@@ -22,7 +22,7 @@ export default function usePagination(
       const newPageData: any = await getPaginatedRecipes(
         currentPage,
         20,
-        user.showUserContent
+        user.showUserContent,
       );
       setCurrentPageData(newPageData);
     }
