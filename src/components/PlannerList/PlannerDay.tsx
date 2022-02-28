@@ -1,10 +1,10 @@
+import { Link } from 'react-router-dom';
+import { RecipesByDayType, RecipeType } from './plannerTypes';
+
 export default function PlannerDay({
   day,
   recipes,
-}: {
-  day: string;
-  recipes: any;
-}) {
+}: RecipesByDayType): JSX.Element {
   return (
     <div
       style={{
@@ -14,11 +14,11 @@ export default function PlannerDay({
       }}
     >
       <h1 style={{ textTransform: 'uppercase', color: 'coral' }}>{day}</h1>
-      {recipes.map((recipe: any, index: any) => {
+      {recipes.map((recipe: RecipeType, index: number): JSX.Element => {
         return (
-          <h3 key={index} style={{ textDecoration: 'underline' }}>
+          <Link to={`/recipes/${recipe.id}`} key={index}>
             {recipe.name}
-          </h3>
+          </Link>
         );
       })}
     </div>
