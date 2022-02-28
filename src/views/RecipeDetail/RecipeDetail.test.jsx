@@ -4,6 +4,9 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import RecipeDetail from './RecipeDetail';
 import { beUrl } from '../../utils/beUrl.js';
+import { AuthProvider } from '../../context/AuthContext';
+
+jest.mock('../../context/AuthContext');
 
 const mockRecipe = {
   name: 'test recipe',
@@ -19,12 +22,19 @@ const mockRecipe = {
 };
 
 const server = setupServer(
-  rest.get(
-    `${beUrl}/recipes/undefined`,
-    (req, res, ctx) => {
-      return res(ctx.json(mockRecipe));
-    }
-  )
+  rest.get(`${beUrl}/recipes/undefined`, (req, res, ctx) => {
+    return res(ctx.json(mockRecipe));
+  }),
+
+  rest.get(`${beUrl}/users/me`, (req, res, ctx) => {
+    return res(
+      ctx.json({ id: 1, username: 'mock-bob', showUserContent: false }),
+    );
+  }),
+
+  rest.get(`${beUrl}/cookbooks/1`, (req, res, ctx) => {
+    return res(ctx.json([{ id: 1, userId: '1', recipeId: '1' }]));
+  }),
 );
 
 describe('RecipeDetail', () => {
@@ -38,9 +48,11 @@ describe('RecipeDetail', () => {
 
   it('should show recipe details', async () => {
     render(
-      <MemoryRouter initialEntries={['/recipes/1']}>
-        <RecipeDetail />
-      </MemoryRouter>
+      <AuthProvider>
+        <MemoryRouter initialEntries={['/recipes/1']}>
+          <RecipeDetail />
+        </MemoryRouter>
+      </AuthProvider>,
     );
 
     screen.getByText('Loading...');
