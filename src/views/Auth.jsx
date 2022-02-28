@@ -30,6 +30,7 @@ export default function Auth() {
       //if sign up is successful, log user in and redirect home
       if (res.id) {
         await logIn(username, password);
+        console.log(res);
         setUser(res.username);
         navigate(from, { replace: true });
       }
@@ -43,9 +44,10 @@ export default function Auth() {
     setFormError('');
     try {
       const res = await logIn(username, password);
+      console.log(res);
       if (res.message === 'Signed in successfully!') {
         const loggedInUser = await getUser();
-        setUser(loggedInUser.username);
+        setUser(loggedInUser);
         navigate(from, { replace: true });
       }
     } catch (error) {

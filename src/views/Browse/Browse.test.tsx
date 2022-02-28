@@ -2,7 +2,11 @@ import { screen, render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
-import Browse from '../../views/Browse/Browse';
+import Browse from './Browse';
+import { AuthProvider } from '../../context/AuthContext';
+
+// mocks
+jest.mock('../../context/AuthContext');
 
 const mockRecipe = {
   id: 1,
@@ -14,6 +18,7 @@ const mockRecipe = {
   totalTime: 'test',
 };
 
+// pagination setup
 function generateRandomNumber() {
   return Math.ceil(Math.random() * 10000);
 }
@@ -34,6 +39,7 @@ const newArray3 = new Array(20).fill({ ...mockRecipe, name: 'test3' });
 const mockPageThreeRecipes = appendUniqueIds(newArray3);
 
 const server = setupServer(
+  // pagination route
   rest.get(
     'https://noshbook-staging.herokuapp.com/api/v1/recipes',
     (req, res, ctx) => {
@@ -43,6 +49,19 @@ const server = setupServer(
       if (page === '3') return res(ctx.json(mockPageThreeRecipes));
     },
   ),
+  // automatically puts user in context on render
+  rest.get(
+    'https://noshbook-staging.herokuapp.com/api/v1/users/me',
+    (req, res, ctx) => {
+      return res(ctx.json({ id: 1, username: 'bob' }));
+    },
+  ),
+  // rest.delete(
+  //   'https://noshbook-staging.herokuapp.com/api/v1/users/sessions',
+  //   (req, res, ctx) => {
+  //     return res(ctx.json({ message: 'test-success' }));
+  //   }
+  // )
 );
 
 describe('RecipeList', () => {
@@ -56,9 +75,11 @@ describe('RecipeList', () => {
 
   it('should render a list of recipes', async () => {
     render(
-      <MemoryRouter>
-        <Browse />
-      </MemoryRouter>,
+      <AuthProvider>
+        <MemoryRouter>
+          <Browse />
+        </MemoryRouter>
+      </AuthProvider>,
     );
 
     await screen.findAllByText('test');
@@ -66,9 +87,11 @@ describe('RecipeList', () => {
 
   it('should render new data when pagination buttons are clicked', async () => {
     render(
-      <MemoryRouter>
-        <Browse />
-      </MemoryRouter>,
+      <AuthProvider>
+        <MemoryRouter>
+          <Browse />
+        </MemoryRouter>
+      </AuthProvider>,
     );
     await screen.findAllByText('test');
     const nextPageButton = screen.getByRole('button', {
@@ -91,4 +114,38 @@ describe('RecipeList', () => {
     fireEvent.click(prevPageButton);
     await screen.findAllByText('test');
   });
+
+  // it redirects user to recipe detail on click of recipe.
+
+  // 🟡 NOTE:
+  // Return to these tests once alerts are removed from document.
+  // Jest does not have a window.alert equivelant, throwing 'Error: window.alert('text here') no implmented.'
+
+  // if user is logged out, alerts user to login on click of 'add recipe to cookbook'
+  // it('should alert user to login', async () => {
+  //   render(
+  //     <AuthProvider>
+  //       <App />
+  //     </AuthProvider>
+  //   );
+
+  //   // logout
+  //   const logoutButton = await screen.findByRole('button', {
+  //     name: /logout/i,
+  //   });
+  //   fireEvent.click(logoutButton);
+
+  //   // add recipe
+  //   const buttons = await screen.findAllByRole('button', {
+  //     name: /add recipe to cookbook/i,
+  //   });
+  //   const addRecipeToCookbookButton = buttons[0];
+
+  //   fireEvent.click(addRecipeToCookbookButton);
+
+  //   expect(windowAlertSpy).toBeCalledTimes(1);
+  // });
+
+  // if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
+  // if user is logged in, if recipe already exists in cookbook, alerts user of failure.
 });
