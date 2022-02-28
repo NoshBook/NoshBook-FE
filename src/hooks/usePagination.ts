@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState, useEffect } from 'react';
 import { getPaginatedRecipes } from '../services/recipe';
 
@@ -9,7 +10,7 @@ interface PaginationFeatures {
 }
 
 export default function usePagination(
-  itemsPerPage: number
+  itemsPerPage: number,
 ): PaginationFeatures {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageData, setCurrentPageData] = useState<Array<any>>([]);
