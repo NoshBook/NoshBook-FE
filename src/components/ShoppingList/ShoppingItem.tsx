@@ -1,13 +1,4 @@
-interface IShoppingItem {
-  id: string;
-  ingredient: string;
-  isChecked: boolean;
-}
-
-interface ShoppingItemProps {
-  item: IShoppingItem;
-  setChecked: (id: string, isChecked: boolean) => any;
-}
+import { ShoppingItemProps } from "./shoppingListTypes";
 
 export default function ShoppingItem({ item, setChecked }: ShoppingItemProps) {
   return (
@@ -17,5 +8,3 @@ export default function ShoppingItem({ item, setChecked }: ShoppingItemProps) {
     </div>
   );
 }
-
-export type { IShoppingItem };
