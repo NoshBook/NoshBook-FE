@@ -41,8 +41,8 @@ const server = setupServer(
       if (page === '1') return res(ctx.json(mockPageOneRecipes));
       if (page === '2') return res(ctx.json(mockPageTwoRecipes));
       if (page === '3') return res(ctx.json(mockPageThreeRecipes));
-    }
-  )
+    },
+  ),
 );
 
 describe('RecipeList', () => {
@@ -58,7 +58,7 @@ describe('RecipeList', () => {
     render(
       <MemoryRouter>
         <Browse />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     await screen.findAllByText('test');
@@ -68,7 +68,7 @@ describe('RecipeList', () => {
     render(
       <MemoryRouter>
         <Browse />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     await screen.findAllByText('test');
     const nextPageButton = screen.getByRole('button', {
