@@ -58,23 +58,23 @@ export default function Auth() {
       <fieldset>
         <legend>Enter NoshBook</legend>
         <section>
-          <label htmlFor='username'>Username</label>
+          <label htmlFor="username">Username</label>
           <input
             required
-            id='username'
-            type='username'
-            name='username'
+            id="username"
+            type="username"
+            name="username"
             value={username}
             onChange={handleFormChange}
           />
         </section>
         <section>
-          <label htmlFor='password'>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             required
-            id='password'
-            type='password'
-            name='password'
+            id="password"
+            type="password"
+            name="password"
             value={password}
             onChange={handleFormChange}
           />

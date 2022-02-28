@@ -9,7 +9,7 @@ export default function Avatar() {
   const handleLogout = async () => {
     await logOut();
     setUser('');
-    <Navigate to='/' />;
+    <Navigate to="/" />;
   };
 
   return (
@@ -21,7 +21,7 @@ export default function Avatar() {
           <button onClick={async () => await handleLogout()}>Logout</button>
         </div>
       ) : (
-        <a href='/auth' alt='log in'>
+        <a href="/auth" alt="log in">
           Login/Signup
         </a>
       )}
