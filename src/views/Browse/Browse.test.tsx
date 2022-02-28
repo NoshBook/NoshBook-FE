@@ -47,26 +47,21 @@ const server = setupServer(
       if (page === '1') return res(ctx.json(mockPageOneRecipes));
       if (page === '2') return res(ctx.json(mockPageTwoRecipes));
       if (page === '3') return res(ctx.json(mockPageThreeRecipes));
-<<<<<<< HEAD:src/views/Browse/Browse.test.tsx
-    }
+    },
   ),
   // automatically puts user in context on render
   rest.get(
     'https://noshbook-staging.herokuapp.com/api/v1/users/me',
     (req, res, ctx) => {
       return res(ctx.json({ id: 1, username: 'bob' }));
-    }
-  )
+    },
+  ),
   // rest.delete(
   //   'https://noshbook-staging.herokuapp.com/api/v1/users/sessions',
   //   (req, res, ctx) => {
   //     return res(ctx.json({ message: 'test-success' }));
   //   }
   // )
-=======
-    },
-  ),
->>>>>>> cab74337ed680c22d4eab04a01dba3d91adecd1c:src/components/RecipeList/RecipeList.test.tsx
 );
 
 describe('RecipeList', () => {
@@ -84,7 +79,7 @@ describe('RecipeList', () => {
         <MemoryRouter>
           <Browse />
         </MemoryRouter>
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     await screen.findAllByText('test');
@@ -96,7 +91,7 @@ describe('RecipeList', () => {
         <MemoryRouter>
           <Browse />
         </MemoryRouter>
-      </AuthProvider>
+      </AuthProvider>,
     );
     await screen.findAllByText('test');
     const nextPageButton = screen.getByRole('button', {
