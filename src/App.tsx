@@ -21,7 +21,14 @@ function App() {
       <Router>
         <Routes>
           <Route path="/auth" element={<Auth />} />
-          <Route path="/planner" element={<Planner />} />
+          <Route
+            path="/planner"
+            element={
+              <PrivateRoute>
+                <Planner />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="/shopping"
             element={
