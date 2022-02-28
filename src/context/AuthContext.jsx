@@ -10,6 +10,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const getCurrentUser = async () => {
       const res = await getUser();
+      console.log(res);
       setUser(res);
       setLoading(false);
     };
