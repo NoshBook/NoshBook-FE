@@ -6,17 +6,17 @@ const DEV_URL = `http://localhost:7890/api/v1/recipes`;
 export const getPaginatedRecipes = async (
   newPage: number,
   itemQuantity: number,
-  withUserContent: boolean
+  withUserContent: boolean,
 ): Promise<BrowseRecipe[]> => {
   try {
     if (withUserContent) {
       const res = await fetch(
-        `${DEV_URL}?page=${newPage}&quantity=${itemQuantity}&withUserContent='true'`
+        `${DEV_URL}?page=${newPage}&quantity=${itemQuantity}&withUserContent='true'`,
       );
       return await res.json();
     }
     const res = await fetch(
-      `${DEV_URL}?page=${newPage}&quantity=${itemQuantity}`
+      `${DEV_URL}?page=${newPage}&quantity=${itemQuantity}`,
     );
     return await res.json();
   } catch (error) {
