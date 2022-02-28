@@ -1,4 +1,4 @@
-import { beUrl } from './beUrl.js';
+import { beUrl } from '../utils/beUrl.js';
 
 // get user currently logged in
 export const getUser = async () => {
