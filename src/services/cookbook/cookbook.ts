@@ -3,7 +3,7 @@ const STAGING_URL = `https://noshbook-staging.herokuapp.com/api/v1/cookbooks/add
 
 export async function insertRecipeIntoCookbook(
   recipeId: string,
-  userId: string
+  userId: string,
 ) {
   try {
     const res = await fetch(`${STAGING_URL}`, {
