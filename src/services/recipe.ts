@@ -1,12 +1,20 @@
 import type { BrowseRecipe } from '../interfaces/BrowseRecipe';
 
-const STAGING_URL = 'https://noshbook-staging.herokuapp.com/api/v1/recipes';
+// const DEV_URL = `http://localhost:7890/api/v1/recipes`;
+const STAGING_URL = `https://noshbook-staging.herokuapp.com/api/v1/recipes`;
 
 export const getPaginatedRecipes = async (
   newPage: number,
   itemQuantity: number,
+  withUserContent: boolean,
 ): Promise<BrowseRecipe[]> => {
   try {
+    if (withUserContent) {
+      const res = await fetch(
+        `${STAGING_URL}?page=${newPage}&quantity=${itemQuantity}&withUserContent='true'`,
+      );
+      return await res.json();
+    }
     const res = await fetch(
       `${STAGING_URL}?page=${newPage}&quantity=${itemQuantity}`,
     );
