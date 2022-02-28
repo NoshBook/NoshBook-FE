@@ -1,7 +1,8 @@
-import { screen, render, findByText, fireEvent } from '@testing-library/react';
+import { screen, render, fireEvent } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import Planner from './Planner';
+import { MemoryRouter } from 'react-router-dom';
 
 const server = setupServer(
   rest.get(
@@ -24,7 +25,7 @@ const server = setupServer(
       ];
 
       return res(ctx.json(mockResponse));
-    }
+    },
   ),
   rest.delete(
     'https://noshbook-staging.herokuapp.com/api/v1/planners/clear',
@@ -46,8 +47,8 @@ const server = setupServer(
       ];
 
       return res(ctx.json(mockResponse));
-    }
-  )
+    },
+  ),
 );
 
 describe('PlannerList', () => {
@@ -60,9 +61,12 @@ describe('PlannerList', () => {
   });
 
   it('should delete recipes from the planner on Reset click', async () => {
-    render(<Planner />);
+    render(
+      <MemoryRouter>
+        <Planner />
+      </MemoryRouter>,
+    );
 
-    await screen.findByText(/loading/i);
     await screen.findByText(/banana bread/i);
     const resetButton = screen.getByText(/reset/i);
     fireEvent.click(resetButton);

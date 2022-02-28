@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { RecipesByDayType, RecipeType } from './plannerTypes';
 
 export default function PlannerDay({
@@ -15,9 +16,9 @@ export default function PlannerDay({
       <h1 style={{ textTransform: 'uppercase', color: 'coral' }}>{day}</h1>
       {recipes.map((recipe: RecipeType, index: number): JSX.Element => {
         return (
-          <h3 style={{ textDecoration: 'underline' }} key={index}>
+          <Link to={`/recipes/${recipe.id}`} key={index}>
             {recipe.name}
-          </h3>
+          </Link>
         );
       })}
     </div>

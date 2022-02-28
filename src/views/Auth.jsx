@@ -30,6 +30,7 @@ export default function Auth() {
       //if sign up is successful, log user in and redirect home
       if (res.id) {
         await logIn(username, password);
+        console.log(res);
         setUser(res.username);
         navigate(from, { replace: true });
       }
@@ -43,9 +44,10 @@ export default function Auth() {
     setFormError('');
     try {
       const res = await logIn(username, password);
+      console.log(res);
       if (res.message === 'Signed in successfully!') {
         const loggedInUser = await getUser();
-        setUser(loggedInUser.username);
+        setUser(loggedInUser);
         navigate(from, { replace: true });
       }
     } catch (error) {
@@ -58,23 +60,23 @@ export default function Auth() {
       <fieldset>
         <legend>Enter NoshBook</legend>
         <section>
-          <label htmlFor='username'>Username</label>
+          <label htmlFor="username">Username</label>
           <input
             required
-            id='username'
-            type='username'
-            name='username'
+            id="username"
+            type="username"
+            name="username"
             value={username}
             onChange={handleFormChange}
           />
         </section>
         <section>
-          <label htmlFor='password'>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             required
-            id='password'
-            type='password'
-            name='password'
+            id="password"
+            type="password"
+            name="password"
             value={password}
             onChange={handleFormChange}
           />
