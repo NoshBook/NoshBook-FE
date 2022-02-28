@@ -24,8 +24,8 @@ const server = setupServer(
       ];
 
       return res(ctx.json(mockResponse));
-    }
-  )
+    },
+  ),
 );
 
 describe('PlannerList', () => {
