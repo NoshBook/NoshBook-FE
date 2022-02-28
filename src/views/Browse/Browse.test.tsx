@@ -5,6 +5,15 @@ import { rest } from 'msw';
 import Browse from './Browse';
 import { AuthProvider } from '../../context/AuthContext';
 
+// TODO:
+// - Redirects user to recipe detail on click of recipe.
+// - if user is logged out, 'add recipe to cookbook' button is disabled.
+// - if user is logged out, 'toggle user content' switch is disabled.
+// - if user is logged out, clicking 'toggle user content' switch renders the correct data (test on and off)
+//   🟡 NOTE: Return to these tests once alerts are removed from document. Jest does not have a window.alert equivelant, throwing 'Error: window.alert('text here') no implmented.'
+//     - if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
+//     - if user is logged in, if recipe already exists in cookbook, alerts user of failure.
+
 // urls
 const DEV_RECIPE_URL = `http://localhost:7890/api/v1/recipes`;
 // const STAGING_RECIPE_URL = `https://noshbook-staging.herokuapp.com/api/v1/cookbooks/recipes`;
@@ -37,12 +46,6 @@ const server = setupServer(
   rest.get(`${DEV_USERS_URL}/me`, (req, res, ctx) => {
     return res(ctx.json({ id: 1, username: 'bob' }));
   })
-  // rest.delete(
-  //   'https://noshbook-staging.herokuapp.com/api/v1/users/sessions',
-  //   (req, res, ctx) => {
-  //     return res(ctx.json({ message: 'test-success' }));
-  //   }
-  // )
 );
 
 // pagination setup
@@ -115,39 +118,4 @@ describe('RecipeList', () => {
     fireEvent.click(prevPageButton);
     await screen.findAllByText('test');
   });
-
-  // it redirects user to recipe detail on click of recipe.
-
-  // 🟡 NOTE:
-  // Return to these tests once alerts are removed from document.
-  // Jest does not have a window.alert equivelant, throwing 'Error: window.alert('text here') no implmented.'
-
-  // if user is logged out, alerts user to login on click of 'add recipe to cookbook'
-  // it('should alert user to login', async () => {
-  //   render(
-  //     <AuthProvider>
-  //       <App />
-  //     </AuthProvider>
-  //   );
-
-  //   // logout
-  //   const logoutButton = await screen.findByRole('button', {
-  //     name: /logout/i,
-  //   });
-  //   fireEvent.click(logoutButton);
-
-  //   // add recipe
-  //   const buttons = await screen.findAllByRole('button', {
-  //     name: /add recipe to cookbook/i,
-  //   });
-  //   const addRecipeToCookbookButton = buttons[0];
-
-  //   fireEvent.click(addRecipeToCookbookButton);
-
-  //   expect(windowAlertSpy).toBeCalledTimes(1);
-  // });
-
-  // if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
-
-  // if user is logged in, if recipe already exists in cookbook, alerts user of failure.
 });
