@@ -30,11 +30,7 @@ export default function ShoppingListView() {
     setItems(list);
   }
 
-<<<<<<< HEAD
   if(isLoading) return <h2>Loading...</h2>
-=======
-  if (isLoading) return <h2>...</h2>;
->>>>>>> b52f96d2563ef04ba9956de7550891acab6368ea
 
   return (
     <div>
