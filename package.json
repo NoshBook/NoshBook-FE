@@ -11,7 +11,10 @@
     "@types/node": "^16.11.25",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
     "babel": "^6.23.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.10.0",
     "eslint-plugin-babel": "^5.3.1",
     "msw": "^0.38.1",
@@ -27,9 +30,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run start",
+    "start:l": "cross-env REACT_APP_BE_TYPE=LOCAL react-scripts start",
+    "start:s": "cross-env REACT_APP_BE_TYPE=STAGING react-scripts start",
+    "start:p": "cross-env REACT_APP_BE_TYPE=PROD react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "cross-env REACT_APP_BE_TYPE=LOCAL react-scripts test",
+    "test:s": "cross-env REACT_APP_BE_TYPE=STAGING react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

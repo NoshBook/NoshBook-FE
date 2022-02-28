@@ -1,8 +1,8 @@
-const URL = 'https://noshbook-staging.herokuapp.com/api/v1/planners';
+import { beUrl } from "../utils/beUrl";
 
 export const getPlannerRecipes = async () => {
   try {
-    const res = await fetch(URL, { credentials: 'include' });
+    const res = await fetch(`${beUrl}/planners`, { credentials: 'include' });
     return await res.json();
   } catch (e) {
     console.log(e);
@@ -11,7 +11,7 @@ export const getPlannerRecipes = async () => {
 
 export const clearPlannerRecipes = async () => {
   try {
-    const res = await fetch(`${URL}/clear`, {
+    const res = await fetch(`${beUrl}/planners/clear`, {
       credentials: 'include',
       method: 'DELETE',
     });
@@ -29,7 +29,7 @@ export const addPlannerRecipe = async ({
   day: string;
 }) => {
   try {
-    const res = await fetch(URL, {
+    const res = await fetch(`${beUrl}/planners`, {
       credentials: 'include',
       method: 'POST',
       headers: {

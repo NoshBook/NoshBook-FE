@@ -2,8 +2,8 @@ import { screen, render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
-import Browse from '../../views/Browse/Browse';
 import ShoppingListView from './ShoppingListView';
+import { beUrl } from '../../utils/beUrl';
 
 const mockShoppingList = [
   {
@@ -19,11 +19,11 @@ const mockShoppingList = [
 ];
 
 function copyShoppingList() {
-  return mockShoppingList.map(item => ({...item}));
-};
+  return mockShoppingList.map(item => ({ ...item }));
+}
 
 const server = setupServer(
-  rest.put('https://noshbook-staging.herokuapp.com/api/v1/shoppinglist/item/1',
+  rest.put(`${beUrl}/shoppinglist/item/1`,
     (req, res, ctx) => {
       const copy = copyShoppingList();
       copy[0].isChecked = !copy[0].isChecked;
@@ -31,7 +31,7 @@ const server = setupServer(
       return res(ctx.json(copy));
     }
   ),
-  rest.get('https://noshbook-staging.herokuapp.com/api/v1/shoppinglist/new',
+  rest.get(`${beUrl}/shoppinglist/new`,
     (req, res, ctx) => {
       const copy = copyShoppingList();
       copy[0].ingredient = 'test3';
@@ -39,7 +39,7 @@ const server = setupServer(
       return res(ctx.json(copy));
     }
   ),
-  rest.get('https://noshbook-staging.herokuapp.com/api/v1/shoppinglist',
+  rest.get(`${beUrl}/shoppinglist`,
     (req, res, ctx) => {
       return res(ctx.json(mockShoppingList));
     }
@@ -61,7 +61,7 @@ describe('ShoppingList', () => {
         <ShoppingListView />
       </MemoryRouter>
     );
-    await screen.findByText(/loading/i)
+    await screen.findByText(/loading/i);
     const test1 = await screen.findByText(/test1/i);
     const test2 = await screen.findByText(/test2/i);
     
@@ -75,7 +75,7 @@ describe('ShoppingList', () => {
         <ShoppingListView />
       </MemoryRouter>
     );
-    const loading = await screen.findByText(/loading/i)
+    const loading = await screen.findByText(/loading/i);
     expect(loading).toBeInTheDocument();
 
     const test1 = await screen.findByText(/test1 isChecked: false/i);
@@ -97,7 +97,7 @@ describe('ShoppingList', () => {
       </MemoryRouter>
     );
 
-    const loading = await screen.findByText(/loading/i)
+    const loading = await screen.findByText(/loading/i);
     expect(loading).toBeInTheDocument();
 
     const test1 = await screen.findByText(/test1 isChecked: false/i);

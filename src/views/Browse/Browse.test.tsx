@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-debugging-utils */
 import { screen, render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { setupServer } from 'msw/node';
@@ -6,6 +5,7 @@ import { rest } from 'msw';
 import Browse from './Browse';
 import { AuthProvider } from '../../context/AuthContext';
 import App from '../../App';
+import { beUrl } from '../../utils/beUrl';
 
 // TODO:
 // - Redirects user to recipe detail on click of recipe.
@@ -15,13 +15,6 @@ import App from '../../App';
 //   🟡 NOTE: Return to these tests once alerts are removed from document. Jest does not have a window.alert equivelant, throwing 'Error: window.alert('text here') no implmented.'
 //     - if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
 //     - if user is logged in, if recipe already exists in cookbook, alerts user of failure.
-
-// urls
-// const DEV_RECIPE_URL = `http://localhost:7890/api/v1/recipes`;
-const STAGING_RECIPE_URL = `https://noshbook-staging.herokuapp.com/api/v1/recipes`;
-
-// const DEV_USERS_URL = 'http://localhost:7890/api/v1/users';
-const STAGING_USERS_URL = 'https://noshbook-staging.herokuapp.com/api/v1/users';
 
 // mocks
 jest.mock('../../context/AuthContext');
@@ -38,19 +31,19 @@ const mockRecipe = {
 
 const server = setupServer(
   // pagination route
-  rest.get(STAGING_RECIPE_URL, (req, res, ctx) => {
+  rest.get(`${beUrl}/recipes`, (req, res, ctx) => {
     const page = req.url.searchParams.get('page');
     if (page === '1') return res(ctx.json(mockPageOneRecipes));
     if (page === '2') return res(ctx.json(mockPageTwoRecipes));
     if (page === '3') return res(ctx.json(mockPageThreeRecipes));
   }),
   // automatically puts user in context on render
-  rest.get(`${STAGING_USERS_URL}/me`, (req, res, ctx) => {
+  rest.get(`${beUrl}/users/me`, (req, res, ctx) => {
     return res(
       ctx.json({ id: 1, username: 'mock-bob', showUserContent: false }),
     );
   }),
-  rest.delete(`${STAGING_USERS_URL}/sessions`, (req, res, ctx) => {
+  rest.delete(`${beUrl}/users/sessions`, (req, res, ctx) => {
     return res(
       ctx.json({ success: true, message: 'Signed out successfully!' }),
     );

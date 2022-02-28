@@ -3,10 +3,11 @@ import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import Planner from './Planner';
 import { MemoryRouter } from 'react-router-dom';
+import { beUrl } from '../../utils/beUrl';
 
 const server = setupServer(
   rest.get(
-    'https://noshbook-staging.herokuapp.com/api/v1/planners',
+    `${beUrl}/planners`,
     (req, res, ctx) => {
       const mockResponse = [
         {
@@ -28,7 +29,7 @@ const server = setupServer(
     },
   ),
   rest.delete(
-    'https://noshbook-staging.herokuapp.com/api/v1/planners/clear',
+    `${beUrl}/planners/clear`,
     (req, res, ctx) => {
       const mockResponse = [
         {
