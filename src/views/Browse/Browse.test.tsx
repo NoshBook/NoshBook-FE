@@ -1,9 +1,11 @@
+/* eslint-disable testing-library/no-debugging-utils */
 import { screen, render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import Browse from './Browse';
 import { AuthProvider } from '../../context/AuthContext';
+import App from '../../App';
 
 // TODO:
 // - Redirects user to recipe detail on click of recipe.
@@ -44,7 +46,12 @@ const server = setupServer(
   }),
   // automatically puts user in context on render
   rest.get(`${DEV_USERS_URL}/me`, (req, res, ctx) => {
-    return res(ctx.json({ id: 1, username: 'bob' }));
+    return res(ctx.json({ id: 1, username: 'bob', showUserContent: false }));
+  }),
+  rest.delete(`${DEV_USERS_URL}/sessions`, (req, res, ctx) => {
+    return res(
+      ctx.json({ success: true, message: 'Signed out successfully!' })
+    );
   })
 );
 
@@ -117,5 +124,23 @@ describe('RecipeList', () => {
 
     fireEvent.click(prevPageButton);
     await screen.findAllByText('test');
+  });
+
+  it('should render a disabled add recipe to cookbook button when user is logged out', async () => {
+    render(
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    );
+
+    await screen.findAllByText('test');
+
+    // logout
+    const logoutButton = await screen.findByRole('button', { name: /logout/i });
+    fireEvent.click(logoutButton);
+
+    const buttons = await screen.findAllByText(/add recipe to cookbook/i);
+    console.log(buttons[0]);
+    buttons.forEach((button) => expect(button).toBeDisabled());
   });
 });

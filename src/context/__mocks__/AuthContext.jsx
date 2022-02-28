@@ -3,11 +3,9 @@ import { getUser } from '../../utils/users.js';
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ mockUser, children }) => {
+const AuthProvider = ({ mockUser = { showUserContent: false }, children }) => {
   console.log('<<<<<<AUTHPROVIDER MOCK INITIATED>>>>>>');
-  const [user, setUser] = useState(
-    mockUser ? { ...mockUser } : { showUserContent: false }
-  );
+  const [user, setUser] = useState({ ...mockUser });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
