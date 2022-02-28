@@ -17,7 +17,19 @@ const AuthProvider = ({ children }) => {
     getCurrentUser();
   }, []);
 
-  const value = useMemo(() => ({ user, setUser }), [user]);
+  const updateUserPreference = () => {
+    setUser((prevState) => {
+      return {
+        ...prevState,
+        showUserContent: !prevState.showUserContent,
+      };
+    });
+  };
+
+  const value = useMemo(
+    () => ({ user, setUser, updateUserPreference }),
+    [user]
+  );
   if (loading) {
     return <h2>Loading...</h2>;
   } else {
