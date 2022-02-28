@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import RecipeDetail from './RecipeDetail';
+import { beUrl } from '../../utils/beUrl.js';
 
 const mockRecipe = {
   name: 'test recipe',
@@ -19,7 +20,7 @@ const mockRecipe = {
 
 const server = setupServer(
   rest.get(
-    'https://noshbook-staging.herokuapp.com/api/v1/recipes/undefined',
+    `${beUrl}/recipes/undefined`,
     (req, res, ctx) => {
       return res(ctx.json(mockRecipe));
     }

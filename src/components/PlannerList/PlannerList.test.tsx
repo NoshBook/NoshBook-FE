@@ -2,10 +2,12 @@ import { screen, render } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import Planner from '../../views/Planner/Planner';
+import { MemoryRouter } from 'react-router-dom';
+import { beUrl } from '../../utils/beUrl';
 
 const server = setupServer(
   rest.get(
-    'https://noshbook-staging.herokuapp.com/api/v1/planners',
+    `${beUrl}/planners`,
     (req, res, ctx) => {
       const mockResponse = [
         {
@@ -13,10 +15,12 @@ const server = setupServer(
           recipes: [
             {
               id: 1,
+              recipeId: 1,
               name: 'banana bread',
             },
             {
               id: 2,
+              recipeId: 2,
               name: 'corndog',
             },
           ],
@@ -38,7 +42,11 @@ describe('PlannerList', () => {
   });
 
   it('should render a list of recipes that have been added to planner', async () => {
-    render(<Planner />);
+    render(
+      <MemoryRouter>
+        <Planner />
+      </MemoryRouter>,
+    );
 
     await screen.findByText(/banana bread/i);
     await screen.findByText(/corndog/i);

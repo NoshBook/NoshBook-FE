@@ -1,24 +1,14 @@
-import { useState, useEffect } from 'react';
-import { getPlannerRecipes } from '../../services/planner';
 import PlannerDay from './PlannerDay';
+import { RecipesByDayType } from './plannerTypes';
 
-export default function PlannerList() {
-  const [days, setDays] = useState<any>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const getFreshDays = async () => {
-      const res = await getPlannerRecipes();
-      setDays(res);
-      setLoading(false);
-    };
-
-    getFreshDays();
-  }, []);
-
-  return loading ? (
-    <h1>...LOADING</h1>
-  ) : (
+export default function PlannerList({
+  days,
+  handleDelete,
+}: {
+  days: RecipesByDayType[];
+  handleDelete: any;
+}): JSX.Element {
+  return (
     <div
       style={{
         display: 'flex',
@@ -26,9 +16,15 @@ export default function PlannerList() {
         alignItems: 'center',
       }}
     >
-      {days.map((day: any, index: any) => (
-        <PlannerDay {...day} key={index} />
-      ))}
+      {!days[0].day ? (
+        <h1>No Recipes To Display</h1>
+      ) : (
+        days.map(
+          (day: RecipesByDayType, index: number): JSX.Element => (
+            <PlannerDay day={day} handleDelete={handleDelete} key={index} />
+          ),
+        )
+      )}
     </div>
   );
 }

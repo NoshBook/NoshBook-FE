@@ -1,12 +1,11 @@
-// const DEV_URL = `http://localhost:7890/api/v1/cookbooks/add`;
-const STAGING_URL = `https://noshbook-staging.herokuapp.com/api/v1/cookbooks/add`;
+import { beUrl } from "../../utils/beUrl";
 
 export async function insertRecipeIntoCookbook(
   recipeId: string,
   userId: string,
 ) {
   try {
-    const res = await fetch(`${STAGING_URL}`, {
+    const res = await fetch(`${beUrl}/cookbooks/add`, {
       credentials: 'include',
       method: 'POST',
       body: JSON.stringify({ recipeId, userId }),
