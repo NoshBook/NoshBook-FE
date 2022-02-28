@@ -26,8 +26,8 @@ export default function PlannerList() {
         alignItems: 'center',
       }}
     >
-      {days.map((day: any) => (
-        <PlannerDay {...day} />
+      {days.map((day: any, index: any) => (
+        <PlannerDay {...day} key={index} />
       ))}
     </div>
   );
