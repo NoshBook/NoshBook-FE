@@ -1,10 +1,11 @@
+import type { BrowseRecipe } from '../interfaces/BrowseRecipe';
+
 const STAGING_URL = 'https://noshbook-staging.herokuapp.com/api/v1/recipes';
-// const DEV_URL = 'http://localhost:7890/api/v1/recipes';
 
 export const getPaginatedRecipes = async (
   newPage: number,
   itemQuantity: number,
-) => {
+): Promise<BrowseRecipe[]> => {
   try {
     const res = await fetch(
       `${STAGING_URL}?page=${newPage}&quantity=${itemQuantity}`,
