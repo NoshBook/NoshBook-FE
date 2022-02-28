@@ -7,6 +7,7 @@ import Auth from './views/Auth';
 import Browse from './views/Browse/Browse';
 import Planner from './views/Planner/Planner';
 import ShoppingListView from './views/ShoppingListView/ShoppingListView';
+import RecipeDetail from './views/RecipeDetail/RecipeDetail';
 
 function App() {
   /* including user console log below for dev purposes - remove later */
@@ -21,12 +22,16 @@ function App() {
         <Routes>
           <Route path='/auth' element={<Auth />} />
           <Route path='/planner' element={<Planner />} />
-          <Route path='/shoppinglist' element={
-            <PrivateRoute>
-              <ShoppingListView />
-            </PrivateRoute>
-          } />
+          <Route
+            path='/shoppinglist'
+            element={
+              <PrivateRoute>
+                <ShoppingListView />
+              </PrivateRoute>
+            }
+          />
           <Route path='/' element={<Browse />} />
+          <Route path='/recipes/:id' element={<RecipeDetail />} />
         </Routes>
       </Router>
     </div>
