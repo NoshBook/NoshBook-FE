@@ -4,13 +4,14 @@ import { getUser } from '../utils/users';
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getCurrentUser = async () => {
       const res = await getUser();
-      setUser(res.username);
+      console.log(res);
+      setUser(res);
       setLoading(false);
     };
     getCurrentUser();
