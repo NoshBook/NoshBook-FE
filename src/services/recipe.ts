@@ -3,7 +3,7 @@ const STAGING_URL = 'https://noshbook-staging.herokuapp.com/api/v1/recipes';
 
 export const getPaginatedRecipes = async (
   newPage: number,
-  itemQuantity: number
+  itemQuantity: number,
 ) => {
   try {
     const res = await fetch(
