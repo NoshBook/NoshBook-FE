@@ -2,6 +2,7 @@ import { screen, render } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import Planner from '../../views/Planner/Planner';
+import { MemoryRouter } from 'react-router-dom';
 
 const server = setupServer(
   rest.get(
@@ -24,8 +25,8 @@ const server = setupServer(
       ];
 
       return res(ctx.json(mockResponse));
-    }
-  )
+    },
+  ),
 );
 
 describe('PlannerList', () => {
@@ -38,7 +39,11 @@ describe('PlannerList', () => {
   });
 
   it('should render a list of recipes that have been added to planner', async () => {
-    render(<Planner />);
+    render(
+      <MemoryRouter>
+        <Planner />
+      </MemoryRouter>,
+    );
 
     await screen.findByText(/banana bread/i);
     await screen.findByText(/corndog/i);

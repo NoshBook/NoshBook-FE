@@ -20,7 +20,7 @@ export default function PlannerList({
         days.map(
           (day: RecipesByDayType, index: number): JSX.Element => (
             <PlannerDay {...day} key={index} />
-          )
+          ),
         )
       )}
     </div>
