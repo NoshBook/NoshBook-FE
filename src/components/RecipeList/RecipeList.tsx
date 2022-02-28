@@ -1,9 +1,10 @@
 /* eslint-disable */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { BrowseRecipe } from '../../interfaces/BrowseRecipe';
+import type { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
 import StarRatings from 'react-star-ratings';
 import { useAuth } from '../../context/AuthContext';
+import RecipeCard from '../RecipeCard/RecipeCard';
 
 interface RecipeListProps {
   currentPageData: Array<any>;
@@ -18,9 +19,9 @@ export default function RecipeList({
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  function handleClick(
+  function handleOptionsClick(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    recipe: BrowseRecipe
+    recipe: BrowseRecipe,
   ) {
     e.stopPropagation();
     handleAddRecipeToCookbook(recipe);
@@ -47,30 +48,10 @@ export default function RecipeList({
               key={recipe.id}
               onClick={() => navigate(`/recipes/${recipe.id}`)}
             >
-              <h2>{recipe.name}</h2>
-              <StarRatings
-                rating={recipe.rating}
-                starRatedColor="blue"
-                numberOfStars={5}
-                starDimension="15px"
-                starSpacing="2px"
-                name="rating"
+              <RecipeCard
+                recipe={recipe}
+                handleOptionsClick={handleOptionsClick}
               />
-              <p>{recipe.description}</p>
-              {/* if rendering in cookbook view, this button should remove a recipe from the cookbook */}
-              <button
-                onClick={(e) => handleClick(e, recipe)}
-                // --- Can be removed
-                disabled={user.id ? false : true}
-                title={
-                  user.id
-                    ? 'Click to add Recipe to your Cookbook'
-                    : 'Login to add Recipes to your Cookbook'
-                }
-                // ---
-              >
-                Add Recipe to Cookbook
-              </button>
             </li>
           );
         })}

@@ -1,4 +1,4 @@
-import type { BrowseRecipe } from '../interfaces/BrowseRecipe';
+import type { BrowseRecipe } from '../views/Browse/interfaces/BrowseRecipe';
 
 // const DEV_URL = `http://localhost:7890/api/v1/recipes`;
 const STAGING_URL = `https://noshbook-staging.herokuapp.com/api/v1/recipes`;
