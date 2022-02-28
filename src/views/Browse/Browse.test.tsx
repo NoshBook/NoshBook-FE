@@ -115,6 +115,8 @@ describe('RecipeList', () => {
     await screen.findAllByText('test');
   });
 
+  // it redirects user to recipe detail on click of recipe.
+
   // 🟡 NOTE:
   // Return to these tests once alerts are removed from document.
   // Jest does not have a window.alert equivelant, throwing 'Error: window.alert('text here') no implmented.'
