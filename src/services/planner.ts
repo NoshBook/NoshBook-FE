@@ -58,3 +58,14 @@ export const deletePlannerRecipe = async (id: number) => {
     console.log(e);
   }
 };
+
+export const getRandomRecipe = async () => {
+  try {
+    const res = await fetch(`${beUrl}/planners/random`, {
+      credentials: 'include',
+    });
+    return await res.json();
+  } catch (e) {
+    console.log(e);
+  }
+};
