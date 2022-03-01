@@ -46,6 +46,12 @@ const server = setupServer(
       ]),
     );
   }),
+
+  rest.post(`${beUrl}/planners`, (req, res, ctx) => {
+    return res(
+      ctx.json({ day: 'tuesday', id: 12, recipeId: '1', userId: '1' }),
+    );
+  }),
 );
 
 describe('RecipeDetail', () => {
@@ -72,23 +78,19 @@ describe('RecipeDetail', () => {
     await screen.findByText(/step 2/i);
   });
 
-  it.skip('should add a recipe to the planner', async () => {
-    // const history = createMemoryHistory();
-    // history.push('/recipes/1');
-
+  it('should add a recipe to the planner', async () => {
     render(
       <AuthProvider>
-        <Header />
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+
         <MemoryRouter initialEntries={['/recipes/1']}>
           <RecipeDetail />
         </MemoryRouter>
         <MemoryRouter>
           <Planner />
         </MemoryRouter>
-        {/* <Router history={history}>
-          <Route path="/recipes/1" element={<RecipeDetail />} />
-          <Route path="/planner" element={<Planner />} />
-        </Router> */}
       </AuthProvider>,
     );
 
@@ -102,9 +104,10 @@ describe('RecipeDetail', () => {
     const tuesday = screen.getByLabelText('tuesday');
     userEvent.click(tuesday);
 
-    const plannerLink = screen.getAllByAltText('Planner');
+    const plannerLink = screen.getByRole('link', { name: 'Planner' });
     userEvent.click(plannerLink);
 
     await screen.findByText(/test recipe/i);
+    await screen.findByText(/weekly planner/i);
   });
 });
