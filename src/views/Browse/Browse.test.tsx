@@ -82,7 +82,7 @@ const mockPageTwoRecipes = appendUniqueIds(newArray2);
 const newArray3 = new Array(20).fill({ ...mockRecipe, name: 'test3' });
 const mockPageThreeRecipes = appendUniqueIds(newArray3);
 
-describe('RecipeList', () => {
+describe('Browse', () => {
   beforeAll(() => {
     server.listen();
   });
