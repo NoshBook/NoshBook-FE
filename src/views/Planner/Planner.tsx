@@ -9,12 +9,16 @@ import {
 } from '../../services/planner';
 import { RecipesByDayType } from '../../components/PlannerList/plannerTypes';
 import DaysMenu from '../../components/DaysMenu/DaysMenu';
+import { useNavigate } from 'react-router-dom';
 
 export default function Planner(): JSX.Element {
   const [days, setDays] = useState<RecipesByDayType[]>([
     { day: null, recipes: [{ id: null, recipeId: null, name: null }] },
   ]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showOptions, setShowOptions] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getFreshDays();
@@ -79,15 +83,13 @@ export default function Planner(): JSX.Element {
   return (
     <main>
       <section>
-        <a href="/shopping">
-          View a shopping list of all the ingredients in your weekly planner.
-        </a>
+        <button onClick={() => navigate('/shopping')}>Shopping List</button>
       </section>
       <section>
-        <label>
-          Generate random recipe for selected day:
-          <DaysMenu handleAddToPlanner={handleAddToPlanner} />
-        </label>
+        <button onClick={() => setShowOptions(!showOptions)}>
+          Random Recipe
+        </button>
+        {showOptions && <DaysMenu handleAddToPlanner={handleAddToPlanner} />}
       </section>
       <section>
         <button onClick={handleClear}>Reset</button>
