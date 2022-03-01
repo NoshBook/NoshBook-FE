@@ -108,6 +108,6 @@ describe('RecipeDetail', () => {
     userEvent.click(plannerLink);
 
     await screen.findByText(/test recipe/i);
-    await screen.findByText(/weekly planner/i);
+    await screen.findByText(/random recipe/i);
   });
 });
