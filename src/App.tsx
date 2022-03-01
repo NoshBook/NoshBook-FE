@@ -8,6 +8,7 @@ import Browse from './views/Browse/Browse';
 import Planner from './views/Planner/Planner';
 import ShoppingListView from './views/ShoppingListView/ShoppingListView';
 import RecipeDetail from './views/RecipeDetail/RecipeDetail';
+import CookBook from './views/CookBook/CookBook';
 
 function App() {
   /* including user console log below for dev purposes - remove later */
@@ -34,6 +35,14 @@ function App() {
             element={
               <PrivateRoute>
                 <ShoppingListView />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/cookbook"
+            element={
+              <PrivateRoute>
+                <CookBook />
               </PrivateRoute>
             }
           />
