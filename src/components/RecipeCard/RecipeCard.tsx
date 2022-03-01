@@ -4,11 +4,16 @@ import { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
 import { Rating } from 'react-simple-star-rating';
 
 interface RecipeCardProps {
-  recipe: BrowseRecipe; // '| alternative type'
-  handleOptionsClick: (
+  recipe: BrowseRecipe;
+  isCookbookView?: boolean;
+  handleAddToCookbookClick?: (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     recipe: BrowseRecipe,
-  ) => void; // '| alternative type'
+  ) => void;
+  handleRemoveFromCookbookClick?: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string,
+  ) => void;
 }
 
 // Initial thoughts on reusability:
@@ -19,35 +24,47 @@ interface RecipeCardProps {
 
 export default function RecipeCard({
   recipe,
-  handleOptionsClick,
+  handleAddToCookbookClick,
+  handleRemoveFromCookbookClick,
+  isCookbookView,
 }: RecipeCardProps) {
   const { user } = useAuth();
-
+  const { name, rating, image, description } = recipe;
   return (
     <article>
-      <h2>{recipe.name}</h2>
-      {/* Later: Implement cool rating package D is working with */}
-      <Rating
-        initialValue={recipe.rating * 20}
-        ratingValue={recipe.rating * 20}
-        readonly
-      />
-      <p>Rating: {recipe.rating}</p>
-      <button
-        onClick={(e) => handleOptionsClick(e, recipe)}
-        disabled={user.id ? false : true}
-        // --- Can be removed
-        title={
-          user.id
-            ? 'Click to interact with recipe options'
-            : 'Login to interact with recipe options'
-        }
-        // ---
-      >
-        ➕
-      </button>
-      <img src={recipe.image} alt={recipe.name} />
-      <p>{recipe.description}</p>
+      <h2>{name}</h2>
+
+      <Rating initialValue={rating * 20} ratingValue={rating * 20} readonly />
+
+      <p>Rating: {rating}</p>
+
+      <section aria-label="Recipe Options">
+        {isCookbookView ? (
+          <button
+            onClick={(e) => handleRemoveFromCookbookClick?.(e, recipe.id)}
+          >
+            ➖
+          </button>
+        ) : (
+          <button
+            onClick={(e) => handleAddToCookbookClick?.(e, recipe)}
+            disabled={user.id ? false : true}
+            // --- Can be removed
+            title={
+              user.id
+                ? 'Click to interact with recipe options'
+                : 'Login to interact with recipe options'
+            }
+            // ---
+          >
+            ➕
+          </button>
+        )}
+      </section>
+
+      <img src={image} alt={name} />
+
+      <p>{description}</p>
     </article>
   );
 }

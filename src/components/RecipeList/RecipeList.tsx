@@ -50,7 +50,7 @@ export default function RecipeList({
             >
               <RecipeCard
                 recipe={recipe}
-                handleOptionsClick={handleOptionsClick}
+                handleAddToCookbookClick={handleOptionsClick}
               />
             </li>
           );
