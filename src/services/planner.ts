@@ -53,6 +53,7 @@ export const deletePlannerRecipe = async (id: number) => {
       credentials: 'include',
       method: 'DELETE',
     });
+    return res.json();
   } catch (e) {
     console.log(e);
   }

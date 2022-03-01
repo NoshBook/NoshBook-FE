@@ -9,41 +9,35 @@ const mockShoppingList = [
   {
     id: 1,
     ingredient: 'test1',
-    isChecked: false
+    isChecked: false,
   },
   {
     id: 2,
     ingredient: 'test2',
-    isChecked: false
-  }
+    isChecked: false,
+  },
 ];
 
 function copyShoppingList() {
-  return mockShoppingList.map(item => ({ ...item }));
+  return mockShoppingList.map((item) => ({ ...item }));
 }
 
 const server = setupServer(
-  rest.put(`${beUrl}/shoppinglist/item/1`,
-    (req, res, ctx) => {
-      const copy = copyShoppingList();
-      copy[0].isChecked = !copy[0].isChecked;
-      console.log('after put: ', mockShoppingList);
-      return res(ctx.json(copy));
-    }
-  ),
-  rest.get(`${beUrl}/shoppinglist/new`,
-    (req, res, ctx) => {
-      const copy = copyShoppingList();
-      copy[0].ingredient = 'test3';
-      copy[1].ingredient = 'test4';
-      return res(ctx.json(copy));
-    }
-  ),
-  rest.get(`${beUrl}/shoppinglist`,
-    (req, res, ctx) => {
-      return res(ctx.json(mockShoppingList));
-    }
-  )
+  rest.put(`${beUrl}/shoppinglist/item/1`, (req, res, ctx) => {
+    const copy = copyShoppingList();
+    copy[0].isChecked = !copy[0].isChecked;
+    console.log('after put: ', mockShoppingList);
+    return res(ctx.json(copy));
+  }),
+  rest.get(`${beUrl}/shoppinglist/new`, (req, res, ctx) => {
+    const copy = copyShoppingList();
+    copy[0].ingredient = 'test3';
+    copy[1].ingredient = 'test4';
+    return res(ctx.json(copy));
+  }),
+  rest.get(`${beUrl}/shoppinglist`, (req, res, ctx) => {
+    return res(ctx.json(mockShoppingList));
+  }),
 );
 
 describe('ShoppingList', () => {
@@ -59,12 +53,12 @@ describe('ShoppingList', () => {
     render(
       <MemoryRouter>
         <ShoppingListView />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     await screen.findByText(/loading/i);
     const test1 = await screen.findByText(/test1/i);
     const test2 = await screen.findByText(/test2/i);
-    
+
     expect(test1).toBeInTheDocument();
     expect(test2).toBeInTheDocument();
   });
@@ -73,14 +67,14 @@ describe('ShoppingList', () => {
     render(
       <MemoryRouter>
         <ShoppingListView />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     const loading = await screen.findByText(/loading/i);
     expect(loading).toBeInTheDocument();
 
     const test1 = await screen.findByText(/test1 isChecked: false/i);
     const test2 = await screen.findByText(/test2 isChecked: false/i);
-    
+
     expect(test1).toBeInTheDocument();
     expect(test2).toBeInTheDocument();
 
@@ -94,7 +88,7 @@ describe('ShoppingList', () => {
     render(
       <MemoryRouter>
         <ShoppingListView />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     const loading = await screen.findByText(/loading/i);
@@ -102,7 +96,7 @@ describe('ShoppingList', () => {
 
     const test1 = await screen.findByText(/test1 isChecked: false/i);
     const test2 = await screen.findByText(/test2 isChecked: false/i);
-    
+
     expect(test1).toBeInTheDocument();
     expect(test2).toBeInTheDocument();
 
@@ -110,5 +104,22 @@ describe('ShoppingList', () => {
     fireEvent.click(generateButton);
     const item1Checked = await screen.findByText(/test3 isChecked: false/i);
     expect(item1Checked).toBeInTheDocument();
+  });
+
+  it('should filter the ingredient list based on a search term', async () => {
+    render(
+      <MemoryRouter>
+        <ShoppingListView />
+      </MemoryRouter>,
+    );
+
+    const test1 = await screen.findByText(/test1/i);
+    const test2 = await screen.findByText(/test2/i);
+    expect(test2).toBeInTheDocument();
+
+    const searchInput = await screen.findByLabelText(/search/i);
+    fireEvent.change(searchInput, { target: { value: '1' } });
+    expect(test1).toBeInTheDocument();
+    expect(test2).not.toBeInTheDocument();
   });
 });
