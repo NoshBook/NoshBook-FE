@@ -78,7 +78,7 @@ describe('RecipeDetail', () => {
     await screen.findByText(/step 2/i);
   });
 
-  it('should add a recipe to the planner', async () => {
+  it.only('should add a recipe to the planner', async () => {
     render(
       <AuthProvider>
         <MemoryRouter>
@@ -101,8 +101,8 @@ describe('RecipeDetail', () => {
     });
     userEvent.click(addToPlannerButton);
 
-    const tuesday = screen.getByLabelText('tuesday');
-    userEvent.click(tuesday);
+    const tuesday = screen.getAllByLabelText('tuesday');
+    userEvent.click(tuesday[0]);
 
     const plannerLink = screen.getByRole('link', { name: 'Planner' });
     userEvent.click(plannerLink);

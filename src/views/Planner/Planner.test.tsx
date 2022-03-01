@@ -5,25 +5,43 @@ import Planner from './Planner';
 import { MemoryRouter } from 'react-router-dom';
 import { beUrl } from '../../utils/beUrl';
 
+let mockResponse = [
+  {
+    day: 'monday',
+    recipes: [
+      {
+        id: 1,
+        recipeId: 1,
+        name: 'banana bread',
+      },
+      {
+        id: 2,
+        recipeId: 2,
+        name: 'corndog',
+      },
+    ],
+  },
+];
+
 const server = setupServer(
   rest.get(`${beUrl}/planners`, (req, res, ctx) => {
-    const mockResponse = [
-      {
-        day: 'monday',
-        recipes: [
-          {
-            id: 1,
-            recipeId: 1,
-            name: 'banana bread',
-          },
-          {
-            id: 2,
-            recipeId: 2,
-            name: 'corndog',
-          },
-        ],
-      },
-    ];
+    // const mockResponse = [
+    //   {
+    //     day: 'monday',
+    //     recipes: [
+    //       {
+    //         id: 1,
+    //         recipeId: 1,
+    //         name: 'banana bread',
+    //       },
+    //       {
+    //         id: 2,
+    //         recipeId: 2,
+    //         name: 'corndog',
+    //       },
+    //     ],
+    //   },
+    // ];
 
     return res(ctx.json(mockResponse));
   }),
@@ -48,6 +66,12 @@ const server = setupServer(
 
     return res(ctx.json(mockResponse));
   }),
+  rest.get(`${beUrl}/planners/random`, (req, res, ctx) =>
+    res(ctx.json(mockResponse)),
+  ),
+  rest.post(`${beUrl}/planners`, (req, res, ctx) =>
+    res(ctx.json(mockResponse)),
+  ),
 );
 
 describe('Planner', () => {
@@ -70,5 +94,51 @@ describe('Planner', () => {
     const resetButton = screen.getByText(/reset/i);
     fireEvent.click(resetButton);
     expect(await screen.findByText(/no recipes to display/i)).toBeVisible();
+  });
+
+  it('should generate a random recipe', async () => {
+    render(
+      <MemoryRouter>
+        <Planner />
+      </MemoryRouter>,
+    );
+
+    await screen.findByText(/banana bread/i);
+    const fridayButton = screen.getByText('friday');
+
+    fireEvent.click(
+      fridayButton,
+
+      (mockResponse = [
+        {
+          day: 'monday',
+          recipes: [
+            {
+              id: 1,
+              recipeId: 1,
+              name: 'banana bread',
+            },
+            {
+              id: 2,
+              recipeId: 2,
+              name: 'corndog',
+            },
+          ],
+        },
+        {
+          day: 'friday',
+          recipes: [
+            {
+              id: 3,
+              recipeId: 42,
+              name: 'gumdrop stew',
+            },
+          ],
+        },
+      ]),
+    );
+
+    const addedRecipe = await screen.findByText(/gumdrop stew/i);
+    expect(addedRecipe).toBeInTheDocument();
   });
 });
