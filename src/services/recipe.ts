@@ -1,4 +1,4 @@
-import type { BrowseRecipe } from '../interfaces/BrowseRecipe';
+import type { BrowseRecipe } from '../views/Browse/interfaces/BrowseRecipe';
 import { beUrl } from '../utils/beUrl';
 
 export const getPaginatedRecipes = async (
