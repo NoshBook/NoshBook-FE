@@ -17,7 +17,6 @@ export default function Planner(): JSX.Element {
   useEffect(() => {
     const getFreshDays = async (): Promise<void> => {
       const res = await getPlannerRecipes();
-
       if (res?.length) {
         setDays([...res]);
       }

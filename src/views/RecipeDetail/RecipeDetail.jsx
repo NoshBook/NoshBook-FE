@@ -8,6 +8,7 @@ import {
   insertRecipeIntoCookbook,
   removeRecipeFromCookbook,
 } from '../../services/cookbook/cookbook';
+import { addPlannerRecipe } from '../../services/planner';
 
 export default function RecipeDetail() {
   const { id } = useParams();
@@ -15,6 +16,7 @@ export default function RecipeDetail() {
   const [recipe, setRecipe] = useState(null);
   const [added, setAdded] = useState(null);
   const [userRating, setUserRating] = useState(null);
+  const [plannerToggle, setPlannerToggle] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -61,6 +63,12 @@ export default function RecipeDetail() {
     await submitRating(id, rate / 20);
   };
 
+  const handleAddToPlanner = async (day) => {
+    const res = await addPlannerRecipe({ recipeId: id, day });
+    console.log(res);
+    setPlannerToggle(!plannerToggle);
+  };
+
   return (
     <div>
       {loading && <p>Loading...</p>}
@@ -73,6 +81,9 @@ export default function RecipeDetail() {
           addOrRemove={added ? 'Remove from Cookbook' : 'Add to Cookbook'}
           handleRating={handleRating}
           userRating={userRating}
+          plannerToggle={plannerToggle}
+          setPlannerToggle={setPlannerToggle}
+          handleAddToPlanner={handleAddToPlanner}
         />
       )}
     </div>
