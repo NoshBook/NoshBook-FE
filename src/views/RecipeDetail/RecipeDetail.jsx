@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Recipe from '../../components/Recipe/Recipe';
 import { useAuth } from '../../context/AuthContext';
-import { getRecipeById } from '../../services/recipe';
+import { getRecipeById, submitRating } from '../../services/recipe';
 import {
   getUserCookbook,
   insertRecipeIntoCookbook,
@@ -14,12 +14,14 @@ export default function RecipeDetail() {
   const [loading, setLoading] = useState(true);
   const [recipe, setRecipe] = useState(null);
   const [added, setAdded] = useState(null);
+  const [userRating, setUserRating] = useState(null);
   const { user } = useAuth();
 
   useEffect(() => {
     const loadRecipe = async () => {
       const response = await getRecipeById(id);
       setRecipe(response);
+      setUserRating(response.rating);
       setLoading(false);
     };
     loadRecipe();
@@ -55,6 +57,10 @@ export default function RecipeDetail() {
     setAdded(false);
   };
 
+  const handleRating = async (rate) => {
+    await submitRating(id, rate / 20);
+  };
+
   return (
     <div>
       {loading && <p>Loading...</p>}
@@ -65,6 +71,8 @@ export default function RecipeDetail() {
             added ? handleRemoveRecipeFromCookbook : handleAddRecipeToCookbook
           }
           addOrRemove={added ? 'Remove from Cookbook' : 'Add to Cookbook'}
+          handleRating={handleRating}
+          userRating={userRating}
         />
       )}
     </div>
