@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
+import { Rating } from 'react-simple-star-rating';
 
 interface RecipeCardProps {
   recipe: BrowseRecipe; // '| alternative type'
@@ -26,6 +27,12 @@ export default function RecipeCard({
     <article>
       <h2>{recipe.name}</h2>
       {/* Later: Implement cool rating package D is working with */}
+      <Rating
+        initialValue={recipe.rating * 20}
+        ratingValue={recipe.rating * 20}
+        readonly
+      />
+      <p>Rating: {recipe.rating}</p>
       <button
         onClick={(e) => handleOptionsClick(e, recipe)}
         disabled={user.id ? false : true}
@@ -39,7 +46,6 @@ export default function RecipeCard({
       >
         ➕
       </button>
-      <p>Rating: {recipe.rating}</p>
       <img src={recipe.image} alt={recipe.name} />
       <p>{recipe.description}</p>
     </article>
