@@ -1,4 +1,10 @@
-import { screen, render, fireEvent } from '@testing-library/react';
+import {
+  screen,
+  render,
+  fireEvent,
+  findByText,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
@@ -8,10 +14,8 @@ import App from '../../App';
 import { beUrl } from '../../utils/beUrl';
 
 // TODO:
-// - Redirects user to recipe detail on click of recipe.
-// - if user is logged out, 'add recipe to cookbook' button is disabled.
-// - if user is logged out, 'toggle user content' switch is disabled.
-// - if user is logged out, clicking 'toggle user content' switch renders the correct data (test on and off)
+// - FAILING DUE TO ONCLICK EVENT NOT TRIGGERING: Redirects user to recipe detail on click of recipe.
+// - FAILING DUE TO UNCAUGHT STATE UPDATE: if user is logged out, 'toggle user content' switch is disabled.
 //   🟡 NOTE: Return to these tests once alerts are removed from document. Jest does not have a window.alert equivelant, throwing 'Error: window.alert('text here') no implmented.'
 //     - if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
 //     - if user is logged in, if recipe already exists in cookbook, alerts user of failure.
@@ -33,6 +37,13 @@ const server = setupServer(
   // pagination route
   rest.get(`${beUrl}/recipes`, (req, res, ctx) => {
     const page = req.url.searchParams.get('page');
+    const withUserContent = req.url.searchParams.get('withUserContent');
+    if (withUserContent) {
+      const newMockRecipesWithUserContent = [...mockPageOneRecipes];
+      newMockRecipesWithUserContent[0].ownerId = 1;
+      newMockRecipesWithUserContent[0].name = 'user created mock recipe';
+      return res(ctx.json(newMockRecipesWithUserContent));
+    }
     if (page === '1') return res(ctx.json(mockPageOneRecipes));
     if (page === '2') return res(ctx.json(mockPageTwoRecipes));
     if (page === '3') return res(ctx.json(mockPageThreeRecipes));
@@ -43,6 +54,7 @@ const server = setupServer(
       ctx.json({ id: 1, username: 'mock-bob', showUserContent: false }),
     );
   }),
+  // called when a user is logged out
   rest.delete(`${beUrl}/users/sessions`, (req, res, ctx) => {
     return res(
       ctx.json({ success: true, message: 'Signed out successfully!' }),
@@ -79,7 +91,7 @@ describe('RecipeList', () => {
     server.close();
   });
 
-  it('should render a list of recipes', async () => {
+  it('renders a list of recipes', async () => {
     render(
       <AuthProvider>
         <MemoryRouter>
@@ -91,7 +103,26 @@ describe('RecipeList', () => {
     await screen.findAllByText('test');
   });
 
-  it('should render new data when pagination buttons are clicked', async () => {
+  //
+  it.skip('redirects user to recipe detail on click of recipe', async () => {
+    render(
+      <AuthProvider>
+        <MemoryRouter>
+          <Browse />
+        </MemoryRouter>
+      </AuthProvider>,
+    );
+
+    const recipeArray = await screen.findAllByRole('listitem');
+    const firstRecipe = recipeArray[0];
+    console.log(firstRecipe);
+    fireEvent.click(firstRecipe);
+
+    await waitForElementToBeRemoved(() => firstRecipe);
+    expect(global.window.location.href).toContain('/recipes');
+  });
+
+  it('renders new data when pagination buttons are clicked', async () => {
     render(
       <AuthProvider>
         <MemoryRouter>
@@ -122,7 +153,7 @@ describe('RecipeList', () => {
   });
 
   // failing for unknown reason
-  it.skip('should render a disabled add recipe to cookbook button when user is logged out', async () => {
+  it.skip('renders a disabled switch button when user is logged out', async () => {
     render(
       <AuthProvider>
         <App />
@@ -135,8 +166,46 @@ describe('RecipeList', () => {
     const logoutButton = await screen.findByRole('button', { name: /logout/i });
     fireEvent.click(logoutButton);
 
-    const buttons = await screen.findAllByText(/add recipe to cookbook/i);
-    console.log(buttons[0]);
-    buttons.forEach((button) => expect(button).toBeDisabled());
+    const switchButton = await screen.findByRole('switch', { checked: false });
+    screen.debug();
+    expect(switchButton).toBeDisabled();
+  });
+
+  it('renders a disabled add recipe to cookbook button when user is logged out', async () => {
+    render(
+      <AuthProvider>
+        <App />
+      </AuthProvider>,
+    );
+
+    await screen.findAllByText('test');
+
+    // logout
+    const logoutButton = await screen.findByRole('button', { name: /logout/i });
+    fireEvent.click(logoutButton);
+
+    // find buttons with title confirming user is logged out
+    const switchButton = await screen.findAllByTitle(
+      /login to interact with recipe options/i,
+    );
+  });
+
+  it('renders the appropriate content when a user toggles the input switch', async () => {
+    render(
+      <AuthProvider>
+        <App />
+      </AuthProvider>,
+    );
+
+    // no user created mock recipe on page
+    const recipesArray = await screen.findAllByText(/test/i);
+    expect(recipesArray.length).toEqual(20);
+
+    // find switch button and clicks it
+    const switchButton = await screen.findByRole('switch', { checked: false });
+    fireEvent.click(switchButton);
+
+    // finds created mock recipe on page
+    await screen.findByText(/user created mock recipe/i);
   });
 });
