@@ -1,4 +1,5 @@
 import styles from './Recipe.module.css';
+import { Rating } from 'react-simple-star-rating';
 
 export default function Recipe({
   id,
@@ -13,12 +14,24 @@ export default function Recipe({
   rating,
   handleRecipe,
   addOrRemove,
+  handleRating,
 }) {
   return (
     <main className={styles.container}>
       <h2>{name}</h2>
       <p>{source_url}</p>
-      <p>{rating}</p>
+      <Rating
+        onClick={handleRating}
+        initialValue={rating}
+        showTooltip
+        tooltipArray={[
+          'Never again',
+          'Pretty bad',
+          'Average',
+          'Pretty good',
+          "Chef's kiss",
+        ]}
+      />
       <button onClick={() => handleRecipe(id, name)}>{addOrRemove}</button>
       <img className={styles.img} src={image} alt={name} />
       <p>{description}</p>
