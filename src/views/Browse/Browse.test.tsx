@@ -1,4 +1,10 @@
-import { screen, render, fireEvent, findByText } from '@testing-library/react';
+import {
+  screen,
+  render,
+  fireEvent,
+  findByText,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
@@ -8,7 +14,7 @@ import App from '../../App';
 import { beUrl } from '../../utils/beUrl';
 
 // TODO:
-// - Redirects user to recipe detail on click of recipe.
+// - FAILING DUE TO ONCLICK EVENT NOT TRIGGERING: Redirects user to recipe detail on click of recipe.
 // - FAILING DUE TO UNCAUGHT STATE UPDATE: if user is logged out, 'toggle user content' switch is disabled.
 //   🟡 NOTE: Return to these tests once alerts are removed from document. Jest does not have a window.alert equivelant, throwing 'Error: window.alert('text here') no implmented.'
 //     - if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
@@ -85,7 +91,7 @@ describe('RecipeList', () => {
     server.close();
   });
 
-  it('should render a list of recipes', async () => {
+  it('renders a list of recipes', async () => {
     render(
       <AuthProvider>
         <MemoryRouter>
@@ -97,7 +103,26 @@ describe('RecipeList', () => {
     await screen.findAllByText('test');
   });
 
-  it('should render new data when pagination buttons are clicked', async () => {
+  //
+  it.skip('redirects user to recipe detail on click of recipe', async () => {
+    render(
+      <AuthProvider>
+        <MemoryRouter>
+          <Browse />
+        </MemoryRouter>
+      </AuthProvider>,
+    );
+
+    const recipeArray = await screen.findAllByRole('listitem');
+    const firstRecipe = recipeArray[0];
+    console.log(firstRecipe);
+    fireEvent.click(firstRecipe);
+
+    await waitForElementToBeRemoved(() => firstRecipe);
+    expect(global.window.location.href).toContain('/recipes');
+  });
+
+  it('renders new data when pagination buttons are clicked', async () => {
     render(
       <AuthProvider>
         <MemoryRouter>
@@ -128,7 +153,7 @@ describe('RecipeList', () => {
   });
 
   // failing for unknown reason
-  it.skip('should render a disabled switch button when user is logged out', async () => {
+  it.skip('renders a disabled switch button when user is logged out', async () => {
     render(
       <AuthProvider>
         <App />
@@ -146,7 +171,7 @@ describe('RecipeList', () => {
     expect(switchButton).toBeDisabled();
   });
 
-  it('should render a disabled add recipe to cookbook button when user is logged out', async () => {
+  it('renders a disabled add recipe to cookbook button when user is logged out', async () => {
     render(
       <AuthProvider>
         <App />
@@ -165,7 +190,7 @@ describe('RecipeList', () => {
     );
   });
 
-  it('should render the appropriate content when a user toggles the input switch', async () => {
+  it('renders the appropriate content when a user toggles the input switch', async () => {
     render(
       <AuthProvider>
         <App />
