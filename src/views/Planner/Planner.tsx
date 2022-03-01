@@ -5,8 +5,10 @@ import {
   clearPlannerRecipes,
   deletePlannerRecipe,
   getPlannerRecipes,
+  getRandomRecipe,
 } from '../../services/planner';
 import { RecipesByDayType } from '../../components/PlannerList/plannerTypes';
+import DaysMenu from '../../components/DaysMenu/DaysMenu';
 
 export default function Planner(): JSX.Element {
   const [days, setDays] = useState<RecipesByDayType[]>([
@@ -15,16 +17,17 @@ export default function Planner(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const getFreshDays = async (): Promise<void> => {
-      const res = await getPlannerRecipes();
-      if (res?.length) {
-        setDays([...res]);
-      }
-      setLoading(false);
-    };
-
     getFreshDays();
   }, []);
+
+  const getFreshDays = async (): Promise<void> => {
+    setLoading(true);
+    const res = await getPlannerRecipes();
+    if (res?.length) {
+      setDays([...res]);
+    }
+    setLoading(false);
+  };
 
   const handleClear = async (): Promise<void> => {
     setDays([
@@ -45,12 +48,32 @@ export default function Planner(): JSX.Element {
       ]);
     }
   };
-  /* add fake recipes for planner testing during development until recipe detail add option is built */
-  const handleAdd = async (): Promise<void> => {
-    await addPlannerRecipe({ recipeId: 5, day: 'tuesday' });
-    const res = await getPlannerRecipes();
 
-    setDays([...res]);
+  const handleAddToPlanner = async (day: any) => {
+    let newRecipe = await getUniqueRandomRecipe(10);
+
+    if (!newRecipe) {
+      newRecipe = { id: 171, name: 'Sriracha Nacho Cheese Sauce' };
+    }
+
+    await addPlannerRecipe({ recipeId: newRecipe.id, day });
+    getFreshDays();
+  };
+
+  const getUniqueRandomRecipe: any = async (counter = 10) => {
+    if (!counter) return null;
+    const res = await getRandomRecipe();
+    const allPlannerRecipeIds = days
+      .map(({ recipes }) => recipes)
+      .flatMap((recipe) => recipe)
+      .map((recipe) => recipe.recipeId);
+
+    const alreadyExists = !!allPlannerRecipeIds.find(
+      (existingId) => existingId === Number(res.id),
+    );
+
+    // try 10 (or specified) times to get a unique recipe
+    return alreadyExists ? getUniqueRandomRecipe(counter - 1) : res;
   };
 
   return (
@@ -61,7 +84,12 @@ export default function Planner(): JSX.Element {
         </a>
       </section>
       <section>
-        <button onClick={handleAdd}>Add Fake Recipe</button>
+        <label>
+          Generate random recipe for selected day:
+          <DaysMenu handleAddToPlanner={handleAddToPlanner} />
+        </label>
+      </section>
+      <section>
         <button onClick={handleClear}>Reset</button>
       </section>
       <section>

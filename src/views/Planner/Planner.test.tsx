@@ -50,7 +50,7 @@ const server = setupServer(
   }),
 );
 
-describe('PlannerList', () => {
+describe('Planner', () => {
   beforeAll(() => {
     server.listen();
   });
