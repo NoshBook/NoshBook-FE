@@ -5,7 +5,6 @@ export default function ShoppingList({
   items = [],
   setChecked,
 }: ShoppingListProps) {
-  console.log(items);
   return (
     <div>
       {items.map((item: IShoppingItem) => (
