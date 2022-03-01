@@ -1,5 +1,6 @@
 import styles from './Recipe.module.css';
 import { Rating } from 'react-simple-star-rating';
+import DaysMenu from '../DaysMenu/DaysMenu';
 
 export default function Recipe({
   id,
@@ -15,6 +16,9 @@ export default function Recipe({
   handleRecipe,
   addOrRemove,
   handleRating,
+  plannerToggle,
+  setPlannerToggle,
+  handleAddToPlanner,
 }) {
   return (
     <main className={styles.container}>
@@ -32,7 +36,17 @@ export default function Recipe({
           "Chef's kiss",
         ]}
       />
-      <button onClick={() => handleRecipe(id, name)}>{addOrRemove}</button>
+      <button aria-label={addOrRemove} onClick={() => handleRecipe(id, name)}>
+        {addOrRemove}
+      </button>
+      <button
+        aria-label="Add to Planner"
+        className={styles.plannerbutton}
+        onClick={() => setPlannerToggle(!plannerToggle)}
+      >
+        Add to Planner
+      </button>
+      {plannerToggle && <DaysMenu handleAddToPlanner={handleAddToPlanner} />}
       <img className={styles.img} src={image} alt={name} />
       <p>{description}</p>
       <article>
