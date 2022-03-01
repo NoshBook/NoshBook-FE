@@ -64,8 +64,7 @@ export default function RecipeDetail() {
   };
 
   const handleAddToPlanner = async (day) => {
-    const res = await addPlannerRecipe({ recipeId: id, day });
-    console.log(res);
+    await addPlannerRecipe({ recipeId: id, day });
     setPlannerToggle(!plannerToggle);
   };
 
