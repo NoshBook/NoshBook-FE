@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <Logo />
-      <div className={styles.navavatar}>
+      <div className={styles.navarea}>
         <Nav />
       </div>
     </header>
