@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { RecipesByDayType, RecipeType } from './plannerTypes';
+import styles from './PlannerDay.module.css';
 
 export default function PlannerDay({
   day,
@@ -9,19 +10,13 @@ export default function PlannerDay({
   handleDelete: any;
 }): JSX.Element {
   return (
-    <div
-      style={{
-        border: 'coral solid .5vw',
-        borderRadius: '1vw',
-        width: '30vw',
-      }}
-    >
-      <h1 style={{ textTransform: 'uppercase', color: 'coral' }}>{day.day}</h1>
+    <div className={styles.container}>
+      <h2>{day.day}</h2>
       {day.recipes.map((recipe: RecipeType, index: number): JSX.Element => {
         return (
-          <div key={index}>
-            <Link to={`/recipes/${recipe.recipeId}`}>{recipe.name}</Link>
+          <div className={styles.recipes} key={index}>
             <button onClick={() => handleDelete(recipe.id)}>x</button>
+            <Link to={`/recipes/${recipe.recipeId}`}>{recipe.name}</Link>
           </div>
         );
       })}
