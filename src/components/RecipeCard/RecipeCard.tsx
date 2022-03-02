@@ -2,32 +2,27 @@ import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
 import { Rating } from 'react-simple-star-rating';
+import { useState } from 'react';
+import DaysMenu from '../DaysMenu/DaysMenu';
+import { useNavigate } from 'react-router-dom';
 
 interface RecipeCardProps {
   recipe: BrowseRecipe;
   isCookbookView?: boolean;
-  handleAddToCookbookClick?: (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    recipe: BrowseRecipe,
-  ) => void;
-  handleRemoveFromCookbookClick?: (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    id: string,
-  ) => void;
+  plannerToggle?: boolean;
+  setPlannerToggle?: React.Dispatch<React.SetStateAction<boolean>>;
+  handleRemoveFromCookbookClick?: (id: string) => void;
+  handleAddToPlannerClick?: (day: string, recipeId: string) => void;
 }
-
-// Initial thoughts on reusability:
-//  1. Dropdown menu with actions
-//      - on click of options button, a dropdown menu appears with the available options
-//      - this component would need to recieve in an array of objects containing a button title and corelating function(handlers for each recipe option)
-//      - the passed function array would be mapped into buttons in the dropdown menu
 
 export default function RecipeCard({
   recipe,
-  handleAddToCookbookClick,
-  handleRemoveFromCookbookClick,
   isCookbookView,
+  handleRemoveFromCookbookClick,
+  handleAddToPlannerClick,
 }: RecipeCardProps) {
+  const [plannerToggle, setPlannerToggle] = useState(false);
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { name, rating, image, description } = recipe;
   return (
@@ -36,18 +31,25 @@ export default function RecipeCard({
 
       <Rating initialValue={rating * 20} ratingValue={rating * 20} readonly />
 
-      <p>Rating: {rating}</p>
-
-      <section aria-label="Recipe Options">
-        {isCookbookView ? (
+      {isCookbookView && (
+        <section aria-label="Recipe Options">
           <button
-            onClick={(e) => handleRemoveFromCookbookClick?.(e, recipe.id)}
+            aria-label="Remove recipe from cookbook."
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemoveFromCookbookClick?.(recipe.id);
+            }}
           >
-            ➖
+            Remove From Cookbook
           </button>
-        ) : (
+
           <button
-            onClick={(e) => handleAddToCookbookClick?.(e, recipe)}
+            aria-label="Toggles planner options display."
+            aria-pressed={plannerToggle}
+            onClick={(e) => {
+              e.stopPropagation();
+              setPlannerToggle((prevState) => !prevState);
+            }}
             disabled={user.id ? false : true}
             // --- Can be removed
             title={
@@ -57,10 +59,29 @@ export default function RecipeCard({
             }
             // ---
           >
-            ➕
+            Add to planner
           </button>
-        )}
-      </section>
+
+          {plannerToggle && (
+            <DaysMenu
+              handleAddToPlanner={handleAddToPlannerClick}
+              recipeId={recipe.id}
+              setPlannerToggle={setPlannerToggle}
+            />
+          )}
+
+          <button
+            aria-label="Edit Recipe. Redirects to new page."
+            onClick={(e) => {
+              e.stopPropagation();
+              // may need to be updated after create/edit is pushed
+              navigate(`/recipes/edit/${recipe.id}`);
+            }}
+          >
+            Edit Recipe
+          </button>
+        </section>
+      )}
 
       <img src={image} alt={name} />
 
