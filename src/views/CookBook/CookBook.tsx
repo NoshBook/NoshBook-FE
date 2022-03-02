@@ -6,6 +6,7 @@ import { getUserCookbook } from '../../services/cookbook/cookbook';
 import { removeRecipeFromCookbook } from '../../services/cookbook/cookbook';
 import { addPlannerRecipe } from '../../services/planner';
 import { useNavigate } from 'react-router-dom';
+import RecipeList from '../../components/RecipeList/RecipeList';
 
 export default function CookBook() {
   const [recipes, setRecipes] = useState<any[]>([]);
@@ -41,21 +42,12 @@ export default function CookBook() {
       {isLoading ? (
         'Loading...'
       ) : recipes.length ? (
-        <ul>
-          {recipes.map((recipe) => (
-            <li
-              key={recipe.id}
-              onClick={() => navigate(`/recipes/${recipe.id}`)}
-            >
-              <RecipeCard
-                recipe={recipe}
-                isCookbookView={true}
-                handleRemoveFromCookbookClick={handleRemoveRecipeFromCookbook}
-                handleAddToPlannerClick={handleAddToPlanner}
-              />
-            </li>
-          ))}
-        </ul>
+        <RecipeList
+          currentPageData={recipes}
+          isCookbookView={true}
+          handleRemoveFromCookbookClick={handleRemoveRecipeFromCookbook}
+          handleAddToPlannerClick={handleAddToPlanner}
+        />
       ) : (
         <h2>No Recipes to render</h2>
       )}

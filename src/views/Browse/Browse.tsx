@@ -32,7 +32,7 @@ export default function Browse() {
       <section>
         <RecipeList currentPageData={currentPageData} />
       </section>
-      <section>
+      <section aria-label="Pagination Options">
         <button onClick={prevPage} disabled={currentPage === 1}>
           prev page
         </button>
