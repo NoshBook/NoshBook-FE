@@ -1,8 +1,6 @@
 import RecipeList from '../../components/RecipeList/RecipeList';
 import { useAuth } from '../../context/AuthContext';
 import usePagination from '../../hooks/usePagination';
-import { BrowseRecipe } from './interfaces/BrowseRecipe';
-import { insertRecipeIntoCookbook } from '../../services/cookbook/cookbook';
 import Switch from 'react-switch';
 
 // toggle on page

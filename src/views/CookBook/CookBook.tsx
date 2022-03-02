@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import { useAuth } from '../../context/AuthContext';
 import { getUserCookbook } from '../../services/cookbook/cookbook';
 import { removeRecipeFromCookbook } from '../../services/cookbook/cookbook';
