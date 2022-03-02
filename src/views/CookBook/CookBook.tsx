@@ -42,12 +42,19 @@ export default function CookBook() {
       {isLoading ? (
         'Loading...'
       ) : recipes.length ? (
-        <RecipeList
-          currentPageData={recipes}
-          isCookbookView={true}
-          handleRemoveFromCookbookClick={handleRemoveRecipeFromCookbook}
-          handleAddToPlannerClick={handleAddToPlanner}
-        />
+        <>
+          <button onClick={() => navigate('/recipes/new')}>
+            Create New Recipe
+          </button>
+          <section aria-label="Recipe list.">
+            <RecipeList
+              currentPageData={recipes}
+              isCookbookView={true}
+              handleRemoveFromCookbookClick={handleRemoveRecipeFromCookbook}
+              handleAddToPlannerClick={handleAddToPlanner}
+            />
+          </section>
+        </>
       ) : (
         <h2>No Recipes to render</h2>
       )}
