@@ -10,17 +10,19 @@
 /* font-family: 'Quicksand', sans-serif; */
 
 :root {
+  --black: rgb(34, 37, 41);
+  --light-black: rgb(49, 54, 60);
   --navy: rgb(8, 32, 50);
   --dark-gray: rgb(44, 57, 75);
   --light-gray: rgb(51, 71, 86);
   --orange: rgb(255, 76, 41);
-  --brown: rgb(93, 168, 233);
+  --blue: rgb(93, 168, 233);
   --purple: rgb(132, 54, 201);
 }
 
 html {
   /* text-align: center; */
-  background-color: var(--light-gray);
+  background-color: var(--black);
   color: white;
   font-family: 'Quicksand', sans-serif;
 }
@@ -36,7 +38,7 @@ h1 {
 h2 {
   font-family: 'Candal', sans-serif;
   /* font-family: 'Galindo', sans-serif; */
-  color: var(--brown);
+  color: var(--blue);
   margin: 0;
   padding: 0;
 }
@@ -54,6 +56,7 @@ a {
 
 .active {
   text-decoration: underline;
+  color: var(--orange);
 }
 
 p,
@@ -61,4 +64,24 @@ h3,
 article,
 section {
   font-family: 'Quicksand', sans-serif;
+}
+
+button {
+  border: none;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1em;
+  color: white;
+  font-weight: 700;
+  border-radius: 5px;
+  background: var(--light-gray);
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  padding: 9px;
+}
+
+article {
+  display: flex;
 }

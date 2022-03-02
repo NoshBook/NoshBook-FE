@@ -2,9 +2,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
-import StarRatings from 'react-star-ratings';
-import { useAuth } from '../../context/AuthContext';
 import RecipeCard from '../RecipeCard/RecipeCard';
+import styles from './RecipeList.module.css';
 
 interface RecipeListProps {
   currentPageData: Array<any>;
@@ -17,7 +16,6 @@ export default function RecipeList({
 }: RecipeListProps) {
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   function handleOptionsClick(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -28,20 +26,24 @@ export default function RecipeList({
   }
 
   return (
-    <div>
-      <h1>Recipes</h1>
-      <form>
-        <label htmlFor="search-items"></label>
-        <input
-          id="search-items"
-          type="text"
-          name="search-items"
-          value={searchInput}
-          autoComplete="off"
-          onChange={({ target }) => setSearchInput(target.value)}
-        />
-      </form>
-      <ul>
+    <div className={styles.container}>
+      <h2>Browse Recipes</h2>
+
+      <div className={styles.search}>
+        <form>
+          <label htmlFor="search-items"></label>
+          <input
+            id="search-items"
+            type="text"
+            name="search-items"
+            value={searchInput}
+            autoComplete="off"
+            onChange={({ target }) => setSearchInput(target.value)}
+          />
+        </form>
+      </div>
+
+      <ul className={styles.listcontainer}>
         {currentPageData.map((recipe: any) => {
           return (
             <li

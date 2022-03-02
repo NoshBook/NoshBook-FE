@@ -80,6 +80,7 @@ export default function RecipeDetail() {
             added ? handleRemoveRecipeFromCookbook : handleAddRecipeToCookbook
           }
           addOrRemove={added ? 'Remove from Cookbook' : 'Add to Cookbook'}
+          added={added}
           handleRating={handleRating}
           userRating={userRating}
           plannerToggle={plannerToggle}

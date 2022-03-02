@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import usePagination from '../../hooks/usePagination';
 import { BrowseRecipe } from './interfaces/BrowseRecipe';
 import { insertRecipeIntoCookbook } from '../../services/cookbook/cookbook';
+import styles from './Browse.module.css';
 import Switch from 'react-switch';
 
 // toggle on page
@@ -24,22 +25,24 @@ export default function Browse() {
   }
 
   return (
-    <main>
-      <article
+    <main className={styles.container}>
+      <div
+        className={styles.contenttoggle}
         title={
           user.id
             ? 'Click to toggle user content'
             : 'Login to toggle user content'
         }
       >
-        <p>Show User Content:</p>
+        <p>Show User Recipes</p>
         <Switch
+          onColor={'#FF4C29'}
           checked={user.showUserContent}
           onChange={updateUserPreference}
           disabled={user.id ? false : true}
         />
-      </article>
-      <section>
+      </div>
+      <section className={styles.listcontainer}>
         <RecipeList
           currentPageData={currentPageData}
           handleAddRecipeToCookbook={handleAddRecipeToCookbook}

@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
 import { Rating } from 'react-simple-star-rating';
+import styles from './RecipeCard.module.css';
 
 interface RecipeCardProps {
   recipe: BrowseRecipe;
@@ -31,10 +32,15 @@ export default function RecipeCard({
   const { user } = useAuth();
   const { name, rating, image, description } = recipe;
   return (
-    <article>
-      <h2>{name}</h2>
+    <article className={styles.container}>
+      <h2 className={styles.cardh2}>{name}</h2>
 
-      <Rating initialValue={rating * 20} ratingValue={rating * 20} readonly />
+      <Rating
+        initialValue={rating * 20}
+        ratingValue={rating * 20}
+        size={25}
+        readonly
+      />
 
       <p>Rating: {rating}</p>
 
@@ -62,7 +68,7 @@ export default function RecipeCard({
         )}
       </section>
 
-      <img src={image} alt={name} />
+      <img className={styles.cardimg} src={image} alt={name} />
 
       <p>{description}</p>
     </article>

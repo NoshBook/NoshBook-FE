@@ -4,6 +4,7 @@ import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import { useAuth } from '../../context/AuthContext';
 import { getUserCookbook } from '../../services/cookbook/cookbook';
 import { removeRecipeFromCookbook } from '../../services/cookbook/cookbook';
+import styles from './CookBook.module.css';
 
 export default function CookBook() {
   const [recipes, setRecipes] = useState<any[]>([]);
@@ -33,11 +34,11 @@ export default function CookBook() {
   };
 
   return (
-    <main>
-      {isLoading ? (
-        'Loading...'
-      ) : recipes.length ? (
-        <ul>
+    <main className={styles.container}>
+      <h2>Cookbook</h2>
+      {isLoading && <p>Loading...</p>}
+      {recipes.length ? (
+        <ul className={styles.listcontainer}>
           {recipes.map((recipe) => (
             <li key={recipe.id}>
               <RecipeCard
@@ -49,7 +50,7 @@ export default function CookBook() {
           ))}
         </ul>
       ) : (
-        <h2>No Recipes to render</h2>
+        <p>No recipes here yet!</p>
       )}
     </main>
   );
