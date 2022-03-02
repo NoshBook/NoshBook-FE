@@ -1,12 +1,3 @@
-:root {
-  --navy: rgb(8, 32, 50);
-  --dark-gray: rgb(44, 57, 75);
-  --light-gray: rgb(51, 71, 86);
-  --orange: rgb(255, 76, 41);
-  --brown: rgb(93, 168, 233);
-  --purple: rgb(132, 54, 201);
-}
-
 .container {
   border: 1px solid var(--navy);
   background-color: var(--navy);
