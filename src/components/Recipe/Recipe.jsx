@@ -22,35 +22,38 @@ export default function Recipe({
 }) {
   return (
     <main className={styles.container}>
-      <h2>{name}</h2>
-      <p>{source_url}</p>
-      <Rating
-        onClick={handleRating}
-        initialValue={rating}
-        showTooltip
-        tooltipArray={[
-          'Never again',
-          'Pretty bad',
-          'Average',
-          'Pretty good',
-          "Chef's kiss",
-        ]}
-      />
-      <button aria-label={addOrRemove} onClick={() => handleRecipe(id, name)}>
-        {addOrRemove}
-      </button>
-      <button
-        aria-label="Add to Planner"
-        className={styles.plannerbutton}
-        onClick={() => setPlannerToggle(!plannerToggle)}
-      >
-        Add to Planner
-      </button>
-      {plannerToggle && <DaysMenu handleAddToPlanner={handleAddToPlanner} />}
+      <section className={styles.detailheader}>
+        <h2>{name}</h2>
+        {source_url && <a href={source_url}>Source</a>}
+        <Rating
+          onClick={handleRating}
+          initialValue={rating}
+          showTooltip
+          tooltipArray={[
+            'Never again',
+            'Pretty bad',
+            'Average',
+            'Pretty good',
+            "Chef's kiss",
+          ]}
+        />
+        <button aria-label={addOrRemove} onClick={() => handleRecipe(id, name)}>
+          {addOrRemove}
+        </button>
+        <button
+          aria-label="Add to Planner"
+          className={styles.plannerbutton}
+          onClick={() => setPlannerToggle(!plannerToggle)}
+        >
+          Add to Planner
+        </button>
+        {plannerToggle && <DaysMenu handleAddToPlanner={handleAddToPlanner} />}
+      </section>
       <img className={styles.img} src={image} alt={name} />
-      <p>{description}</p>
-      <article>
+      <article className={styles.detailbody}>
+        <section>{description}</section>
         <section>
+          <h3>Ingredients</h3>
           <ul>
             {ingredients.map((ingredient, index) => (
               <li key={index}>{ingredient}</li>
@@ -58,6 +61,8 @@ export default function Recipe({
           </ul>
         </section>
         <section>
+          <h3>Instructions</h3>
+
           <ul>
             {instructions.map((step, index) => (
               <li key={index}>{step}</li>
@@ -65,8 +70,8 @@ export default function Recipe({
           </ul>
         </section>
         <section>
-          <p>Time: {total_time}</p>
-          <p>Servings: {servings}</p>
+          {total_time && <p>Time: {total_time}</p>}
+          <h3>Servings: {servings}</h3>
         </section>
       </article>
     </main>

@@ -17,9 +17,8 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
-      <h1>NoshBook</h1>
       <Router>
+        <Header />
         <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route
