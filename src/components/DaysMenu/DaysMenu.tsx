@@ -1,4 +1,5 @@
 import styles from './DaysMenu.module.css';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 
 interface DaysMenuProps {
   handleAddToPlanner: any;
@@ -25,6 +26,7 @@ export default function DaysMenu({
       {days.map((day, index) => {
         return (
           <li
+            className={styles.dayli}
             key={index}
             aria-label={day}
             onClick={async (e) => {
@@ -34,6 +36,7 @@ export default function DaysMenu({
               setPlannerToggle?.((prevState: boolean) => !prevState);
             }}
           >
+            <AiOutlinePlusCircle />
             {day}
           </li>
         );
