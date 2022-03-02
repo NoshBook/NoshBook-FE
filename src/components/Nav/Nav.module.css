@@ -17,6 +17,7 @@
   font-size: 1em;
   cursor: pointer;
   font-weight: 300;
+  box-shadow: none;
 }
 
 .nav .hamburgericon {
@@ -55,6 +56,6 @@
     border-radius: 5px;
     background-color: var(--light-black);
     opacity: 0.95;
-    z-index: 3;
+    z-index: 5;
   }
 }
