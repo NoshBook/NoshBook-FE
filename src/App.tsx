@@ -37,7 +37,7 @@ function App() {
             path="/recipes/new"
             element={
               <PrivateRoute>
-                <RecipeCreateEdit />
+                <RecipeCreateEdit isCreating={true}/>
               </PrivateRoute>
             }
           />
@@ -49,6 +49,7 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/recipes/:id" element={<RecipeDetail />} />
           <Route
             path="/cookbook"
             element={
@@ -57,7 +58,6 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="/recipes/:id" element={<RecipeDetail />} />
           <Route path="/" element={<Browse />} />
         </Routes>
       </Router>
