@@ -23,9 +23,8 @@ interface RecipeCardProps {
 
 export default function RecipeCard({
   recipe,
-  handleAddToCookbookClick,
-  handleRemoveFromCookbookClick,
   isCookbookView,
+  handleRemoveFromCookbookClick,
   handleAddToPlannerClick,
 }: RecipeCardProps) {
   const [plannerToggle, setPlannerToggle] = useState(false);
@@ -37,10 +36,8 @@ export default function RecipeCard({
 
       <Rating initialValue={rating * 20} ratingValue={rating * 20} readonly />
 
-      <p>Rating: {rating}</p>
-
       <section aria-label="Recipe Options">
-        {isCookbookView ? (
+        {isCookbookView && (
           <>
             <button
               onClick={(e) => {
@@ -73,25 +70,6 @@ export default function RecipeCard({
                 setPlannerToggle={setPlannerToggle}
               />
             )}
-          </>
-        ) : (
-          <>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAddToCookbookClick?.(recipe);
-              }}
-              disabled={user.id ? false : true}
-              // --- Can be removed
-              title={
-                user.id
-                  ? 'Click to interact with recipe options'
-                  : 'Login to interact with recipe options'
-              }
-              // ---
-            >
-              ➕
-            </button>
           </>
         )}
       </section>
