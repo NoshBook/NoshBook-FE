@@ -19,11 +19,7 @@ export default function RecipeList({
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  function handleOptionsClick(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    recipe: BrowseRecipe,
-  ) {
-    e.stopPropagation();
+  function handleOptionsClick(recipe: BrowseRecipe) {
     handleAddRecipeToCookbook(recipe);
   }
 
