@@ -11,7 +11,6 @@ interface RecipeCardProps {
   isCookbookView?: boolean;
   plannerToggle?: boolean;
   setPlannerToggle?: React.Dispatch<React.SetStateAction<boolean>>;
-  handleAddToCookbookClick?: (recipe: BrowseRecipe) => void;
   handleRemoveFromCookbookClick?: (id: string) => void;
   handleAddToPlannerClick?: (day: string, recipeId: string) => void;
 }

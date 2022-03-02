@@ -16,9 +16,6 @@ import { beUrl } from '../../utils/beUrl';
 // TODO:
 // - FAILING DUE TO ONCLICK EVENT NOT TRIGGERING: Redirects user to recipe detail on click of recipe.
 // - FAILING DUE TO UNCAUGHT STATE UPDATE: if user is logged out, 'toggle user content' switch is disabled.
-//   🟡 NOTE: Return to these tests once alerts are removed from document. Jest does not have a window.alert equivelant, throwing 'Error: window.alert('text here') no implmented.'
-//     - if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
-//     - if user is logged in, if recipe already exists in cookbook, alerts user of failure.
 
 // mocks
 jest.mock('../../context/AuthContext');
@@ -32,6 +29,26 @@ const mockRecipe = {
   image: 'test',
   totalTime: 'test',
 };
+
+// pagination setup
+function generateRandomNumber() {
+  return Math.ceil(Math.random() * 10000);
+}
+
+function appendUniqueIds(arr: Array<any>) {
+  return arr.map((item) => {
+    return { ...item, id: generateRandomNumber() };
+  });
+}
+
+const newArray1 = new Array(20).fill(mockRecipe);
+const mockPageOneRecipes = appendUniqueIds(newArray1);
+
+const newArray2 = new Array(20).fill({ ...mockRecipe, name: 'test2' });
+const mockPageTwoRecipes = appendUniqueIds(newArray2);
+
+const newArray3 = new Array(20).fill({ ...mockRecipe, name: 'test3' });
+const mockPageThreeRecipes = appendUniqueIds(newArray3);
 
 const server = setupServer(
   // pagination route
@@ -61,26 +78,6 @@ const server = setupServer(
     );
   }),
 );
-
-// pagination setup
-function generateRandomNumber() {
-  return Math.ceil(Math.random() * 10000);
-}
-
-function appendUniqueIds(arr: Array<any>) {
-  return arr.map((item) => {
-    return { ...item, id: generateRandomNumber() };
-  });
-}
-
-const newArray1 = new Array(20).fill(mockRecipe);
-const mockPageOneRecipes = appendUniqueIds(newArray1);
-
-const newArray2 = new Array(20).fill({ ...mockRecipe, name: 'test2' });
-const mockPageTwoRecipes = appendUniqueIds(newArray2);
-
-const newArray3 = new Array(20).fill({ ...mockRecipe, name: 'test3' });
-const mockPageThreeRecipes = appendUniqueIds(newArray3);
 
 describe('Browse', () => {
   beforeAll(() => {
@@ -115,6 +112,7 @@ describe('Browse', () => {
 
     const recipeArray = await screen.findAllByRole('listitem');
     const firstRecipe = recipeArray[0];
+    console.log(firstRecipe);
     fireEvent.click(firstRecipe);
 
     await waitForElementToBeRemoved(() => firstRecipe);
@@ -166,6 +164,7 @@ describe('Browse', () => {
     fireEvent.click(logoutButton);
 
     const switchButton = await screen.findByRole('switch', { checked: false });
+    screen.debug();
     expect(switchButton).toBeDisabled();
   });
 
