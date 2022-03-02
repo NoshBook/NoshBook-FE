@@ -84,8 +84,7 @@ describe('Planner', () => {
     await screen.findByText(/banana bread/i);
     const resetButton = screen.getByText(/reset/i);
     fireEvent.click(resetButton);
-    const noRecipes = await screen.findByText(/no recipes to display/i);
-    expect(noRecipes).toBeVisible();
+    await screen.findByText(/no recipes here yet/i);
   });
 
   it('should take you to the shopping list', async () => {

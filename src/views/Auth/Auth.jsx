@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { getUser, logIn, signUp } from '../services/users';
+import { getUser, logIn, signUp } from '../../services/users';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
+import styles from './Auth.module.css';
+import { motion } from 'framer-motion';
+import { upfadeinVariants } from '../../utils/variants';
 
 export default function Auth() {
   const [username, setUsername] = useState('');
@@ -56,8 +59,13 @@ export default function Auth() {
   };
 
   return (
-    <form>
-      <fieldset>
+    <motion.form
+      variants={upfadeinVariants}
+      initial={'initial'}
+      animate={'animate'}
+      className={styles.authform}
+    >
+      <fieldset className={styles.authfieldset}>
         <legend>Enter NoshBook</legend>
         <section>
           <label htmlFor="username">Username</label>
@@ -81,10 +89,16 @@ export default function Auth() {
             onChange={handleFormChange}
           />
         </section>
-        <button onClick={handleLogin}>Log in</button>
-        <button onClick={handleSignUp}>Sign up</button>
+        <div className={styles.authbuttons}>
+          <motion.button whileHover={{ scale: 1.02 }} onClick={handleLogin}>
+            Log in
+          </motion.button>
+          <motion.button whileHover={{ scale: 1.02 }} onClick={handleSignUp}>
+            Sign up
+          </motion.button>
+        </div>
         {formError && <p>{formError}</p>}
       </fieldset>
-    </form>
+    </motion.form>
   );
 }
