@@ -4,6 +4,7 @@ import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import { useAuth } from '../../context/AuthContext';
 import { getUserCookbook } from '../../services/cookbook/cookbook';
 import { removeRecipeFromCookbook } from '../../services/cookbook/cookbook';
+import { addPlannerRecipe } from '../../services/planner';
 
 export default function CookBook() {
   const [recipes, setRecipes] = useState<any[]>([]);
@@ -21,15 +22,16 @@ export default function CookBook() {
     setIsLoading(false);
   }, []);
 
-  const handleRemoveRecipeFromCookbook = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    id: string,
-  ) => {
-    e.stopPropagation();
+  const handleRemoveRecipeFromCookbook = async (id: string) => {
     await removeRecipeFromCookbook(id);
     await getUserCookbook(user.id);
     const newUserCookbook = await getUserCookbook(user.id);
     setRecipes(newUserCookbook);
+  };
+
+  const handleAddToPlanner = async (day: string, recipeId: string) => {
+    const recipeIdNumber = Number(recipeId);
+    await addPlannerRecipe({ recipeId: recipeIdNumber, day });
   };
 
   return (
@@ -44,6 +46,7 @@ export default function CookBook() {
                 recipe={recipe}
                 isCookbookView={true}
                 handleRemoveFromCookbookClick={handleRemoveRecipeFromCookbook}
+                handleAddToPlannerClick={handleAddToPlanner}
               />
             </li>
           ))}

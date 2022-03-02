@@ -46,7 +46,9 @@ export default function Recipe({
       >
         Add to Planner
       </button>
-      {plannerToggle && <DaysMenu handleAddToPlanner={handleAddToPlanner} />}
+      {plannerToggle && (
+        <DaysMenu handleAddToPlanner={handleAddToPlanner} recipeId={id} />
+      )}
       <img className={styles.img} src={image} alt={name} />
       <p>{description}</p>
       <article>

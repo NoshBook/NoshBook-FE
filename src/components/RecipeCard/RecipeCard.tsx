@@ -2,18 +2,17 @@ import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
 import { Rating } from 'react-simple-star-rating';
+import { useState } from 'react';
+import DaysMenu from '../DaysMenu/DaysMenu';
 
 interface RecipeCardProps {
   recipe: BrowseRecipe;
   isCookbookView?: boolean;
-  handleAddToCookbookClick?: (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    recipe: BrowseRecipe,
-  ) => void;
-  handleRemoveFromCookbookClick?: (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    id: string,
-  ) => void;
+  plannerToggle?: boolean;
+  setPlannerToggle?: React.Dispatch<React.SetStateAction<boolean>>;
+  handleAddToCookbookClick?: (recipe: BrowseRecipe) => void;
+  handleRemoveFromCookbookClick?: (id: string) => void;
+  handleAddToPlannerClick?: (day: string, recipeId: string) => void;
 }
 
 // Initial thoughts on reusability:
@@ -27,7 +26,9 @@ export default function RecipeCard({
   handleAddToCookbookClick,
   handleRemoveFromCookbookClick,
   isCookbookView,
+  handleAddToPlannerClick,
 }: RecipeCardProps) {
+  const [plannerToggle, setPlannerToggle] = useState(false);
   const { user } = useAuth();
   const { name, rating, image, description } = recipe;
   return (
@@ -40,25 +41,58 @@ export default function RecipeCard({
 
       <section aria-label="Recipe Options">
         {isCookbookView ? (
-          <button
-            onClick={(e) => handleRemoveFromCookbookClick?.(e, recipe.id)}
-          >
-            ➖
-          </button>
+          <>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemoveFromCookbookClick?.(recipe.id);
+              }}
+            >
+              Remove From Cookbook
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setPlannerToggle((prevState) => !prevState);
+              }}
+              disabled={user.id ? false : true}
+              // --- Can be removed
+              title={
+                user.id
+                  ? 'Click to interact with recipe options'
+                  : 'Login to interact with recipe options'
+              }
+              // ---
+            >
+              Add to planner
+            </button>
+            {plannerToggle && (
+              <DaysMenu
+                handleAddToPlanner={handleAddToPlannerClick}
+                recipeId={recipe.id}
+                setPlannerToggle={setPlannerToggle}
+              />
+            )}
+          </>
         ) : (
-          <button
-            onClick={(e) => handleAddToCookbookClick?.(e, recipe)}
-            disabled={user.id ? false : true}
-            // --- Can be removed
-            title={
-              user.id
-                ? 'Click to interact with recipe options'
-                : 'Login to interact with recipe options'
-            }
-            // ---
-          >
-            ➕
-          </button>
+          <>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddToCookbookClick?.(recipe);
+              }}
+              disabled={user.id ? false : true}
+              // --- Can be removed
+              title={
+                user.id
+                  ? 'Click to interact with recipe options'
+                  : 'Login to interact with recipe options'
+              }
+              // ---
+            >
+              ➕
+            </button>
+          </>
         )}
       </section>
 
