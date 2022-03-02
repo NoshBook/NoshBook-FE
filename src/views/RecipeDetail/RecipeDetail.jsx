@@ -32,8 +32,10 @@ export default function RecipeDetail() {
   useEffect(() => {
     const isRecipeInCookbook = async () => {
       const response = await getUserCookbook(user.id);
-      const recipeIds = response.map((entry) => entry.id);
-      setAdded(recipeIds.includes(id));
+      if (response) {
+        const recipeIds = response.map((entry) => entry.id);
+        setAdded(recipeIds.includes(id));
+      }
     };
     isRecipeInCookbook();
   }, [id]);
