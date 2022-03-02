@@ -30,7 +30,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "npm run start",
+    "start": "npm run start:s",
     "start:l": "cross-env REACT_APP_BE_TYPE=LOCAL react-scripts start",
     "start:s": "cross-env REACT_APP_BE_TYPE=STAGING react-scripts start",
     "start:p": "cross-env REACT_APP_BE_TYPE=PROD react-scripts start",

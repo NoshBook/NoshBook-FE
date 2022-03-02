@@ -38,3 +38,33 @@ export const getRecipeById = async (id: any) => {
     console.error(error);
   }
 };
+
+export const updateRecipeById = async (id: any, recipe: any) => {
+  await fetch(`${beUrl}/recipes/${id}`, {
+    credentials: 'include',
+    method: 'PUT',
+    headers: {
+      accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      recipe
+    }),
+  });
+};
+
+export const postRecipe = async (recipe: any) => {
+  const res = await fetch(`${beUrl}/recipes/`, {
+    credentials: 'include',
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      recipe
+    }),
+  });
+
+  return await res.json();
+};
