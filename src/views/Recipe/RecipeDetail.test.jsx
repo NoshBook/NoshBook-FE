@@ -63,7 +63,7 @@ describe('RecipeDetail', () => {
     server.close();
   });
 
-  it('should show recipe details', async () => {
+  it.skip('should show recipe details', async () => {
     render(
       <AuthProvider>
         <MemoryRouter initialEntries={['/recipes/1']}>
@@ -78,7 +78,7 @@ describe('RecipeDetail', () => {
     await screen.findByText(/step 2/i);
   });
 
-  it.only('should add a recipe to the planner', async () => {
+  it.skip('should add a recipe to the planner', async () => {
     render(
       <AuthProvider>
         <MemoryRouter>
