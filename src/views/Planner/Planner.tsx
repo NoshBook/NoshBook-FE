@@ -10,6 +10,9 @@ import {
 import { RecipesByDayType } from '../../components/PlannerList/plannerTypes';
 import DaysMenu from '../../components/DaysMenu/DaysMenu';
 import { useNavigate } from 'react-router-dom';
+import styles from './Planner.module.css';
+import { motion } from 'framer-motion';
+import { upfadeinVariants } from '../../utils/variants';
 
 export default function Planner(): JSX.Element {
   const [days, setDays] = useState<RecipesByDayType[]>([
@@ -81,18 +84,38 @@ export default function Planner(): JSX.Element {
   };
 
   return (
-    <main>
-      <section>
-        <button onClick={() => navigate('/shopping')}>Shopping List</button>
-      </section>
-      <section>
-        <button onClick={() => setShowOptions(!showOptions)}>
-          Random Recipe
-        </button>
-        {showOptions && <DaysMenu handleAddToPlanner={handleAddToPlanner} />}
-      </section>
-      <section>
-        <button onClick={handleClear}>Reset</button>
+    <motion.main
+      className={styles.container}
+      variants={upfadeinVariants}
+      initial={'initial'}
+      animate={'animate'}
+    >
+      <section className={styles.buttoncontainer}>
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          onClick={() => navigate('/shopping')}
+        >
+          Shopping List
+        </motion.button>
+        <div className={styles.daysmenucontainer}>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            onClick={() => setShowOptions(!showOptions)}
+          >
+            Random Recipe
+          </motion.button>
+          {showOptions && (
+            <span className={styles.daysmenuspan}>
+              <DaysMenu
+                setPlannerToggle={setShowOptions}
+                handleAddToPlanner={handleAddToPlanner}
+              />
+            </span>
+          )}
+        </div>
+        <motion.button whileHover={{ scale: 1.02 }} onClick={handleClear}>
+          Reset
+        </motion.button>
       </section>
       <section>
         {loading ? (
@@ -101,6 +124,6 @@ export default function Planner(): JSX.Element {
           <PlannerList days={days} handleDelete={handleDelete} />
         )}
       </section>
-    </main>
+    </motion.main>
   );
 }

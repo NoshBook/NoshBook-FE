@@ -3,14 +3,22 @@
   padding: 0;
   z-index: 1;
   position: absolute;
-  /* margin-top: 250px; */
-  background-color: white;
+  background-color: var(--light-gray);
+  margin: 0;
+  border-radius: 5px;
 }
 
-.daysmenu li {
+.daysmenu ul {
   display: flex;
-  flex-direction: column;
-  padding-bottom: 5px;
+}
+
+.dayli {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
   cursor: pointer;
-  color: black;
+  padding-left: 6px;
+  padding-right: 23px;
 }
