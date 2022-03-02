@@ -6,6 +6,8 @@ import styles from './Nav.module.css';
 import { FaHamburger } from 'react-icons/fa';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { fadeinVariants } from '../../utils/variants';
 
 export default function MobileMenu() {
   const [menuToggle, setMenuToggle] = useState(false);
@@ -38,10 +40,14 @@ export default function MobileMenu() {
     <nav className={styles.mobilemenu}>
       {menuToggle ? closeIcon : hamburgerIcon}
       {menuToggle && (
-        <ul>
+        <motion.ul
+          variants={fadeinVariants}
+          initial={'initial'}
+          animate={'animate'}
+        >
           {navlinks.map((item, index) => {
             return (
-              <li key={index}>
+              <motion.li whileHover={{ scale: 1.02 }} key={index}>
                 <NavLink
                   to={item.link}
                   alt={item.title}
@@ -49,10 +55,10 @@ export default function MobileMenu() {
                 >
                   {item.title}
                 </NavLink>
-              </li>
+              </motion.li>
             );
           })}
-          <li>
+          <motion.li whileHover={{ scale: 1.02 }}>
             {user.id ? (
               <button onClick={async () => await handleLogout()}>Logout</button>
             ) : (
@@ -64,8 +70,8 @@ export default function MobileMenu() {
                 Log In
               </NavLink>
             )}
-          </li>
-        </ul>
+          </motion.li>
+        </motion.ul>
       )}
     </nav>
   );

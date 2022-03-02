@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Header from './components/Header/Header';
-import Auth from './views/Auth';
+import Auth from './views/Auth/Auth';
 import Browse from './views/Browse/Browse';
 import Planner from './views/Planner/Planner';
 import ShoppingListView from './views/ShoppingListView/ShoppingListView';
@@ -37,7 +37,7 @@ function App() {
             path="/recipes/new"
             element={
               <PrivateRoute>
-                <RecipeCreateEdit isCreating={true}/>
+                <RecipeCreateEdit isCreating={true} />
               </PrivateRoute>
             }
           />
