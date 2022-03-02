@@ -2,7 +2,9 @@ import { NavLink, Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { navlinks } from './navlinks';
 import { logOut } from '../../services/users';
-
+import { motion } from 'framer-motion';
+import styles from './Nav.module.css';
+import { fadeindelayVariants } from '../../utils/variants';
 export default function NavList() {
   const { user, setUser } = useAuth();
 
@@ -13,25 +15,34 @@ export default function NavList() {
   };
 
   return (
-    <ul>
+    <motion.ul
+      variants={fadeindelayVariants}
+      initial={'initial'}
+      animate={'animate'}
+    >
       {navlinks.map((item, index) => {
         return (
-          <li key={index}>
+          <motion.li whileHover={{ scale: 1.02 }} key={index}>
             <NavLink to={item.link} alt={item.title}>
               {item.title}
             </NavLink>
-          </li>
+          </motion.li>
         );
       })}
-      <li>
+      <motion.li whileHover={{ scale: 1.02 }}>
         {user.id ? (
-          <button onClick={async () => await handleLogout()}>Logout</button>
+          <button
+            className={styles.logout}
+            onClick={async () => await handleLogout()}
+          >
+            Logout
+          </button>
         ) : (
           <NavLink to="/auth" alt="log out">
             Log In
           </NavLink>
         )}
-      </li>
-    </ul>
+      </motion.li>
+    </motion.ul>
   );
 }
