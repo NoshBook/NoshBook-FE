@@ -9,11 +9,11 @@ function getUrlForType(type) {
     case 'LOCAL':
       return process.env.REACT_APP_BE_LOCAL_URL;
     default:
-      throw new Error('Backend API URL not specified, please reference .env.example and update your env vars');
+      throw new Error(`Specified backend API URL of (${type}) is invalid, please reference .env.example and update your env vars`);
   }
 }
 
-const beType = process.env.REACT_APP_BE_TYPE ?? process.env.REACT_APP_BE_DEFAULT_TYPE;
+const beType = process.env.REACT_APP_BE_TYPE || process.env.REACT_APP_BE_DEFAULT_TYPE;
 beUrl = getUrlForType(beType); 
 
 export { beUrl };
