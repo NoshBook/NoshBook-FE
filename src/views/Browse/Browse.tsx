@@ -13,16 +13,6 @@ export default function Browse() {
     usePagination(20);
   const { user, updateUserPreference } = useAuth();
 
-  async function handleAddRecipeToCookbook(recipe: BrowseRecipe) {
-    const { id, name } = recipe;
-    const response = await insertRecipeIntoCookbook(id, user.id);
-    if (response.message === 'Recipe already exists in user cookbook.') {
-      window.alert(response.message);
-    } else {
-      window.alert(`${name} added to your cookbook!`);
-    }
-  }
-
   return (
     <main>
       <article
@@ -40,10 +30,7 @@ export default function Browse() {
         />
       </article>
       <section>
-        <RecipeList
-          currentPageData={currentPageData}
-          handleAddRecipeToCookbook={handleAddRecipeToCookbook}
-        />
+        <RecipeList currentPageData={currentPageData} />
       </section>
       <section>
         <button onClick={prevPage} disabled={currentPage === 1}>
