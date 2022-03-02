@@ -1,0 +1,40 @@
+.authform {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.authfieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border: none;
+  /* border-radius: 10px; */
+  height: 200px;
+  /* border-color: var(--orange); */
+}
+
+.authfieldset legend {
+  font-family: 'Candal', sans-serif;
+  color: var(--blue);
+}
+
+.authfieldset input {
+  border-radius: 5px;
+  height: 20px;
+  width: 100%;
+}
+
+.authbuttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.authbuttons button {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+}
