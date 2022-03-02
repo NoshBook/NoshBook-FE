@@ -31,6 +31,9 @@ const AuthProvider = ({ children }) => {
     [user]
   );
   if (loading) {
+    // This component will lose its state on page refreshes and manually entered URLs.
+    // Adding this wait allows the user to be fetched before rendering any child
+    // PrivateRoutes, which prevents logged in users from being erroneously redirected.
     return <h2>Loading...</h2>;
   } else {
     return (

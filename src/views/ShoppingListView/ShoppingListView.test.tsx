@@ -27,7 +27,6 @@ const server = setupServer(
     (req, res, ctx) => {
       const copy = copyShoppingList();
       copy[0].isChecked = !copy[0].isChecked;
-      console.log('after put: ', mockShoppingList);
       return res(ctx.json(copy));
     }
   ),
