@@ -4,6 +4,7 @@ import { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
 import { Rating } from 'react-simple-star-rating';
 import { useState } from 'react';
 import DaysMenu from '../DaysMenu/DaysMenu';
+import { useNavigate } from 'react-router-dom';
 
 interface RecipeCardProps {
   recipe: BrowseRecipe;
@@ -15,12 +16,6 @@ interface RecipeCardProps {
   handleAddToPlannerClick?: (day: string, recipeId: string) => void;
 }
 
-// Initial thoughts on reusability:
-//  1. Dropdown menu with actions
-//      - on click of options button, a dropdown menu appears with the available options
-//      - this component would need to recieve in an array of objects containing a button title and corelating function(handlers for each recipe option)
-//      - the passed function array would be mapped into buttons in the dropdown menu
-
 export default function RecipeCard({
   recipe,
   isCookbookView,
@@ -28,6 +23,7 @@ export default function RecipeCard({
   handleAddToPlannerClick,
 }: RecipeCardProps) {
   const [plannerToggle, setPlannerToggle] = useState(false);
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { name, rating, image, description } = recipe;
   return (
@@ -36,43 +32,57 @@ export default function RecipeCard({
 
       <Rating initialValue={rating * 20} ratingValue={rating * 20} readonly />
 
-      <section aria-label="Recipe Options">
-        {isCookbookView && (
-          <>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleRemoveFromCookbookClick?.(recipe.id);
-              }}
-            >
-              Remove From Cookbook
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setPlannerToggle((prevState) => !prevState);
-              }}
-              disabled={user.id ? false : true}
-              // --- Can be removed
-              title={
-                user.id
-                  ? 'Click to interact with recipe options'
-                  : 'Login to interact with recipe options'
-              }
-              // ---
-            >
-              Add to planner
-            </button>
-            {plannerToggle && (
-              <DaysMenu
-                handleAddToPlanner={handleAddToPlannerClick}
-                recipeId={recipe.id}
-                setPlannerToggle={setPlannerToggle}
-              />
-            )}
-          </>
-        )}
-      </section>
+      {isCookbookView && (
+        <section aria-label="Recipe Options">
+          <button
+            aria-label="Remove recipe from cookbook."
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemoveFromCookbookClick?.(recipe.id);
+            }}
+          >
+            Remove From Cookbook
+          </button>
+
+          <button
+            aria-label="Toggles planner options display."
+            aria-pressed={plannerToggle}
+            onClick={(e) => {
+              e.stopPropagation();
+              setPlannerToggle((prevState) => !prevState);
+            }}
+            disabled={user.id ? false : true}
+            // --- Can be removed
+            title={
+              user.id
+                ? 'Click to interact with recipe options'
+                : 'Login to interact with recipe options'
+            }
+            // ---
+          >
+            Add to planner
+          </button>
+
+          {plannerToggle && (
+            <DaysMenu
+              handleAddToPlanner={handleAddToPlannerClick}
+              recipeId={recipe.id}
+              setPlannerToggle={setPlannerToggle}
+            />
+          )}
+
+          <button
+            aria-label="Edit Recipe. Redirects to new page."
+            onClick={(e) => {
+              e.stopPropagation();
+              // may need to be updated after create/edit is pushed
+              navigate(`/recipes/edit/${recipe.id}`);
+            }}
+          >
+            Edit Recipe
+          </button>
+        </section>
+      )}
 
       <img src={image} alt={name} />
 
