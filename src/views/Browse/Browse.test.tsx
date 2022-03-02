@@ -115,7 +115,6 @@ describe('Browse', () => {
 
     const recipeArray = await screen.findAllByRole('listitem');
     const firstRecipe = recipeArray[0];
-    console.log(firstRecipe);
     fireEvent.click(firstRecipe);
 
     await waitForElementToBeRemoved(() => firstRecipe);
@@ -167,7 +166,6 @@ describe('Browse', () => {
     fireEvent.click(logoutButton);
 
     const switchButton = await screen.findByRole('switch', { checked: false });
-    screen.debug();
     expect(switchButton).toBeDisabled();
   });
 
