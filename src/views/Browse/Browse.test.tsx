@@ -16,9 +16,6 @@ import { beUrl } from '../../utils/beUrl';
 // TODO:
 // - FAILING DUE TO ONCLICK EVENT NOT TRIGGERING: Redirects user to recipe detail on click of recipe.
 // - FAILING DUE TO UNCAUGHT STATE UPDATE: if user is logged out, 'toggle user content' switch is disabled.
-//   🟡 NOTE: Return to these tests once alerts are removed from document. Jest does not have a window.alert equivelant, throwing 'Error: window.alert('text here') no implmented.'
-//     - if user is logged in, if recipe doesn't already exist in cookbook, alerts user of success.
-//     - if user is logged in, if recipe already exists in cookbook, alerts user of failure.
 
 // mocks
 jest.mock('../../context/AuthContext');
