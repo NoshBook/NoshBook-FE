@@ -36,7 +36,7 @@ export default function RecipeDetail() {
   }, [id]);
 
   useEffect(() => {
-    if(added !== null) {
+    if (added !== null) {
       setLoading(false);
     }
   }, [added]);
@@ -62,11 +62,11 @@ export default function RecipeDetail() {
     setAdded(false);
   };
 
-  const handleRating = async (rate) => { 
+  const handleRating = async (rate) => {
     await submitRating(id, rate / 20);
   };
 
-  const handleAddToPlanner = async (day, recipeId) => { 
+  const handleAddToPlanner = async (day, recipeId) => {
     await addPlannerRecipe({ recipeId, day });
     setPlannerToggle(!plannerToggle);
   };
@@ -80,12 +80,19 @@ export default function RecipeDetail() {
           handleRecipe={
             added ? handleRemoveRecipeFromCookbook : handleAddRecipeToCookbook
           }
-          addOrRemove={added === null ? 'null' : added ? 'Remove from Cookbook' : 'Add to Cookbook'}
+          addOrRemove={
+            added === null
+              ? 'null'
+              : added
+              ? 'Remove from Cookbook'
+              : 'Add to Cookbook'
+          }
           handleRating={handleRating}
           userRating={userRating}
           plannerToggle={plannerToggle}
           setPlannerToggle={setPlannerToggle}
           handleAddToPlanner={handleAddToPlanner}
+          added={added}
         />
       )}
     </div>

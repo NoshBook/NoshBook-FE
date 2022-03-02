@@ -1,6 +1,8 @@
 import styles from './Recipe.module.css';
 import { Rating } from 'react-simple-star-rating';
 import DaysMenu from '../DaysMenu/DaysMenu';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { AiOutlineMinusCircle } from 'react-icons/ai';
 
 export default function Recipe({
   id,
@@ -19,6 +21,7 @@ export default function Recipe({
   plannerToggle,
   setPlannerToggle,
   handleAddToPlanner,
+  added,
 }) {
   return (
     <main className={styles.container}>
@@ -29,6 +32,9 @@ export default function Recipe({
           onClick={handleRating}
           initialValue={rating}
           showTooltip
+          tooltipDefaultText="Add your rating!"
+          size={25}
+          tooltipStyle={{ background: 'none', padding: 0, margin: '5px' }}
           tooltipArray={[
             'Never again',
             'Pretty bad',
@@ -37,17 +43,31 @@ export default function Recipe({
             "Chef's kiss",
           ]}
         />
-        <button aria-label={addOrRemove} onClick={() => handleRecipe(id, name)}>
-          {addOrRemove}
-        </button>
-        <button
-          aria-label="Add to Planner"
-          className={styles.plannerbutton}
-          onClick={() => setPlannerToggle(!plannerToggle)}
-        >
-          Add to Planner
-        </button>
-        {plannerToggle && <DaysMenu handleAddToPlanner={handleAddToPlanner} />}
+        <div className={styles.buttoncontainer}>
+          <button
+            aria-label={addOrRemove}
+            title={
+              added
+                ? 'This recipe is in your cookbook.'
+                : 'Add this recipe to your cookbook!'
+            }
+            onClick={() => handleRecipe(id, name)}
+          >
+            {added ? <AiOutlineMinusCircle /> : <AiOutlinePlusCircle />}{' '}
+            Cookbook
+          </button>
+          <button
+            aria-label="Add to Planner"
+            title="Click to add to a day on your planner!"
+            className={styles.plannerbutton}
+            onClick={() => setPlannerToggle(!plannerToggle)}
+          >
+            <AiOutlinePlusCircle /> Planner
+          </button>
+          {plannerToggle && (
+            <DaysMenu handleAddToPlanner={handleAddToPlanner} />
+          )}
+        </div>
       </section>
       <img className={styles.img} src={image} alt={name} />
       <article className={styles.detailbody}>
