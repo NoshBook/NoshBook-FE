@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { navlinks } from './navlinks';
 import { logOut } from '../../services/users';
 import styles from './Nav.module.css';
-import { FiMenu } from 'react-icons/fi';
+import { FaHamburger } from 'react-icons/fa';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { useState } from 'react';
 
@@ -19,7 +19,7 @@ export default function MobileMenu() {
   };
 
   const hamburgerIcon = (
-    <FiMenu
+    <FaHamburger
       size={25}
       className={styles.hamburgericon}
       onClick={() => setMenuToggle(!menuToggle)}
@@ -29,7 +29,6 @@ export default function MobileMenu() {
   const closeIcon = (
     <IoIosCloseCircleOutline
       size={25}
-      color="white"
       className={styles.closeicon}
       onClick={() => setMenuToggle(!menuToggle)}
     />
