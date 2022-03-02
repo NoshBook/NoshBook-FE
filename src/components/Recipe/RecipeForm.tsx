@@ -8,6 +8,7 @@ export default function RecipeForm({
   const [formState, setFormState] = useState(initialFormState);
   const [ingredients, setIngredients] = useState(initialFormState.ingredients ?? []);
   const [instructions, setInstructions] = useState(initialFormState.instructions ?? []);
+  const [tags, setTags] = useState(initialFormState.tags ?? []);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -28,6 +29,13 @@ export default function RecipeForm({
     setInstructions((prevState: any) => [...prevState].map((val: string | Array<string>, i: number) => i === index ? value : val));
   };
 
+  const handleTagsChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    const [, indexString] = name.split(':');
+    const index = parseInt(indexString);
+    setTags((prevState: any) => [...prevState].map((val: string | Array<string>, i: number) => i === index ? value : val));
+  };
+
   const addIngredient = () => {
     setIngredients((prevState: any) => [...prevState, '']);
   };
@@ -44,13 +52,20 @@ export default function RecipeForm({
     setInstructions((prevState: any) => [...prevState].filter((val: any, i: number) => i !== index));
   };
 
-  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleSubmit({ ...formState, ingredients, instructions });
+  const addTag = () => {
+    setTags((prevState: any) => [...prevState, '']);
+  };
+
+  const removeTag = (index: number) => {
+    setTags((prevState: any) => [...prevState].filter((val: any, i: number) => i !== index));
+  };
+
+  const handleFormSubmit = () => {
+    handleSubmit({ ...formState, ingredients, instructions, tags });
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <div>
       <label>
         Recipe Name:
         <input
@@ -60,9 +75,15 @@ export default function RecipeForm({
           onChange={handleChange}
         />
       </label>
-      {/* bleh TODO: image upload
-      <img src={image} alt={name} />
-      */}
+      <label>
+        Image URL:
+        <input
+          type='url'
+          name='image'
+          value={formState.image ?? ''}
+          onChange={handleChange}
+        />
+      </label>
       <label>
         Description:
         <input
@@ -106,19 +127,19 @@ export default function RecipeForm({
         </section>
         <section>
           Tags:
-          {instructions.map((instruction: any, index: number) => (
+          {tags.map((tag: any, index: number) => (
             <div key={index}>
               <label>
                 <input
-                  name={'instruction:' + index}
-                  value={instructions[index]}
-                  onChange={handleInstructionsChange}
+                  name={'tag:' + index}
+                  value={tags[index]}
+                  onChange={handleTagsChange}
                 />
-                <button onClick={() => removeInstruction(index)}>Remove Tag</button>
+                <button onClick={() => removeTag(index)}>Remove Tag</button>
               </label>
             </div>
           ))}
-          <button onClick={addInstruction}>Add a Tag</button>
+          <button onClick={addTag}>Add a Tag</button>
         </section>
         <section>
           <label>
@@ -141,7 +162,7 @@ export default function RecipeForm({
           </label>
         </section>
       </article>
-      <button type='submit'>Submit</button>
-    </form>
+      <button type='submit' onClick={handleFormSubmit}>Submit</button>
+    </div>
   );
 }

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import RecipeForm from '../../components/Recipe/RecipeForm';
-import { useAuth } from '../../context/AuthContext';
 import { getRecipeById, postRecipe, updateRecipeById } from '../../services/recipe';
 
 export interface RecipeCreateEditProps {
@@ -21,9 +20,9 @@ export default function RecipeCreateEdit({ isCreating }: RecipeCreateEditProps =
           const recipeData = await getRecipeById(id);
           setRecipe(recipeData);
           setLoading(false);
-        } catch (error) {
+        } catch (error: any) {
           console.log(error);
-          window.alert('AHHHHHHH'); // TODO: a more useful dialog
+          window.alert(error.message);
         }
       } else {
         setLoading(false);
@@ -37,12 +36,12 @@ export default function RecipeCreateEdit({ isCreating }: RecipeCreateEditProps =
         const { id } = await postRecipe(recipeData);
         navigate(`/recipes/${id}`);
       } else {
-        await updateRecipeById(id, recipeData);
-        navigate(`/recipes/${id}`);
+        const newId = await updateRecipeById(id, recipeData);
+        navigate(`/recipes/${newId}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      window.alert('AHHHHHHH'); // TODO: a more useful dialog
+      window.alert(error.message);
     }
   };
 

@@ -35,7 +35,7 @@ export const getRecipeById = async (id: any) => {
 };
 
 export const updateRecipeById = async (id: any, recipe: any) => {
-  await fetch(`${beUrl}/recipes/${id}`, {
+  const res = await fetch(`${beUrl}/recipes/${id}`, {
     credentials: 'include',
     method: 'PUT',
     headers: {
@@ -46,6 +46,18 @@ export const updateRecipeById = async (id: any, recipe: any) => {
       recipe
     }),
   });
+  const json = await res.json();
+  if(res.status !== 200) { 
+    if(json.message) {
+      throw new Error(json.message);
+    }
+    throw new Error('update failed');
+  }
+  if(json.message === 'success') {
+    return json.recipeId;
+  } else {
+    throw new Error('Invalid response from server');
+  }
 };
 
 export const postRecipe = async (recipe: any) => {
