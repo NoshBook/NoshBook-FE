@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ShoppingList from '../../components/ShoppingList/ShoppingList';
 import { IShoppingItem } from '../../components/ShoppingList/shoppingListTypes';
+import addTotals from '../../utils/addTotalsToList';
 import {
   generateShoppingList,
   getShoppingList,
@@ -69,9 +70,19 @@ export default function ShoppingListView() {
           ></input>
         </label>
       </div>
-      <div>
-        <ShoppingList items={searchItems} setChecked={setChecked} />
-      </div>
+      <section>
+        {addTotals(searchItems).map((group: any, i) => {
+          return (
+            <div key={i}>
+              <ShoppingList
+                items={group.slice(0, -1)}
+                setChecked={setChecked}
+              />
+              <div>{group[group.length - 1].total}</div>
+            </div>
+          );
+        })}
+      </section>
     </div>
   );
 }

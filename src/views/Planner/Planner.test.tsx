@@ -99,8 +99,8 @@ describe('Planner', () => {
     const shoppingButton = await screen.findByText(/shopping list/i);
     fireEvent.click(shoppingButton);
 
-    const something = await screen.findByText(/something/i);
-    expect(something).toBeInTheDocument();
+    const something = await screen.findAllByText(/something/i);
+    expect(something[0]).toBeInTheDocument();
   });
 
   it('should generate a random recipe', async () => {
