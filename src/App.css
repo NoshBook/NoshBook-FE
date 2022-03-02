@@ -1,7 +1,64 @@
-.App {
-  text-align: center;
+/* header fonts */
+@import url('https://fonts.googleapis.com/css2?family=Candal&display=swap');
+/* font-family: 'Candal', sans-serif; */
+
+@import url('https://fonts.googleapis.com/css2?family=Galindo&display=swap');
+/* font-family: 'Galindo', sans-serif; */
+
+/* body fonts */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+/* font-family: 'Quicksand', sans-serif; */
+
+:root {
+  --navy: rgb(8, 32, 50);
+  --dark-gray: rgb(44, 57, 75);
+  --light-gray: rgb(51, 71, 86);
+  --orange: rgb(255, 76, 41);
+  --brown: rgb(93, 168, 233);
+  --purple: rgb(132, 54, 201);
+}
+
+html {
+  /* text-align: center; */
+  background-color: var(--light-gray);
+  color: white;
+  font-family: 'Quicksand', sans-serif;
+}
+
+h1 {
+  font-family: 'Candal', sans-serif;
+  /* font-family: 'Galindo', sans-serif; */
+  color: var(--orange);
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  font-family: 'Candal', sans-serif;
+  /* font-family: 'Galindo', sans-serif; */
+  color: var(--brown);
+  margin: 0;
+  padding: 0;
 }
 
 ul {
   list-style: none;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.active {
+  text-decoration: underline;
+}
+
+p,
+h3,
+article,
+section {
+  font-family: 'Quicksand', sans-serif;
 }
