@@ -24,21 +24,22 @@ export default function RecipeDetail() {
       const response = await getRecipeById(id);
       setRecipe(response);
       setUserRating(response.rating);
-      setLoading(false);
+      const cookbookResponse = await getUserCookbook(user.id);
+      if (cookbookResponse) {
+        const recipeIds = cookbookResponse.map((entry) => entry.id);
+        setAdded(recipeIds.includes(id));
+      } else {
+        setAdded(false);
+      }
     };
     loadRecipe();
   }, [id]);
 
   useEffect(() => {
-    const isRecipeInCookbook = async () => {
-      const response = await getUserCookbook(user.id);
-      if (response) {
-        const recipeIds = response.map((entry) => entry.id);
-        setAdded(recipeIds.includes(id));
-      }
-    };
-    isRecipeInCookbook();
-  }, [id]);
+    if(added !== null) {
+      setLoading(false);
+    }
+  }, [added]);
 
   const handleAddRecipeToCookbook = async (id, name) => {
     if (user.id) {
@@ -61,11 +62,11 @@ export default function RecipeDetail() {
     setAdded(false);
   };
 
-  const handleRating = async (rate) => {
+  const handleRating = async (rate) => { 
     await submitRating(id, rate / 20);
   };
 
-  const handleAddToPlanner = async (day, recipeId) => {
+  const handleAddToPlanner = async (day, recipeId) => { 
     await addPlannerRecipe({ recipeId, day });
     setPlannerToggle(!plannerToggle);
   };
@@ -79,7 +80,7 @@ export default function RecipeDetail() {
           handleRecipe={
             added ? handleRemoveRecipeFromCookbook : handleAddRecipeToCookbook
           }
-          addOrRemove={added ? 'Remove from Cookbook' : 'Add to Cookbook'}
+          addOrRemove={added === null ? 'null' : added ? 'Remove from Cookbook' : 'Add to Cookbook'}
           handleRating={handleRating}
           userRating={userRating}
           plannerToggle={plannerToggle}
