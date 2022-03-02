@@ -1,4 +1,4 @@
-import type { BrowseRecipe } from '../interfaces/BrowseRecipe';
+import type { BrowseRecipe } from '../views/Browse/interfaces/BrowseRecipe';
 import { beUrl } from '../utils/beUrl';
 
 export const getPaginatedRecipes = async (
@@ -27,12 +27,7 @@ export const getPaginatedRecipes = async (
 
 export const getRecipeById = async (id: any) => {
   try {
-    //staging url
     const res = await fetch(`${beUrl}/recipes/${id}`);
-
-    //local url
-    // const res = await fetch(`${DEV_URL}/${id}`);
-
     return await res.json();
   } catch (error) {
     console.error(error);
@@ -67,4 +62,23 @@ export const postRecipe = async (recipe: any) => {
   });
 
   return await res.json();
+};
+
+export const submitRating = async (id: string, rating: any) => {
+  try {
+    const res = await fetch(`${beUrl}/recipes/${id}/ratings`, {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        rating,
+      }),
+    });
+    return res.json();
+  } catch (error) {
+    console.error(error);
+  }
 };

@@ -2,6 +2,7 @@ import { useAuth } from '../../context/AuthContext';
 import { logOut } from '../../services/users';
 import { BsPersonCircle } from 'react-icons/bs';
 import { Navigate } from 'react-router-dom';
+import styles from './Avatar.module.css';
 
 export default function Avatar() {
   const { user, setUser } = useAuth();
@@ -13,7 +14,7 @@ export default function Avatar() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       {user.username ? (
         <div>
           <BsPersonCircle />

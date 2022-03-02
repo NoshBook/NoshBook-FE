@@ -23,6 +23,7 @@
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-simple-star-rating": "^4.0.5",
     "react-star-ratings": "^2.3.0",
     "react-switch": "^6.0.0",
     "superagent": "^7.1.1",
