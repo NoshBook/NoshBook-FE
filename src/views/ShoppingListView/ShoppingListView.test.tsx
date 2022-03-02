@@ -23,21 +23,26 @@ function copyShoppingList() {
 }
 
 const server = setupServer(
-  rest.put(`${beUrl}/shoppinglist/item/1`, (req, res, ctx) => {
-    const copy = copyShoppingList();
-    copy[0].isChecked = !copy[0].isChecked;
-    console.log('after put: ', mockShoppingList);
-    return res(ctx.json(copy));
-  }),
-  rest.get(`${beUrl}/shoppinglist/new`, (req, res, ctx) => {
-    const copy = copyShoppingList();
-    copy[0].ingredient = 'test3';
-    copy[1].ingredient = 'test4';
-    return res(ctx.json(copy));
-  }),
-  rest.get(`${beUrl}/shoppinglist`, (req, res, ctx) => {
-    return res(ctx.json(mockShoppingList));
-  }),
+  rest.put(`${beUrl}/shoppinglist/item/1`,
+    (req, res, ctx) => {
+      const copy = copyShoppingList();
+      copy[0].isChecked = !copy[0].isChecked;
+      return res(ctx.json(copy));
+    }
+  ),
+  rest.get(`${beUrl}/shoppinglist/new`,
+    (req, res, ctx) => {
+      const copy = copyShoppingList();
+      copy[0].ingredient = 'test3';
+      copy[1].ingredient = 'test4';
+      return res(ctx.json(copy));
+    }
+  ),
+  rest.get(`${beUrl}/shoppinglist`,
+    (req, res, ctx) => {
+      return res(ctx.json(mockShoppingList));
+    }
+  )
 );
 
 describe('ShoppingList', () => {
