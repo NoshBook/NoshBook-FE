@@ -4,10 +4,14 @@ import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import { useAuth } from '../../context/AuthContext';
 import { getUserCookbook } from '../../services/cookbook/cookbook';
 import { removeRecipeFromCookbook } from '../../services/cookbook/cookbook';
+import { addPlannerRecipe } from '../../services/planner';
+import { useNavigate } from 'react-router-dom';
+import RecipeList from '../../components/RecipeList/RecipeList';
 
 export default function CookBook() {
   const [recipes, setRecipes] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -21,15 +25,16 @@ export default function CookBook() {
     setIsLoading(false);
   }, []);
 
-  const handleRemoveRecipeFromCookbook = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    id: string,
-  ) => {
-    e.stopPropagation();
+  const handleRemoveRecipeFromCookbook = async (id: string) => {
     await removeRecipeFromCookbook(id);
     await getUserCookbook(user.id);
     const newUserCookbook = await getUserCookbook(user.id);
     setRecipes(newUserCookbook);
+  };
+
+  const handleAddToPlanner = async (day: string, recipeId: string) => {
+    const recipeIdNumber = Number(recipeId);
+    await addPlannerRecipe({ recipeId: recipeIdNumber, day });
   };
 
   return (
@@ -37,17 +42,19 @@ export default function CookBook() {
       {isLoading ? (
         'Loading...'
       ) : recipes.length ? (
-        <ul>
-          {recipes.map((recipe) => (
-            <li key={recipe.id}>
-              <RecipeCard
-                recipe={recipe}
-                isCookbookView={true}
-                handleRemoveFromCookbookClick={handleRemoveRecipeFromCookbook}
-              />
-            </li>
-          ))}
-        </ul>
+        <>
+          <button onClick={() => navigate('/recipes/new')}>
+            Create New Recipe
+          </button>
+          <section aria-label="Recipe list.">
+            <RecipeList
+              currentPageData={recipes}
+              isCookbookView={true}
+              handleRemoveFromCookbookClick={handleRemoveRecipeFromCookbook}
+              handleAddToPlannerClick={handleAddToPlanner}
+            />
+          </section>
+        </>
       ) : (
         <h2>No Recipes to render</h2>
       )}
