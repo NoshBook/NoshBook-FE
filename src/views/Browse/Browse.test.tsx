@@ -33,6 +33,26 @@ const mockRecipe = {
   totalTime: 'test',
 };
 
+// pagination setup
+function generateRandomNumber() {
+  return Math.ceil(Math.random() * 10000);
+}
+
+function appendUniqueIds(arr: Array<any>) {
+  return arr.map((item) => {
+    return { ...item, id: generateRandomNumber() };
+  });
+}
+
+const newArray1 = new Array(20).fill(mockRecipe);
+const mockPageOneRecipes = appendUniqueIds(newArray1);
+
+const newArray2 = new Array(20).fill({ ...mockRecipe, name: 'test2' });
+const mockPageTwoRecipes = appendUniqueIds(newArray2);
+
+const newArray3 = new Array(20).fill({ ...mockRecipe, name: 'test3' });
+const mockPageThreeRecipes = appendUniqueIds(newArray3);
+
 const server = setupServer(
   // pagination route
   rest.get(`${beUrl}/recipes`, (req, res, ctx) => {
@@ -61,26 +81,6 @@ const server = setupServer(
     );
   }),
 );
-
-// pagination setup
-function generateRandomNumber() {
-  return Math.ceil(Math.random() * 10000);
-}
-
-function appendUniqueIds(arr: Array<any>) {
-  return arr.map((item) => {
-    return { ...item, id: generateRandomNumber() };
-  });
-}
-
-const newArray1 = new Array(20).fill(mockRecipe);
-const mockPageOneRecipes = appendUniqueIds(newArray1);
-
-const newArray2 = new Array(20).fill({ ...mockRecipe, name: 'test2' });
-const mockPageTwoRecipes = appendUniqueIds(newArray2);
-
-const newArray3 = new Array(20).fill({ ...mockRecipe, name: 'test3' });
-const mockPageThreeRecipes = appendUniqueIds(newArray3);
 
 describe('Browse', () => {
   beforeAll(() => {
@@ -115,6 +115,7 @@ describe('Browse', () => {
 
     const recipeArray = await screen.findAllByRole('listitem');
     const firstRecipe = recipeArray[0];
+    console.log(firstRecipe);
     fireEvent.click(firstRecipe);
 
     await waitForElementToBeRemoved(() => firstRecipe);
@@ -166,6 +167,7 @@ describe('Browse', () => {
     fireEvent.click(logoutButton);
 
     const switchButton = await screen.findByRole('switch', { checked: false });
+    screen.debug();
     expect(switchButton).toBeDisabled();
   });
 
