@@ -5,10 +5,12 @@ import { useAuth } from '../../context/AuthContext';
 import { getUserCookbook } from '../../services/cookbook/cookbook';
 import { removeRecipeFromCookbook } from '../../services/cookbook/cookbook';
 import { addPlannerRecipe } from '../../services/planner';
+import { useNavigate } from 'react-router-dom';
 
 export default function CookBook() {
   const [recipes, setRecipes] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -41,7 +43,10 @@ export default function CookBook() {
       ) : recipes.length ? (
         <ul>
           {recipes.map((recipe) => (
-            <li key={recipe.id}>
+            <li
+              key={recipe.id}
+              onClick={() => navigate(`/recipes/${recipe.id}`)}
+            >
               <RecipeCard
                 recipe={recipe}
                 isCookbookView={true}
