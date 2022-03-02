@@ -8,6 +8,16 @@
   justify-content: flex-end;
 }
 
+.nav button {
+  border: none;
+  background-color: var(--light-gray);
+  padding: 0;
+  color: white;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1em;
+  cursor: pointer;
+}
+
 @media (max-width: 990px) {
   .nav .desktopmenu {
     display: none;
@@ -18,12 +28,12 @@
   }
 
   .nav .hamburgericon {
-    position: absolute;
+    /* position: absolute; */
     right: 2%;
   }
 
   .nav .closeicon {
-    position: absolute;
+    /* position: absolute; */
     right: 2%;
   }
 
@@ -32,7 +42,7 @@
     flex-direction: column;
     position: absolute;
     right: 0;
-    top: 10px;
+    top: 40px;
     padding-right: 20px;
   }
 }

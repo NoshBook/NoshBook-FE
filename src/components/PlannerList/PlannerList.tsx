@@ -1,6 +1,6 @@
 import PlannerDay from './PlannerDay';
 import { RecipesByDayType } from './plannerTypes';
-
+import styles from './PlannerList.module.css';
 export default function PlannerList({
   days,
   handleDelete,
@@ -9,13 +9,7 @@ export default function PlannerList({
   handleDelete: any;
 }): JSX.Element {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
+    <div className={styles.container}>
       {!days[0].day ? (
         <h1>No Recipes To Display</h1>
       ) : (
