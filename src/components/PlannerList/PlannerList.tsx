@@ -11,7 +11,7 @@ export default function PlannerList({
   return (
     <div className={styles.container}>
       {!days[0].day ? (
-        <h1>No Recipes To Display</h1>
+        <h2>No recipes here yet!</h2>
       ) : (
         days.map(
           (day: RecipesByDayType, index: number): JSX.Element => (
