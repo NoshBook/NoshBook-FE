@@ -115,7 +115,6 @@ describe('Browse', () => {
 
     const recipeArray = await screen.findAllByRole('listitem');
     const firstRecipe = recipeArray[0];
-    console.log(firstRecipe);
     fireEvent.click(firstRecipe);
 
     await waitForElementToBeRemoved(() => firstRecipe);
@@ -167,27 +166,7 @@ describe('Browse', () => {
     fireEvent.click(logoutButton);
 
     const switchButton = await screen.findByRole('switch', { checked: false });
-    screen.debug();
     expect(switchButton).toBeDisabled();
-  });
-
-  it('renders a disabled add recipe to cookbook button when user is logged out', async () => {
-    render(
-      <AuthProvider>
-        <App />
-      </AuthProvider>,
-    );
-
-    await screen.findAllByText('test');
-
-    // logout
-    const logoutButton = await screen.findByRole('button', { name: /logout/i });
-    fireEvent.click(logoutButton);
-
-    // find buttons with title confirming user is logged out
-    const switchButton = await screen.findAllByTitle(
-      /login to interact with recipe options/i,
-    );
   });
 
   it('renders the appropriate content when a user toggles the input switch', async () => {

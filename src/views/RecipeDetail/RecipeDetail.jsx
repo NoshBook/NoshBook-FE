@@ -65,8 +65,8 @@ export default function RecipeDetail() {
     await submitRating(id, rate / 20);
   };
 
-  const handleAddToPlanner = async (day) => {
-    await addPlannerRecipe({ recipeId: id, day });
+  const handleAddToPlanner = async (day, recipeId) => {
+    await addPlannerRecipe({ recipeId, day });
     setPlannerToggle(!plannerToggle);
   };
 

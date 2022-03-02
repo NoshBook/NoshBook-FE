@@ -58,6 +58,5 @@ describe('CookBook', () => {
       </AuthProvider>,
     );
     await screen.findByText('test-recipe-name');
-    screen.debug();
   });
 });

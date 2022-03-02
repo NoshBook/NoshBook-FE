@@ -8,24 +8,11 @@ import RecipeCard from '../RecipeCard/RecipeCard';
 
 interface RecipeListProps {
   currentPageData: Array<any>;
-  handleAddRecipeToCookbook: (recipe: BrowseRecipe) => Promise<void>;
 }
 
-export default function RecipeList({
-  currentPageData,
-  handleAddRecipeToCookbook,
-}: RecipeListProps) {
+export default function RecipeList({ currentPageData }: RecipeListProps) {
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
-  const { user } = useAuth();
-
-  function handleOptionsClick(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    recipe: BrowseRecipe,
-  ) {
-    e.stopPropagation();
-    handleAddRecipeToCookbook(recipe);
-  }
 
   return (
     <div>
@@ -48,10 +35,7 @@ export default function RecipeList({
               key={recipe.id}
               onClick={() => navigate(`/recipes/${recipe.id}`)}
             >
-              <RecipeCard
-                recipe={recipe}
-                handleAddToCookbookClick={handleOptionsClick}
-              />
+              <RecipeCard recipe={recipe} />
             </li>
           );
         })}
