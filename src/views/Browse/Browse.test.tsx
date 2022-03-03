@@ -2,7 +2,6 @@ import {
   screen,
   render,
   fireEvent,
-  findByText,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
@@ -112,7 +111,6 @@ describe('Browse', () => {
 
     const recipeArray = await screen.findAllByRole('listitem');
     const firstRecipe = recipeArray[0];
-    console.log(firstRecipe);
     fireEvent.click(firstRecipe);
 
     await waitForElementToBeRemoved(() => firstRecipe);
