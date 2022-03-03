@@ -43,7 +43,7 @@ export default function RecipeDetail() {
 
   const handleAddRecipeToCookbook = async (id, name) => {
     if (user.id) {
-      const response = await insertRecipeIntoCookbook(id, user.id);
+      const response = await insertRecipeIntoCookbook(id);
       if (response.message === 'Recipe already exists in user cookbook.') {
         window.alert(response.message);
       } else {
