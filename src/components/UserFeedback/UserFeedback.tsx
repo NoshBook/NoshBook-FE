@@ -5,14 +5,14 @@ export default function UserFeedback(
   feedbackMessage?: string,
 ) {
   return (
-    <div>
+    <article>
       {isError ? (
         // error message
-        <div>🔴 {feedbackMessage ? feedbackMessage : 'Error'}</div>
+        <p>🔴 {feedbackMessage ? feedbackMessage : 'Error'}</p>
       ) : (
         // success message
-        <div>🟢 {feedbackMessage ? feedbackMessage : 'Success'}</div>
+        <p>🟢 {feedbackMessage ? feedbackMessage : 'Success'}</p>
       )}
-    </div>
+    </article>
   );
 }
