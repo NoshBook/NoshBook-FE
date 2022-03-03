@@ -9,47 +9,56 @@ import { upfadeinVariants } from '../../utils/variants';
 // Update: usePagination hook now offers a isLoading value.
 
 export default function Browse() {
-  const { nextPage, prevPage, currentPageData, currentPage } =
+  const { nextPage, prevPage, currentPageData, currentPage, isLoading } =
     usePagination(20);
   const { user, updateUserPreference } = useAuth();
 
   return (
-    <motion.main
-      className={styles.container}
-      variants={upfadeinVariants}
-      initial={'initial'}
-      animate={'animate'}
-    >
-      <div
-        className={styles.contenttoggle}
-        title={
-          user.id
-            ? 'Click to toggle user content'
-            : 'Login to toggle user content'
-        }
-      >
-        <p>Show User Recipes</p>
-        <Switch
-          height={20}
-          width={40}
-          handleDiameter={20}
-          onColor={'#FF4C29'}
-          checked={user.showUserContent}
-          onChange={updateUserPreference}
-          disabled={user.id ? false : true}
-        />
-      </div>
-      <section className={styles.listcontainer}>
-        <RecipeList currentPageData={currentPageData} />
-      </section>
-      <section aria-label="Pagination Options" className={styles.pagbuttons}>
-        <button onClick={prevPage} disabled={currentPage === 1}>
-          prev page
-        </button>
-        <button onClick={nextPage} disabled={currentPageData.length < 20}>
-          next page
-        </button>
-      </section>
-    </motion.main>
+    <>
+      {isLoading ? (
+        'Loading...'
+      ) : (
+        <motion.main
+          className={styles.container}
+          variants={upfadeinVariants}
+          initial={'initial'}
+          animate={'animate'}
+        >
+          <div
+            className={styles.contenttoggle}
+            title={
+              user.id
+                ? 'Click to toggle user content'
+                : 'Login to toggle user content'
+            }
+          >
+            <p>Show User Recipes</p>
+            <Switch
+              height={20}
+              width={40}
+              handleDiameter={20}
+              onColor={'#FF4C29'}
+              checked={user.showUserContent}
+              onChange={updateUserPreference}
+              disabled={user.id ? false : true}
+            />
+          </div>
+          <section className={styles.listcontainer}>
+            <RecipeList currentPageData={currentPageData} />
+          </section>
+          <section
+            aria-label="Pagination Options"
+            className={styles.pagbuttons}
+          >
+            <button onClick={prevPage} disabled={currentPage === 1}>
+              prev page
+            </button>
+            <button onClick={nextPage} disabled={currentPageData.length < 20}>
+              next page
+            </button>
+          </section>
+        </motion.main>
+      )}
+    </>
   );
 }
