@@ -1,0 +1,12 @@
+.item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.shoppingcheckbutton {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}

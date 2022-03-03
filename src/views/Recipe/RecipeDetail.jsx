@@ -31,6 +31,7 @@ export default function RecipeDetail({ isCookbookView }) {
       } else {
         setAdded(false);
       }
+      setLoading(false);
     };
     loadRecipe();
   }, [id]);
@@ -73,7 +74,11 @@ export default function RecipeDetail({ isCookbookView }) {
 
   return (
     <div>
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <div className="authcontextloading">
+          <h2>Loading...</h2>
+        </div>
+      )}
       {recipe && (
         <Recipe
           {...recipe}

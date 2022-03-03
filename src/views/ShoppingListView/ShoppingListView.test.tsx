@@ -71,15 +71,15 @@ describe('ShoppingList', () => {
     const loading = await screen.findByText(/loading/i);
     expect(loading).toBeInTheDocument();
 
-    const test1 = await screen.findByText(/test1 isChecked: false/i);
-    const test2 = await screen.findByText(/test2 isChecked: false/i);
+    const test1 = await screen.findByLabelText(/test1 isChecked: false/i);
+    const test2 = await screen.findByLabelText(/test2 isChecked: false/i);
 
     expect(test1).toBeInTheDocument();
     expect(test2).toBeInTheDocument();
 
-    const checkButtons = await screen.findAllByText('✔');
+    const checkButtons = await screen.findAllByTitle('checkbox');
     fireEvent.click(checkButtons[0]);
-    const item1Checked = await screen.findByText(/test1 isChecked: true/i);
+    const item1Checked = await screen.findByLabelText(/test1 isChecked: true/i);
     expect(item1Checked).toBeInTheDocument();
   });
 
@@ -93,15 +93,17 @@ describe('ShoppingList', () => {
     const loading = await screen.findByText(/loading/i);
     expect(loading).toBeInTheDocument();
 
-    const test1 = await screen.findByText(/test1 isChecked: false/i);
-    const test2 = await screen.findByText(/test2 isChecked: false/i);
+    const test1 = await screen.findByLabelText(/test1 isChecked: false/i);
+    const test2 = await screen.findByLabelText(/test2 isChecked: false/i);
 
     expect(test1).toBeInTheDocument();
     expect(test2).toBeInTheDocument();
 
     const generateButton = await screen.findByText(/generate/i);
     fireEvent.click(generateButton);
-    const item1Checked = await screen.findByText(/test3 isChecked: false/i);
+    const item1Checked = await screen.findByLabelText(
+      /test3 isChecked: false/i,
+    );
     expect(item1Checked).toBeInTheDocument();
   });
 
