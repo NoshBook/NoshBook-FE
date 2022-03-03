@@ -4,6 +4,7 @@ import { addPlannerRecipe } from '../../services/planner';
 import { useNavigate } from 'react-router-dom';
 import RecipeList from '../../components/RecipeList/RecipeList';
 import usePagination from '../../hooks/usePagination';
+import styles from './CookBook.module.css';
 
 export default function CookBook() {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ export default function CookBook() {
       ) : (
         <h2>No Recipes to render</h2>
       )}
-      <section aria-label="Pagination Options">
+      <section aria-label="Pagination Options" className={styles.pagbuttons}>
         <button onClick={prevPage} disabled={currentPage === 1}>
           prev page
         </button>
