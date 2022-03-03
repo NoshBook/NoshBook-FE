@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 350px;
   background-color: var(--light-black);
   padding: 20px;
   border-radius: 10px;
@@ -19,4 +19,15 @@
 
 .cardh2 {
   margin-bottom: 10px;
+}
+
+.cookbookbuttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.cookbookbuttons button {
+  box-shadow: none;
 }
