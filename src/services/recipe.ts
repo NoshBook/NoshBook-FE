@@ -94,3 +94,19 @@ export const submitRating = async (id: string, rating: any) => {
     console.error(error);
   }
 };
+
+export const searchRecipes = async(query: string, page: number, count: number) => {
+  try {
+    const res = await fetch(`${beUrl}/recipes/search?q=${query}&page=${page}&count=${count}`, {
+      credentials: 'include',
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
