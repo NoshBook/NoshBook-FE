@@ -1,4 +1,5 @@
 import { beUrl } from '../../utils/beUrl';
+import { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
 
 export async function insertRecipeIntoCookbook(
   recipeId: string,
@@ -42,3 +43,23 @@ export async function removeRecipeFromCookbook(recipeId: string) {
     console.log(error);
   }
 }
+
+export const getPaginatedCookbookRecipes = async (
+  newPage: number,
+  itemQuantity: number,
+): Promise<BrowseRecipe[]> => {
+  try {
+    const res = await fetch(
+      `${beUrl}/cookbooks/pagination?page=${newPage}&quantity=${itemQuantity}`,
+      {
+        credentials: 'include',
+      },
+    );
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+    // typescript requires that a function return a value at every possible point or it's type must include undefined
+    // this throwing of the error up the chain allows us to static type the response of getPaginatedRecipes.
+    throw error;
+  }
+};

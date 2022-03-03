@@ -1,33 +1,64 @@
 /* eslint-disable */
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { getPaginatedCookbookRecipes } from '../services/cookbook/cookbook';
 import { getPaginatedRecipes } from '../services/recipe';
+import { BrowseRecipe } from '../views/Browse/interfaces/BrowseRecipe';
 
 interface PaginationFeatures {
   nextPage: () => void;
   prevPage: () => void;
-  currentPageData: Array<any>;
+  fetchCookbookRecipeData: () => void;
+  currentPageData: Array<BrowseRecipe>;
   currentPage: number;
+  isLoading: boolean;
 }
 
 export default function usePagination(
   itemsPerPage: number,
+  isCookbookView?: boolean,
 ): PaginationFeatures {
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageData, setCurrentPageData] = useState<Array<any>>([]);
+  const [currentPageData, setCurrentPageData] = useState<Array<BrowseRecipe>>(
+    [],
+  );
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
   useEffect(() => {
     async function fetchRecipes() {
-      const newPageData: any = await getPaginatedRecipes(
-        currentPage,
-        20,
-        user.showUserContent,
-      );
-      setCurrentPageData(newPageData);
+      // if rendering in cookbook view...
+      if (isCookbookView) {
+        const newPageData = await getPaginatedCookbookRecipes(
+          currentPage,
+          itemsPerPage,
+        );
+        setCurrentPageData(newPageData);
+        // if rendering elsewhere(browse all)...
+      } else {
+        const newPageData = await getPaginatedRecipes(
+          currentPage,
+          itemsPerPage,
+          user.showUserContent,
+        );
+        setCurrentPageData(newPageData);
+      }
     }
+    setIsLoading(true);
     fetchRecipes();
+    setIsLoading(false);
   }, [currentPage, user.showUserContent]);
+
+  /**
+   * WARNING: Should only be used in Cookbook View.
+   * Makes a network call for updated cookbook recipe data.
+   */
+  async function fetchCookbookRecipeData() {
+    setIsLoading(true);
+    const newPageData = await getPaginatedCookbookRecipes(currentPage, 20);
+    setCurrentPageData(newPageData);
+    setIsLoading(false);
+  }
 
   function nextPage() {
     setCurrentPage((currentPage) => currentPage + 1);
@@ -36,5 +67,12 @@ export default function usePagination(
   function prevPage() {
     if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
   }
-  return { nextPage, prevPage, currentPageData, currentPage };
+  return {
+    nextPage,
+    prevPage,
+    currentPageData,
+    currentPage,
+    isLoading,
+    fetchCookbookRecipeData,
+  };
 }
