@@ -1,13 +1,20 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { RecipeFormProps } from './recipeTypes';
+import styles from './RecipeForm.module.css';
+import { motion } from 'framer-motion';
+import { upfadeinVariants } from '../../utils/variants';
 
 export default function RecipeForm({
   initialFormState,
-  handleSubmit
+  handleSubmit,
 }: RecipeFormProps) {
   const [formState, setFormState] = useState(initialFormState);
-  const [ingredients, setIngredients] = useState(initialFormState.ingredients ?? []);
-  const [instructions, setInstructions] = useState(initialFormState.instructions ?? []);
+  const [ingredients, setIngredients] = useState(
+    initialFormState.ingredients ?? [],
+  );
+  const [instructions, setInstructions] = useState(
+    initialFormState.instructions ?? [],
+  );
   const [tags, setTags] = useState(initialFormState.tags ?? []);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -19,21 +26,33 @@ export default function RecipeForm({
     const { name, value } = event.target;
     const [, indexString] = name.split(':');
     const index = parseInt(indexString);
-    setIngredients((prevState: any) => [...prevState].map((val: string | Array<string>, i: number) => i === index ? value : val));
+    setIngredients((prevState: any) =>
+      [...prevState].map((val: string | Array<string>, i: number) =>
+        i === index ? value : val,
+      ),
+    );
   };
 
   const handleInstructionsChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const [, indexString] = name.split(':');
     const index = parseInt(indexString);
-    setInstructions((prevState: any) => [...prevState].map((val: string | Array<string>, i: number) => i === index ? value : val));
+    setInstructions((prevState: any) =>
+      [...prevState].map((val: string | Array<string>, i: number) =>
+        i === index ? value : val,
+      ),
+    );
   };
 
   const handleTagsChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const [, indexString] = name.split(':');
     const index = parseInt(indexString);
-    setTags((prevState: any) => [...prevState].map((val: string | Array<string>, i: number) => i === index ? value : val));
+    setTags((prevState: any) =>
+      [...prevState].map((val: string | Array<string>, i: number) =>
+        i === index ? value : val,
+      ),
+    );
   };
 
   const addIngredient = () => {
@@ -41,7 +60,9 @@ export default function RecipeForm({
   };
 
   const removeIngredient = (index: number) => {
-    setIngredients((prevState: any) => [...prevState].filter((val: any, i: number) => i !== index));
+    setIngredients((prevState: any) =>
+      [...prevState].filter((val: any, i: number) => i !== index),
+    );
   };
 
   const addInstruction = () => {
@@ -49,7 +70,9 @@ export default function RecipeForm({
   };
 
   const removeInstruction = (index: number) => {
-    setInstructions((prevState: any) => [...prevState].filter((val: any, i: number) => i !== index));
+    setInstructions((prevState: any) =>
+      [...prevState].filter((val: any, i: number) => i !== index),
+    );
   };
 
   const addTag = () => {
@@ -57,7 +80,9 @@ export default function RecipeForm({
   };
 
   const removeTag = (index: number) => {
-    setTags((prevState: any) => [...prevState].filter((val: any, i: number) => i !== index));
+    setTags((prevState: any) =>
+      [...prevState].filter((val: any, i: number) => i !== index),
+    );
   };
 
   const handleFormSubmit = () => {
@@ -65,37 +90,48 @@ export default function RecipeForm({
   };
 
   return (
-    <div>
-      <label>
-        Recipe Name:
-        <input
-          type='text'
-          name='name'
-          value={formState.name ?? ''}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Image URL:
-        <input
-          type='url'
-          name='image'
-          value={formState.image ?? ''}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Description:
-        <input
-          type='text'
-          name='description'
-          value={formState.description ?? ''}
-          onChange={handleChange}
-        />
-      </label>
-      <article>
-        <section>
-          Ingredients:
+    <motion.div
+      variants={upfadeinVariants}
+      initial={'initial'}
+      animate={'animate'}
+      className={styles.viewcontainer}
+    >
+      <h2 className={styles.formheader}>
+        {formState.id ? 'Edit recipe' : 'Create a recipe'}
+      </h2>
+      <main className={styles.subcontainer}>
+        <section className={styles.formcontainer}>
+          <label>
+            Recipe Name
+            <input
+              type="text"
+              name="name"
+              value={formState.name ?? ''}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Image URL
+            <input
+              type="url"
+              name="image"
+              value={formState.image ?? ''}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Description
+            <input
+              type="text"
+              name="description"
+              value={formState.description ?? ''}
+              onChange={handleChange}
+            />
+          </label>
+        </section>
+
+        <section className={styles.formcontainer}>
+          <span className={styles.subheader}>Ingredients</span>
           {ingredients.map((ingredient: any, index: number) => (
             <div key={index}>
               <input
@@ -103,13 +139,16 @@ export default function RecipeForm({
                 value={ingredients[index]}
                 onChange={handleIngredientsChange}
               />
-              <button onClick={() => removeIngredient(index)}>Remove Ingredient</button>
+              <button onClick={() => removeIngredient(index)}>
+                Remove Ingredient
+              </button>
             </div>
           ))}
           <button onClick={addIngredient}>Add an Ingredient</button>
         </section>
-        <section>
-          Instructions:
+
+        <section className={styles.formcontainer}>
+          <span className={styles.subheader}>Instructions</span>
           {instructions.map((instruction: any, index: number) => (
             <div key={index}>
               <label>
@@ -119,14 +158,17 @@ export default function RecipeForm({
                   value={instructions[index]}
                   onChange={handleInstructionsChange}
                 />
-                <button onClick={() => removeInstruction(index)}>Remove Step</button>
+                <button onClick={() => removeInstruction(index)}>
+                  Remove Step
+                </button>
               </label>
             </div>
           ))}
           <button onClick={addInstruction}>Add a Step</button>
         </section>
-        <section>
-          Tags:
+
+        <section className={styles.formcontainer}>
+          <span className={styles.subheader}>Tags</span>
           {tags.map((tag: any, index: number) => (
             <div key={index}>
               <label>
@@ -141,28 +183,35 @@ export default function RecipeForm({
           ))}
           <button onClick={addTag}>Add a Tag</button>
         </section>
-        <section>
+
+        <section className={styles.formcontainer}>
           <label>
-            Time Required:
+            Time Required
             <input
-              type='text'
-              name='totalTime'
+              type="text"
+              name="totalTime"
               value={formState.totalTime ?? ''}
               onChange={handleChange}
             />
           </label>
           <label>
-            Servings:
+            Servings
             <input
-              type='text'
-              name='servings'
+              type="text"
+              name="servings"
               value={formState.servings ?? ''}
               onChange={handleChange}
             />
           </label>
         </section>
-      </article>
-      <button type='submit' onClick={handleFormSubmit}>Submit</button>
-    </div>
+      </main>
+      <button
+        className={styles.submitbutton}
+        type="submit"
+        onClick={handleFormSubmit}
+      >
+        Submit
+      </button>
+    </motion.div>
   );
 }

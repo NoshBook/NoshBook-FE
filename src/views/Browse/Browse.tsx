@@ -5,13 +5,24 @@ import Switch from 'react-switch';
 import styles from './Browse.module.css';
 import { motion } from 'framer-motion';
 import { upfadeinVariants } from '../../utils/variants';
+import { useEffect, useState } from 'react';
 
 // Update: usePagination hook now offers a isLoading value.
 
 export default function Browse() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+  const [searchNow, setSearchNow] = useState(false);
+  const [timeoutHandle, setTimeoutHandle] = useState(0);
   const { nextPage, prevPage, currentPageData, currentPage, isLoading } =
-    usePagination(20);
+    usePagination(20, false, debouncedSearchQuery);
   const { user, updateUserPreference } = useAuth();
+
+  useEffect(() => {
+    window.clearTimeout(timeoutHandle);
+    const handle = window.setTimeout(() => { setDebouncedSearchQuery(searchQuery) }, 500);
+    setTimeoutHandle(handle);
+  }, [searchQuery])
 
   return (
     <>
@@ -44,7 +55,11 @@ export default function Browse() {
             />
           </div>
           <section className={styles.listcontainer}>
-            <RecipeList currentPageData={currentPageData} />
+            <RecipeList
+              currentPageData={currentPageData}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
           </section>
           <section
             aria-label="Pagination Options"
