@@ -90,6 +90,7 @@ export default function Planner(): JSX.Element {
       initial={'initial'}
       animate={'animate'}
     >
+      <h2>Planner</h2>
       <section className={styles.buttoncontainer}>
         <motion.button
           whileHover={{ scale: 1.02 }}
