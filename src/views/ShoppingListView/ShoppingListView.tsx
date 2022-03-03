@@ -71,17 +71,19 @@ export default function ShoppingListView() {
         </label>
       </div>
       <section>
-        {addTotals(searchItems).map((group: any, i) => {
-          return (
-            <div key={i}>
-              <ShoppingList
-                items={group.slice(0, -1)}
-                setChecked={setChecked}
-              />
-              <div>{group[group.length - 1].total}</div>
-            </div>
-          );
-        })}
+        {searchItems.length > 0 &&
+          addTotals(searchItems).map((group: any, i) => {
+            return (
+              <div key={i}>
+                <ShoppingList
+                  items={group.slice(0, -1)}
+                  setChecked={setChecked}
+                />
+                <div>{group[group.length - 1].total}</div>
+              </div>
+            );
+          })
+        }
       </section>
     </div>
   );
