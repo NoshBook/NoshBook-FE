@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+}
+
+.container ul {
+  margin: 0;
+}
+
+.listcontainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.search {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.search input {
+  border-radius: 5px;
+  height: 20px;
+  width: 100%;
+}
