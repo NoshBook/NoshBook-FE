@@ -51,6 +51,9 @@ export const getPaginatedCookbookRecipes = async (
   try {
     const res = await fetch(
       `${beUrl}/cookbooks/pagination?page=${newPage}&quantity=${itemQuantity}`,
+      {
+        credentials: 'include',
+      },
     );
     return await res.json();
   } catch (error) {
