@@ -1,5 +1,7 @@
 import styles from './DaysMenu.module.css';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { motion } from 'framer-motion';
+import { fadeinVariants } from '../../utils/variants';
 
 interface DaysMenuProps {
   handleAddToPlanner: any;
@@ -22,7 +24,12 @@ export default function DaysMenu({
     'sunday',
   ];
   return (
-    <ul className={styles.daysmenu}>
+    <motion.ul
+      className={styles.daysmenu}
+      variants={fadeinVariants}
+      initial={'initial'}
+      animate={'animate'}
+    >
       {days.map((day, index) => {
         return (
           <li
@@ -41,6 +48,6 @@ export default function DaysMenu({
           </li>
         );
       })}
-    </ul>
+    </motion.ul>
   );
 }
