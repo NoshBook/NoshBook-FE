@@ -34,19 +34,21 @@ export default function RecipeList({
   return (
     <div className={styles.container}>
       <h1>Recipes</h1>
-      <div className={styles.search}>
-        <div>
-          <label htmlFor="search-items"></label>
-          <input
-            id="search-items"
-            type="text"
-            name="search-items"
-            value={searchQuery}
-            autoComplete="off"
-            onChange={({ target }) => handleSearchInputChange(target.value)}
-          />
+      { !isCookbookView && (
+        <div className={styles.search}>
+          <div>
+            <label htmlFor="search-items"></label>
+            <input
+              id="search-items"
+              type="text"
+              name="search-items"
+              value={searchQuery}
+              autoComplete="off"
+              onChange={({ target }) => handleSearchInputChange(target.value)}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <ul className={styles.listcontainer}>
         {currentPageData.map((recipe: any) => {
           const path = isCookbookView ? 'cookbook' : 'recipes';
