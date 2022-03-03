@@ -57,34 +57,35 @@ export default function RecipeCard({
             <AiOutlineMinusCircle color={'var(--orange)'} />
             Cookbook
           </motion.button>
+          <div className={styles.daysmenucontainer}>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              aria-label="Toggles planner options display."
+              aria-pressed={plannerToggle}
+              onClick={(e) => {
+                e.stopPropagation();
+                setPlannerToggle((prevState) => !prevState);
+              }}
+              disabled={user.id ? false : true}
+              // --- Can be removed
+              title={
+                user.id
+                  ? 'Click to interact with recipe options'
+                  : 'Login to interact with recipe options'
+              }
+              // ---
+            >
+              <AiOutlinePlusCircle color={'var(--blue)'} /> Planner
+            </motion.button>
 
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            aria-label="Toggles planner options display."
-            aria-pressed={plannerToggle}
-            onClick={(e) => {
-              e.stopPropagation();
-              setPlannerToggle((prevState) => !prevState);
-            }}
-            disabled={user.id ? false : true}
-            // --- Can be removed
-            title={
-              user.id
-                ? 'Click to interact with recipe options'
-                : 'Login to interact with recipe options'
-            }
-            // ---
-          >
-            <AiOutlinePlusCircle color={'var(--blue)'} /> Planner
-          </motion.button>
-
-          {plannerToggle && (
-            <DaysMenu
-              handleAddToPlanner={handleAddToPlannerClick}
-              recipeId={recipe.id}
-              setPlannerToggle={setPlannerToggle}
-            />
-          )}
+            {plannerToggle && (
+              <DaysMenu
+                handleAddToPlanner={handleAddToPlannerClick}
+                recipeId={recipe.id}
+                setPlannerToggle={setPlannerToggle}
+              />
+            )}
+          </div>
 
           <motion.button
             whileHover={{ scale: 1.02 }}

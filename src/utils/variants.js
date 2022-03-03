@@ -44,3 +44,15 @@ export const fadeinVariants = {
     transition: { delay: 1, duration: 0.8 },
   },
 };
+
+export const leftslideinVariants = {
+  initial: {
+    opacity: 0,
+    x: '-50vw',
+  },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: { delay: 1.5, duration: 0.8 },
+  },
+};

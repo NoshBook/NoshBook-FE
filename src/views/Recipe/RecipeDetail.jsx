@@ -9,7 +9,6 @@ import {
   removeRecipeFromCookbook,
 } from '../../services/cookbook/cookbook';
 import { addPlannerRecipe } from '../../services/planner';
-import styles from '../../App.css';
 
 export default function RecipeDetail() {
   const { id } = useParams();
