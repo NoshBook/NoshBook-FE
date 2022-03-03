@@ -53,7 +53,11 @@ export default function Recipe({
             }
             onClick={() => handleRecipe(id, name)}
           >
-            {added ? <AiOutlineMinusCircle /> : <AiOutlinePlusCircle />}{' '}
+            {added ? (
+              <AiOutlineMinusCircle color={'var(--orange)'} />
+            ) : (
+              <AiOutlinePlusCircle color={'var(--blue)'} />
+            )}{' '}
             Cookbook
           </button>
           <button
@@ -62,10 +66,10 @@ export default function Recipe({
             className={styles.plannerbutton}
             onClick={() => setPlannerToggle(!plannerToggle)}
           >
-            <AiOutlinePlusCircle /> Planner
+            <AiOutlinePlusCircle color={'var(--blue)'} /> Planner
           </button>
           {plannerToggle && (
-            <DaysMenu handleAddToPlanner={handleAddToPlanner} />
+            <DaysMenu handleAddToPlanner={handleAddToPlanner} recipeId={id}/>
           )}
         </div>
       </section>

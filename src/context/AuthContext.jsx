@@ -11,7 +11,8 @@ const AuthProvider = ({ children }) => {
     const getCurrentUser = async () => {
       const res = await getUser();
       console.log(res);
-      setUser(res);
+      // The nullish coalescing operator prevents user from being set to undefined
+      setUser(res ?? { showUserContent: false });
       setLoading(false);
     };
     getCurrentUser();
