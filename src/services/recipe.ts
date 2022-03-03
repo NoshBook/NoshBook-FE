@@ -43,17 +43,17 @@ export const updateRecipeById = async (id: any, recipe: any) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      recipe
+      recipe,
     }),
   });
   const json = await res.json();
-  if(res.status !== 200) { 
-    if(json.message) {
+  if (res.status !== 200) {
+    if (json.message) {
       throw new Error(json.message);
     }
     throw new Error('update failed');
   }
-  if(json.message === 'success') {
+  if (json.message === 'success') {
     return json.recipeId;
   } else {
     throw new Error('Invalid response from server');
@@ -69,7 +69,7 @@ export const postRecipe = async (recipe: any) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      recipe
+      recipe,
     }),
   });
 
@@ -95,15 +95,22 @@ export const submitRating = async (id: string, rating: any) => {
   }
 };
 
-export const searchRecipes = async(query: string, page: number, count: number) => {
+export const searchRecipes = async (
+  query: string,
+  page: number,
+  count: number,
+) => {
   try {
-    const res = await fetch(`${beUrl}/recipes/search?q=${query}&page=${page}&count=${count}`, {
-      credentials: 'include',
-      headers: {
-        accept: 'application/json',
-        'Content-Type': 'application/json',
+    const res = await fetch(
+      `${beUrl}/recipes/search?q=${query}&page=${page}&count=${count}`,
+      {
+        credentials: 'include',
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
     return await res.json();
   } catch (error) {
     console.log(error);
