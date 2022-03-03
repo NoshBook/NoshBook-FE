@@ -11,9 +11,8 @@
   gap: 20px;
   padding: 20px;
   border: none;
-  /* border-radius: 10px; */
   height: 200px;
-  /* border-color: var(--orange); */
+  width: 350px;
 }
 
 .authfieldset legend {
