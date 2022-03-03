@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RecipeCard from '../RecipeCard/RecipeCard';
 import { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
+import styles from './RecipeList.module.css';
+import { motion } from 'framer-motion';
 
 interface RecipeListProps {
   currentPageData: Array<any>;
@@ -23,23 +25,26 @@ export default function RecipeList({
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Recipes</h1>
-      <form>
-        <label htmlFor="search-items"></label>
-        <input
-          id="search-items"
-          type="text"
-          name="search-items"
-          value={searchInput}
-          autoComplete="off"
-          onChange={({ target }) => setSearchInput(target.value)}
-        />
-      </form>
-      <ul>
+      <div className={styles.search}>
+        <form>
+          <label htmlFor="search-items"></label>
+          <input
+            id="search-items"
+            type="text"
+            name="search-items"
+            value={searchInput}
+            autoComplete="off"
+            onChange={({ target }) => setSearchInput(target.value)}
+          />
+        </form>
+      </div>
+      <ul className={styles.listcontainer}>
         {currentPageData.map((recipe: any) => {
           return (
-            <li
+            <motion.li
+              whileHover={{ scale: 1.02 }}
               key={recipe.id}
               onClick={() => navigate(`/recipes/${recipe.id}`)}
             >
@@ -53,7 +58,7 @@ export default function RecipeList({
               ) : (
                 <RecipeCard recipe={recipe} />
               )}
-            </li>
+            </motion.li>
           );
         })}
       </ul>

@@ -7,6 +7,9 @@
   align-items: baseline;
   background-color: var(--light-black);
   box-shadow: 0px 5px 15px rgb(18, 17, 17);
+  z-index: 1;
+  position: relative;
+  width: 100vw;
 }
 .navarea {
   display: flex;

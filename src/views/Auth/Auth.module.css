@@ -23,8 +23,9 @@
 
 .authfieldset input {
   border-radius: 5px;
-  height: 20px;
+  height: 35px;
   width: 100%;
+  margin-top: 10px;
 }
 
 .authbuttons {
