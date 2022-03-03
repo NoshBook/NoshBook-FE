@@ -42,7 +42,7 @@ export default function Browse() {
       <section className={styles.listcontainer}>
         <RecipeList currentPageData={currentPageData} />
       </section>
-      <section aria-label="Pagination Options">
+      <section aria-label="Pagination Options" className={styles.pagbuttons}>
         <button onClick={prevPage} disabled={currentPage === 1}>
           prev page
         </button>
