@@ -49,7 +49,15 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="/recipes/:id" element={<RecipeDetail />} />
+          <Route path="/recipes/:id" element={<RecipeDetail isCookbookView={false} />} />
+          <Route
+            path="/cookbook/:id"
+            element={
+              <PrivateRoute>
+                <RecipeDetail isCookbookView={true} />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="/cookbook"
             element={
