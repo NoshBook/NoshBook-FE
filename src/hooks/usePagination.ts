@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { getPaginatedCookbookRecipes } from '../services/cookbook/cookbook';
-import { getPaginatedRecipes } from '../services/recipe';
+import { getPaginatedRecipes, searchRecipes } from '../services/recipe';
 import { BrowseRecipe } from '../views/Browse/interfaces/BrowseRecipe';
 
 interface PaginationFeatures {
@@ -17,6 +17,7 @@ interface PaginationFeatures {
 export default function usePagination(
   itemsPerPage: number,
   isCookbookView?: boolean,
+  searchQuery?: string
 ): PaginationFeatures {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageData, setCurrentPageData] = useState<Array<BrowseRecipe>>(
@@ -36,18 +37,27 @@ export default function usePagination(
         setCurrentPageData(newPageData);
         // if rendering elsewhere(browse all)...
       } else {
-        const newPageData = await getPaginatedRecipes(
-          currentPage,
-          itemsPerPage,
-          user.showUserContent,
-        );
+        let newPageData;
+        if(searchQuery) {
+          newPageData = await searchRecipes(
+            searchQuery,
+            currentPage,
+            itemsPerPage
+          )
+        } else {
+          newPageData = await getPaginatedRecipes(
+            currentPage,
+            itemsPerPage,
+            user.showUserContent,
+          );
+        }
         setCurrentPageData(newPageData);
       }
     }
     setIsLoading(true);
     fetchRecipes();
     setIsLoading(false);
-  }, [currentPage, user.showUserContent]);
+  }, [currentPage, user.showUserContent, searchQuery]);
 
   /**
    * WARNING: Should only be used in Cookbook View.
