@@ -63,7 +63,9 @@ a {
 p,
 h3,
 article,
-section {
+section,
+label,
+input {
   font-family: 'Quicksand', sans-serif;
 }
 
