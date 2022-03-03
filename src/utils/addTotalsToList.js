@@ -2,8 +2,8 @@ import { parse } from 'recipe-ingredient-parser-v3';
 
 export default function addTotals(list) {
   const parsedList = list.map((item) => {
-    const parsed = parse(item.ingredient, 'eng');
-    const sanitized = sanitizeIngredient(parsed.ingredient).trim();
+    const parsed = parseIngredient(item.ingredient);
+    const sanitized = sanitizeIngredient(parsed.ingredient);
     const parsedIngredient = { ...parsed, ingredient: sanitized };
 
     return { ...item, parsedIngredient };
@@ -30,6 +30,29 @@ const createTotalString = ({ quantity, unit, unitPlural, ingredient }) => {
   return `Total: ${ingredientString}`;
 };
 
+const parseIngredient = (ingredient) => {
+  // fix issue with double ts while using recipe parser library
+  const regex = new RegExp('tt');
+  const hasDoubleTs = regex.test(ingredient);
+  const originalWord = ingredient.split(' ').find((item) => regex.test(item));
+  if (hasDoubleTs) {
+    ingredient = ingredient.replace(regex, 't');
+  }
+  let parsed = parse(ingredient, 'eng');
+
+  if (hasDoubleTs) {
+    const parsedTemp = { ...parsed };
+    const wordToChange = originalWord.replace(regex, 't');
+
+    parsed = {
+      ...parsedTemp,
+      ingredient: parsedTemp.ingredient.replace(wordToChange, originalWord),
+    };
+  }
+
+  return parsed;
+};
+
 const sanitizeIngredient = (ingredient) => {
   const badWords = ['tablespoon', 'teaspoon', 'ounce'];
   let ingred = ingredient;
@@ -41,7 +64,7 @@ const sanitizeIngredient = (ingredient) => {
 
   const spaceSplit = ingred.split(' ');
   if (badWords.includes(spaceSplit[0])) spaceSplit[0] = '';
-  return spaceSplit.join(' ');
+  return spaceSplit.join(' ').trim();
 };
 
 const sortIngredients = (list) => {
