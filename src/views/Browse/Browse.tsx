@@ -3,8 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import usePagination from '../../hooks/usePagination';
 import Switch from 'react-switch';
 
-// toggle on page
-// pull in a setUserPreference fn
+// Update: usePagination hook now offers a isLoading value.
 
 export default function Browse() {
   const { nextPage, prevPage, currentPageData, currentPage } =
