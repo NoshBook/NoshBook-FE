@@ -62,17 +62,19 @@ export default function Recipe({
             )}{' '}
             Cookbook
           </button>
-          <button
-            aria-label="Add to Planner"
-            title="Click to add to a day on your planner!"
-            className={styles.plannerbutton}
-            onClick={() => setPlannerToggle(!plannerToggle)}
-          >
-            <AiOutlinePlusCircle color={'var(--blue)'} /> Planner
-          </button>
-          {plannerToggle && (
-            <DaysMenu handleAddToPlanner={handleAddToPlanner} recipeId={id}/>
-          )}
+          <div className={styles.daysmenucontainer}>
+            <button
+              aria-label="Add to Planner"
+              title="Click to add to a day on your planner!"
+              className={styles.plannerbutton}
+              onClick={() => setPlannerToggle(!plannerToggle)}
+            >
+              <AiOutlinePlusCircle color={'var(--blue)'} /> Planner
+            </button>
+            {plannerToggle && (
+              <DaysMenu handleAddToPlanner={handleAddToPlanner} recipeId={id} />
+            )}
+          </div>
           {isCookbookView && (
             <motion.button
               whileHover={{ scale: 1.02 }}
