@@ -1,10 +1,11 @@
 import RecipeList from '../../components/RecipeList/RecipeList';
 import { useAuth } from '../../context/AuthContext';
 import usePagination from '../../hooks/usePagination';
+import { Link } from 'react-router-dom';
 import Switch from 'react-switch';
 import styles from './Browse.module.css';
 import { motion } from 'framer-motion';
-import { upfadeinVariants } from '../../utils/variants';
+import { upfadeinVariants, leftslideinVariants } from '../../utils/variants';
 import { useEffect, useState } from 'react';
 
 // Update: usePagination hook now offers a isLoading value.
@@ -39,6 +40,23 @@ export default function Browse() {
           initial={'initial'}
           animate={'animate'}
         >
+          <motion.div
+            className={styles.welcome}
+            variants={leftslideinVariants}
+            initial={'initial'}
+            animate={'animate'}
+          >
+            <h3>
+              Welcome to NoshBook: your one-stop shop for collecting recipes,
+              planning meals, and creating shopping lists.{' '}
+            </h3>
+            <p>
+              Start by searching for recipes! Add them to your{' '}
+              <Link to="/cookbook">cookbook</Link> so you can save and edit
+              them. Then add recipes to your <Link to="/planner">planner</Link>{' '}
+              to get a handy <Link to="/shopping">shopping list</Link>.{' '}
+            </p>
+          </motion.div>
           <div
             className={styles.contenttoggle}
             title={

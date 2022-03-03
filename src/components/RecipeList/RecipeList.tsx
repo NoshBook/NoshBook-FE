@@ -10,7 +10,7 @@ interface RecipeListProps {
   currentPageData: Array<any>;
   isCookbookView?: boolean;
   plannerToggle?: boolean;
-  searchQuery?: string,
+  searchQuery?: string;
   setPlannerToggle?: React.Dispatch<React.SetStateAction<boolean>>;
   handleRemoveFromCookbookClick?: (id: string) => void;
   handleAddToPlannerClick?: (day: string, recipeId: string) => void;
@@ -28,8 +28,8 @@ export default function RecipeList({
   const navigate = useNavigate();
 
   const handleSearchInputChange = (value: string) => {
-    if(setSearchQuery) setSearchQuery(value)
-  }
+    if (setSearchQuery) setSearchQuery(value);
+  };
 
   return (
     <div className={styles.container}>
@@ -43,6 +43,7 @@ export default function RecipeList({
             name="search-items"
             value={searchQuery}
             autoComplete="off"
+            placeholder="Search"
             onChange={({ target }) => handleSearchInputChange(target.value)}
           />
         </div>
