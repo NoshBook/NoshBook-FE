@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import RecipeForm from '../../components/Recipe/RecipeForm';
-import { getRecipeById, postRecipe, updateRecipeById } from '../../services/recipe';
+import {
+  getRecipeById,
+  postRecipe,
+  updateRecipeById,
+} from '../../services/recipe';
 
 export interface RecipeCreateEditProps {
-  isCreating?: boolean
+  isCreating?: boolean;
 }
 
-export default function RecipeCreateEdit({ isCreating }: RecipeCreateEditProps = { isCreating: false }) {
+export default function RecipeCreateEdit(
+  { isCreating }: RecipeCreateEditProps = { isCreating: false },
+) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -15,7 +21,7 @@ export default function RecipeCreateEdit({ isCreating }: RecipeCreateEditProps =
 
   useEffect(() => {
     (async () => {
-      if(!isCreating) {
+      if (!isCreating) {
         try {
           const recipeData = await getRecipeById(id);
           setRecipe(recipeData);
@@ -32,7 +38,7 @@ export default function RecipeCreateEdit({ isCreating }: RecipeCreateEditProps =
 
   const handleSubmit = async (recipeData: any) => {
     try {
-      if(isCreating) {
+      if (isCreating) {
         const { id } = await postRecipe(recipeData);
         navigate(`/recipes/${id}`);
       } else {
@@ -45,6 +51,11 @@ export default function RecipeCreateEdit({ isCreating }: RecipeCreateEditProps =
     }
   };
 
-  if(loading) return <h2>Loading...</h2>;
+  if (loading)
+    return (
+      <div className="authcontextloading">
+        <h2>Loading...</h2>
+      </div>
+    );
   return <RecipeForm initialFormState={recipe} handleSubmit={handleSubmit} />;
 }
