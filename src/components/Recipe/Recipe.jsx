@@ -69,7 +69,7 @@ export default function Recipe({
             <AiOutlinePlusCircle color={'var(--blue)'} /> Planner
           </button>
           {plannerToggle && (
-            <DaysMenu handleAddToPlanner={handleAddToPlanner} />
+            <DaysMenu handleAddToPlanner={handleAddToPlanner} recipeId={id}/>
           )}
         </div>
       </section>
