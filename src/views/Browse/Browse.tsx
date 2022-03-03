@@ -80,6 +80,7 @@ export default function Browse() {
             <RecipeList
               currentPageData={currentPageData}
               searchQuery={searchQuery}
+              isCookbookView={false}
               setSearchQuery={setSearchQuery}
             />
           </section>
