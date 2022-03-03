@@ -20,3 +20,10 @@
   position: relative;
   z-index: 0;
 }
+
+.pagbuttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 50px;
+}
