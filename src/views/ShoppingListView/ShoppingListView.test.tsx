@@ -5,7 +5,7 @@ import { rest } from 'msw';
 import ShoppingListView from './ShoppingListView';
 import { beUrl } from '../../utils/beUrl';
 
-const mockShoppingList = [
+let mockShoppingList = [
   {
     id: 1,
     ingredient: 'test1',
@@ -23,26 +23,20 @@ function copyShoppingList() {
 }
 
 const server = setupServer(
-  rest.put(`${beUrl}/shoppinglist/item/1`,
-    (req, res, ctx) => {
-      const copy = copyShoppingList();
-      copy[0].isChecked = !copy[0].isChecked;
-      return res(ctx.json(copy));
-    }
-  ),
-  rest.get(`${beUrl}/shoppinglist/new`,
-    (req, res, ctx) => {
-      const copy = copyShoppingList();
-      copy[0].ingredient = 'test3';
-      copy[1].ingredient = 'test4';
-      return res(ctx.json(copy));
-    }
-  ),
-  rest.get(`${beUrl}/shoppinglist`,
-    (req, res, ctx) => {
-      return res(ctx.json(mockShoppingList));
-    }
-  )
+  rest.put(`${beUrl}/shoppinglist/item/1`, (req, res, ctx) => {
+    const copy = copyShoppingList();
+    copy[0].isChecked = !copy[0].isChecked;
+    return res(ctx.json(copy));
+  }),
+  rest.get(`${beUrl}/shoppinglist/new`, (req, res, ctx) => {
+    const copy = copyShoppingList();
+    copy[0].ingredient = 'test3';
+    copy[1].ingredient = 'test4';
+    return res(ctx.json(copy));
+  }),
+  rest.get(`${beUrl}/shoppinglist`, (req, res, ctx) => {
+    return res(ctx.json(mockShoppingList));
+  }),
 );
 
 describe('ShoppingList', () => {
@@ -126,5 +120,28 @@ describe('ShoppingList', () => {
     fireEvent.change(searchInput, { target: { value: '1' } });
     expect(test1).toBeInTheDocument();
     expect(test2).not.toBeInTheDocument();
+  });
+
+  it('should display the total for each set of ingredients', async () => {
+    mockShoppingList = [
+      {
+        id: 1,
+        ingredient: '1 tablespoon test',
+        isChecked: false,
+      },
+      {
+        id: 2,
+        ingredient: '1 tablespoon test',
+        isChecked: false,
+      },
+    ];
+    render(
+      <MemoryRouter>
+        <ShoppingListView />
+      </MemoryRouter>,
+    );
+    const testTotal = await screen.findByText(/2 tablespoons/i);
+
+    expect(testTotal).toBeInTheDocument();
   });
 });
