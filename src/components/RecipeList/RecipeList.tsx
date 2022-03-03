@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 
 interface RecipeListProps {
   currentPageData: Array<any>;
-  isCookbookView?: boolean;
+  isCookbookView: boolean;
   plannerToggle?: boolean;
   searchQuery?: string,
   setPlannerToggle?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,16 +49,17 @@ export default function RecipeList({
       </div>
       <ul className={styles.listcontainer}>
         {currentPageData.map((recipe: any) => {
+          const path = isCookbookView ? 'cookbook' : 'recipes';
           return (
             <motion.li
               whileHover={{ scale: 1.02 }}
               key={recipe.id}
-              onClick={() => navigate(`/recipes/${recipe.id}`)}
+              onClick={() => navigate(`/${path}/${recipe.id}`)}
             >
               {isCookbookView ? (
                 <RecipeCard
                   recipe={recipe}
-                  isCookbookView={true}
+                  isCookbookView={isCookbookView}
                   handleRemoveFromCookbookClick={handleRemoveFromCookbookClick}
                   handleAddToPlannerClick={handleAddToPlannerClick}
                 />
