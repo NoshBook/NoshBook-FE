@@ -1,15 +1,12 @@
 import { beUrl } from '../../utils/beUrl';
 import { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
 
-export async function insertRecipeIntoCookbook(
-  recipeId: string,
-  userId: string,
-) {
+export async function insertRecipeIntoCookbook(recipeId: string) {
   try {
     const res = await fetch(`${beUrl}/cookbooks/add`, {
       credentials: 'include',
       method: 'POST',
-      body: JSON.stringify({ recipeId, userId }),
+      body: JSON.stringify({ recipeId }),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
