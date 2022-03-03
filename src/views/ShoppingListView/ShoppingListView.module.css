@@ -21,12 +21,12 @@
 .itemcontainer {
   display: flex;
   flex-direction: column;
-  max-width: 300px;
+  max-width: 350px;
 }
 
 .total {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   font-weight: bolder;
   color: var(--orange);
 }
