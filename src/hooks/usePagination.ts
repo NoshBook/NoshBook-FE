@@ -8,8 +8,10 @@ import { BrowseRecipe } from '../views/Browse/interfaces/BrowseRecipe';
 interface PaginationFeatures {
   nextPage: () => void;
   prevPage: () => void;
+  fetchCookbookRecipeData: () => void;
   currentPageData: Array<BrowseRecipe>;
   currentPage: number;
+  isLoading: boolean;
 }
 
 export default function usePagination(
@@ -20,26 +22,43 @@ export default function usePagination(
   const [currentPageData, setCurrentPageData] = useState<Array<BrowseRecipe>>(
     [],
   );
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
   useEffect(() => {
     async function fetchRecipes() {
       // if rendering in cookbook view...
       if (isCookbookView) {
-        const newPageData = await getPaginatedCookbookRecipes(currentPage, 20);
+        const newPageData = await getPaginatedCookbookRecipes(
+          currentPage,
+          itemsPerPage,
+        );
         setCurrentPageData(newPageData);
         // if rendering elsewhere(browse all)...
       } else {
         const newPageData = await getPaginatedRecipes(
           currentPage,
-          20,
+          itemsPerPage,
           user.showUserContent,
         );
         setCurrentPageData(newPageData);
       }
     }
+    setIsLoading(true);
     fetchRecipes();
+    setIsLoading(false);
   }, [currentPage, user.showUserContent]);
+
+  /**
+   * WARNING: Should only be used in Cookbook View.
+   * Makes a network call for updated cookbook recipe data.
+   */
+  async function fetchCookbookRecipeData() {
+    setIsLoading(true);
+    const newPageData = await getPaginatedCookbookRecipes(currentPage, 20);
+    setCurrentPageData(newPageData);
+    setIsLoading(false);
+  }
 
   function nextPage() {
     setCurrentPage((currentPage) => currentPage + 1);
@@ -48,5 +67,12 @@ export default function usePagination(
   function prevPage() {
     if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
   }
-  return { nextPage, prevPage, currentPageData, currentPage };
+  return {
+    nextPage,
+    prevPage,
+    currentPageData,
+    currentPage,
+    isLoading,
+    fetchCookbookRecipeData,
+  };
 }
