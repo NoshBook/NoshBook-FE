@@ -1,8 +1,9 @@
 import styles from './Recipe.module.css';
 import { Rating } from 'react-simple-star-rating';
 import DaysMenu from '../DaysMenu/DaysMenu';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { AiOutlineEdit, AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
+import { motion } from 'framer-motion';
 
 export default function Recipe({
   id,
@@ -22,6 +23,7 @@ export default function Recipe({
   setPlannerToggle,
   handleAddToPlanner,
   added,
+  isCookbookView
 }) {
   return (
     <main className={styles.container}>
@@ -70,6 +72,19 @@ export default function Recipe({
           </button>
           {plannerToggle && (
             <DaysMenu handleAddToPlanner={handleAddToPlanner} recipeId={id}/>
+          )}
+          {isCookbookView && (
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              aria-label="Edit Recipe. Redirects to new page."
+              onClick={(e) => {
+                e.stopPropagation();
+                // may need to be updated after create/edit is pushed
+                navigate(`/recipes/edit/${recipe.id}`);
+              }}
+            >
+              <AiOutlineEdit color={'var(--blue)'} /> Edit
+            </motion.button>
           )}
         </div>
       </section>

@@ -10,7 +10,7 @@ import {
 } from '../../services/cookbook/cookbook';
 import { addPlannerRecipe } from '../../services/planner';
 
-export default function RecipeDetail() {
+export default function RecipeDetail({ isCookbookView }) {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [recipe, setRecipe] = useState(null);
@@ -80,6 +80,7 @@ export default function RecipeDetail() {
           handleRecipe={
             added ? handleRemoveRecipeFromCookbook : handleAddRecipeToCookbook
           }
+          isCookbookView={isCookbookView}
           addOrRemove={
             added === null
               ? 'null'
