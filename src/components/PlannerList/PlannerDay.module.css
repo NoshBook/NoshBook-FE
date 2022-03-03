@@ -1,0 +1,29 @@
+.container {
+  border: none;
+  background-color: var(--light-black);
+  border-radius: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0px 5px 15px rgb(18, 17, 17);
+}
+
+.container button {
+  margin-right: 10px;
+  background-color: var(--light-gray);
+  border: none;
+  color: var(--orange);
+  cursor: pointer;
+}
+
+.recipes {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}

@@ -1,53 +1,74 @@
-import { useState, useEffect } from 'react';
-import { getRecipes } from '../../utils/fetchUtils';
+/* eslint-disable */
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import RecipeCard from '../RecipeCard/RecipeCard';
+import { BrowseRecipe } from '../../views/Browse/interfaces/BrowseRecipe';
+import styles from './RecipeList.module.css';
+import { motion } from 'framer-motion';
 
-export default function RecipeList() {
-  const [recipes, setRecipes] = useState<any>([]);
-  const [searchResults, setSearchResults] = useState<any>([]);
-  const [searchInput, setSearchInput] = useState<any>([]);
-  const [list, setList] = useState(searchResults ? searchResults : recipes);
+interface RecipeListProps {
+  currentPageData: Array<any>;
+  isCookbookView?: boolean;
+  plannerToggle?: boolean;
+  searchQuery?: string,
+  setPlannerToggle?: React.Dispatch<React.SetStateAction<boolean>>;
+  handleRemoveFromCookbookClick?: (id: string) => void;
+  handleAddToPlannerClick?: (day: string, recipeId: string) => void;
+  setSearchQuery?: React.Dispatch<React.SetStateAction<string>>;
+}
 
-  useEffect(() => {
-    const getAllRecipes = async () => {
-      const res = await getRecipes();
-      setRecipes(res);
-      setList(res);
-    };
-    getAllRecipes();
-  }, []);
+export default function RecipeList({
+  currentPageData,
+  isCookbookView,
+  searchQuery,
+  setSearchQuery,
+  handleRemoveFromCookbookClick,
+  handleAddToPlannerClick,
+}: RecipeListProps) {
+  const navigate = useNavigate();
 
-  const searchItems = (query: string) => {
-    setSearchInput(query.toLowerCase());
-    const results = recipes.filter((recipe: any) => {
-      const name = recipe.name.toLowerCase();
-      return name.includes(query);
-    });
-    setSearchResults(results);
-    setList(results);
-  };
+  const handleSearchInputChange = (value: string) => {
+    if(setSearchQuery) setSearchQuery(value)
+  }
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Recipes</h1>
-      <form>
-        <label htmlFor='search-items'></label>
-        <input
-          id='search-items'
-          type='text'
-          name='search-items'
-          value={searchInput}
-          autoComplete='off'
-          onChange={({ target }) => searchItems(target.value)}
-        />
-      </form>
-      {list.map((recipe: any) => {
-        return (
-          <div key={recipe.id}>
-            <h2>{recipe.name}</h2>
-            <p>{recipe.description}</p>
-          </div>
-        );
-      })}
+      <div className={styles.search}>
+        <div>
+          <label htmlFor="search-items"></label>
+          <input
+            id="search-items"
+            type="text"
+            name="search-items"
+            value={searchQuery}
+            autoComplete="off"
+            onChange={({ target }) => handleSearchInputChange(target.value)}
+          />
+        </div>
+      </div>
+      <ul className={styles.listcontainer}>
+        {currentPageData.map((recipe: any) => {
+          return (
+            <motion.li
+              whileHover={{ scale: 1.02 }}
+              key={recipe.id}
+              onClick={() => navigate(`/recipes/${recipe.id}`)}
+            >
+              {isCookbookView ? (
+                <RecipeCard
+                  recipe={recipe}
+                  isCookbookView={true}
+                  handleRemoveFromCookbookClick={handleRemoveFromCookbookClick}
+                  handleAddToPlannerClick={handleAddToPlannerClick}
+                />
+              ) : (
+                <RecipeCard recipe={recipe} />
+              )}
+            </motion.li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

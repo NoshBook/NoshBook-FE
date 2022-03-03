@@ -1,0 +1,24 @@
+.daysmenu {
+  list-style: none;
+  padding: 0;
+  z-index: 1;
+  position: absolute;
+  background-color: var(--light-gray);
+  margin: 0;
+  border-radius: 5px;
+}
+
+.daysmenu ul {
+  display: flex;
+}
+
+.dayli {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  padding-left: 6px;
+  padding-right: 23px;
+}

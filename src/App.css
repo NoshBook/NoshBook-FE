@@ -1,38 +1,99 @@
-.App {
-  text-align: center;
+/* header fonts */
+@import url('https://fonts.googleapis.com/css2?family=Candal&display=swap');
+/* font-family: 'Candal', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Galindo&display=swap');
+/* font-family: 'Galindo', sans-serif; */
+/* body fonts */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+/* font-family: 'Quicksand', sans-serif; */
+
+:root {
+  --black: rgb(34, 37, 41);
+  --light-black: rgb(49, 54, 60);
+  --navy: rgb(8, 32, 50);
+  --dark-gray: rgb(44, 57, 75);
+  --light-gray: rgb(51, 71, 86);
+  --orange: rgb(255, 76, 41);
+  --blue: rgb(93, 168, 233);
+  --purple: rgb(132, 54, 201);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+html {
+  background-color: var(--black);
+  color: white;
+  font-family: 'Quicksand', sans-serif;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+h1 {
+  font-family: 'Candal', sans-serif;
+  /* font-family: 'Galindo', sans-serif; */
+  color: var(--orange);
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  font-family: 'Candal', sans-serif;
+  /* font-family: 'Galindo', sans-serif; */
+  color: var(--blue);
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.active {
+  text-decoration: underline;
+  color: var(--orange);
+}
+
+p,
+h3,
+article,
+section,
+label,
+input {
+  font-family: 'Quicksand', sans-serif;
+}
+
+button {
+  border: none;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1em;
+  color: white;
+  font-weight: 700;
+  border-radius: 5px;
+  background: var(--light-gray);
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  padding: 9px;
+  box-shadow: 0px 5px 15px rgb(18, 17, 17);
+}
+
+article {
+  display: flex;
+}
+
+.authcontextloading {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

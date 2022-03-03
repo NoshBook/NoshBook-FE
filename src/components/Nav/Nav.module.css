@@ -1,0 +1,61 @@
+.nav .mobilemenu {
+  display: none;
+}
+
+.nav ul {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.nav button {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  color: white;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1em;
+  cursor: pointer;
+  font-weight: 300;
+  box-shadow: none;
+}
+
+.nav .hamburgericon {
+  color: var(--orange);
+}
+
+.nav .closeicon {
+  color: var(--orange);
+}
+@media (max-width: 990px) {
+  .nav .desktopmenu {
+    display: none;
+  }
+
+  .nav .mobilemenu {
+    display: flex;
+  }
+
+  .nav .hamburgericon {
+    right: 2%;
+  }
+
+  .nav .closeicon {
+    right: 2%;
+  }
+
+  .nav ul {
+    display: flex;
+    flex-direction: column;
+    right: 0;
+    top: 50px;
+    padding-right: 20px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    background-color: var(--light-black);
+    opacity: 0.95;
+    z-index: 1;
+    position: absolute;
+  }
+}
