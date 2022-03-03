@@ -18,12 +18,16 @@
   --purple: rgb(132, 54, 201);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
-  /* text-align: center; */
   background-color: var(--black);
   color: white;
   font-family: 'Quicksand', sans-serif;
 }
+
 h1 {
   font-family: 'Candal', sans-serif;
   /* font-family: 'Galindo', sans-serif; */
@@ -31,6 +35,7 @@ h1 {
   margin: 0;
   padding: 0;
 }
+
 h2 {
   font-family: 'Candal', sans-serif;
   /* font-family: 'Galindo', sans-serif; */
@@ -38,10 +43,12 @@ h2 {
   margin: 0;
   padding: 0;
 }
+
 ul {
   list-style: none;
   padding: 0;
 }
+
 a {
   text-decoration: none;
   color: white;
@@ -79,4 +86,12 @@ button {
 
 article {
   display: flex;
+}
+
+.authcontextloading {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

@@ -1,9 +1,10 @@
 import RecipeList from '../../components/RecipeList/RecipeList';
 import { useAuth } from '../../context/AuthContext';
 import usePagination from '../../hooks/usePagination';
-import { BrowseRecipe } from './interfaces/BrowseRecipe';
-import { insertRecipeIntoCookbook } from '../../services/cookbook/cookbook';
 import Switch from 'react-switch';
+import styles from './Browse.module.css';
+import { motion } from 'framer-motion';
+import { upfadeinVariants } from '../../utils/variants';
 
 // toggle on page
 // pull in a setUserPreference fn
@@ -14,22 +15,32 @@ export default function Browse() {
   const { user, updateUserPreference } = useAuth();
 
   return (
-    <main>
-      <article
+    <motion.main
+      className={styles.container}
+      variants={upfadeinVariants}
+      initial={'initial'}
+      animate={'animate'}
+    >
+      <div
+        className={styles.contenttoggle}
         title={
           user.id
             ? 'Click to toggle user content'
             : 'Login to toggle user content'
         }
       >
-        <p>Show User Content:</p>
+        <p>Show User Recipes</p>
         <Switch
+          height={20}
+          width={40}
+          handleDiameter={20}
+          onColor={'#FF4C29'}
           checked={user.showUserContent}
           onChange={updateUserPreference}
           disabled={user.id ? false : true}
         />
-      </article>
-      <section>
+      </div>
+      <section className={styles.listcontainer}>
         <RecipeList currentPageData={currentPageData} />
       </section>
       <section aria-label="Pagination Options">
@@ -40,6 +51,6 @@ export default function Browse() {
           next page
         </button>
       </section>
-    </main>
+    </motion.main>
   );
 }

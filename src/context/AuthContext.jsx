@@ -28,13 +28,17 @@ const AuthProvider = ({ children }) => {
 
   const value = useMemo(
     () => ({ user, setUser, updateUserPreference }),
-    [user]
+    [user],
   );
   if (loading) {
     // This component will lose its state on page refreshes and manually entered URLs.
     // Adding this wait allows the user to be fetched before rendering any child
     // PrivateRoutes, which prevents logged in users from being erroneously redirected.
-    return <h2>Loading...</h2>;
+    return (
+      <div className="authcontextloading">
+        <h2>Loading...</h2>
+      </div>
+    );
   } else {
     return (
       <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

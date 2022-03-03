@@ -5,8 +5,10 @@
   background-color: var(--light-black);
   padding: 20px;
   border-radius: 10px;
-  min-height: 500px;
+  min-height: 400px;
   box-shadow: 0px 5px 15px rgb(18, 17, 17);
+  cursor: pointer;
+  gap: 10px;
 }
 
 .cardimg {
