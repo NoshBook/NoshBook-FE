@@ -120,7 +120,9 @@ export default function Planner(): JSX.Element {
       </section>
       <section>
         {loading ? (
-          <h1>...LOADING</h1>
+          <div className="authcontextloading">
+            <h2>Loading...</h2>
+          </div>
         ) : (
           <PlannerList days={days} handleDelete={handleDelete} />
         )}

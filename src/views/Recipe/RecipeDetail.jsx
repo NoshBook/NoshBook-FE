@@ -9,6 +9,7 @@ import {
   removeRecipeFromCookbook,
 } from '../../services/cookbook/cookbook';
 import { addPlannerRecipe } from '../../services/planner';
+import styles from '../../App.css';
 
 export default function RecipeDetail() {
   const { id } = useParams();
@@ -31,6 +32,7 @@ export default function RecipeDetail() {
       } else {
         setAdded(false);
       }
+      setLoading(false);
     };
     loadRecipe();
   }, [id]);
@@ -73,7 +75,11 @@ export default function RecipeDetail() {
 
   return (
     <div>
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <div className="authcontextloading">
+          <h2>Loading...</h2>
+        </div>
+      )}
       {recipe && (
         <Recipe
           {...recipe}

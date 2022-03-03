@@ -37,7 +37,9 @@ export default function CookBook() {
     >
       <h2>Cookbook</h2>
       {isLoading ? (
-        'Loading...'
+        <div className="authcontextloading">
+          <h2>Loading...</h2>
+        </div>
       ) : currentPageData.length ? (
         <>
           <motion.button

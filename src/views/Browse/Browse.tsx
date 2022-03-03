@@ -20,14 +20,18 @@ export default function Browse() {
 
   useEffect(() => {
     window.clearTimeout(timeoutHandle);
-    const handle = window.setTimeout(() => { setDebouncedSearchQuery(searchQuery) }, 500);
+    const handle = window.setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 500);
     setTimeoutHandle(handle);
-  }, [searchQuery])
+  }, [searchQuery]);
 
   return (
     <>
       {isLoading ? (
-        'Loading...'
+        <div className="authcontextloading">
+          <h2>Loading...</h2>
+        </div>
       ) : (
         <motion.main
           className={styles.container}
