@@ -22,6 +22,7 @@ export default function MobileMenu() {
 
   const hamburgerIcon = (
     <FaHamburger
+      cursor={'pointer'}
       size={25}
       className={styles.hamburgericon}
       onClick={() => setMenuToggle(!menuToggle)}
@@ -30,6 +31,7 @@ export default function MobileMenu() {
 
   const closeIcon = (
     <IoIosCloseCircleOutline
+      cursor={'pointer'}
       size={25}
       className={styles.closeicon}
       onClick={() => setMenuToggle(!menuToggle)}
