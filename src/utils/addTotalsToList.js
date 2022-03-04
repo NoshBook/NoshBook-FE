@@ -4,10 +4,13 @@ export default function addTotals(list) {
   if (!list?.length) return [];
 
   const sortedAndCleanedUpList = prepareList(list);
+
   const listWithTotals = makeSubGroupsWithTotals(sortedAndCleanedUpList);
+
   const sortedListWithTotals = listWithTotals.map((subArr) =>
     sortByChecked(subArr),
   );
+
   return sortedListWithTotals;
 }
 
@@ -20,15 +23,16 @@ const prepareList = (list) => {
   );
 
   const parsedList = filteredList.map((item) => {
-    const regexed = regexIngredient(item.ingredient);
-    const parsed = parseIngredient(regexed);
-    const sanitized = sanitizeIngredient(parsed.ingredient);
-    const parsedIngredient = { ...parsed, ingredient: sanitized };
+    // clean up and parse each ingredient into quantity, unit of measure, and ingredient name
+    const preParsed = preParseCleanUp(item.ingredient);
+    const parsed = parseIngredient(preParsed);
+    const postParsed = postParseCleanUp(parsed.ingredient);
+    const parsedIngredient = { ...parsed, ingredient: postParsed };
 
     return { ...item, parsedIngredient };
   });
 
-  const sortedList = sortIngredients(parsedList);
+  const sortedList = sortIngredientsAlphabetically(parsedList);
   return sortedList;
 };
 
@@ -56,17 +60,21 @@ const createTotalString = ({ quantity, unit, unitPlural, ingredient }) => {
 
 const parseIngredient = (ingredient) => {
   // fix issue with double ts while using recipe parser library
-  const regex = new RegExp('tt');
-  const hasDoubleTs = regex.test(ingredient);
-  const originalWord = ingredient.split(' ').find((item) => regex.test(item));
+  const doubleTregex = new RegExp('tt');
+  const hasDoubleTs = doubleTregex.test(ingredient);
+  const originalWord = ingredient
+    .split(' ')
+    .find((item) => doubleTregex.test(item));
   if (hasDoubleTs) {
-    ingredient = ingredient.replace(regex, 't');
+    ingredient = ingredient.replace(doubleTregex, 't');
   }
+
   let parsed = parse(ingredient, 'eng');
 
+  // insert the word that had double Ts back into the string after parsing
   if (hasDoubleTs) {
     const parsedTemp = { ...parsed };
-    const wordToChange = originalWord.replace(regex, 't');
+    const wordToChange = originalWord.replace(doubleTregex, 't');
 
     parsed = {
       ...parsedTemp,
@@ -77,7 +85,7 @@ const parseIngredient = (ingredient) => {
   return parsed;
 };
 
-const regexIngredient = (ingredient) => {
+const preParseCleanUp = (ingredient) => {
   let ingred = ingredient;
   const regexBadWords = [
     /\(optional\)/,
@@ -104,7 +112,7 @@ const regexIngredient = (ingredient) => {
 };
 
 // remove units that were left on the ingredient name string and anything after the last comma
-const sanitizeIngredient = (ingredient) => {
+const postParseCleanUp = (ingredient) => {
   const badWords = ['tablespoon', 'teaspoon', 'ounce', 'ounces'];
   let ingred = ingredient;
   if (ingred.includes(',') && ingred[ingred.length - 1] !== ')') {
@@ -121,17 +129,19 @@ const sanitizeIngredient = (ingredient) => {
   return finalString.join(' ').trim();
 };
 
-const sortIngredients = (list) => {
+const sortIngredientsAlphabetically = (list) => {
   const compareIngredients = (a, b) => {
-    if (a.parsedIngredient.ingredient > b.parsedIngredient.ingredient) return 1;
-    if (a.parsedIngredient.ingredient < b.parsedIngredient.ingredient)
-      return -1;
+    const firstIngredient = a.parsedIngredient.ingredient.toLowerCase();
+    const secondIngredient = b.parsedIngredient.ingredient.toLowerCase();
+    if (firstIngredient > secondIngredient) return 1;
+    if (firstIngredient < secondIngredient) return -1;
     return 0;
   };
   const sortedIngredients = list.sort(compareIngredients);
   return sortedIngredients;
 };
 
+// sort ingredients that are checked to the bottom of each subarray
 const sortByChecked = (list) => {
   const compareIngredients = (a, b) => {
     if (a.isChecked > b.isChecked) return 1;
@@ -142,21 +152,27 @@ const sortByChecked = (list) => {
   return sortedIngredients;
 };
 
+// break the list out into similar ingredients and make totals for each group of ingredients
 const makeSubGroupsWithTotals = (list) => {
   let subArrayCounter = 0;
   const listWithTotals = [[]];
 
   list.reduce((acc, cur, i, arr) => {
+    const currentIngredient = cur.parsedIngredient.ingredient;
+    const currentUnit = cur.parsedIngredient.unit;
+    const previousIngredientIfExists = arr[i - 1]?.parsedIngredient.ingredient;
+    const previousUnitIfExists = arr[i - 1]?.parsedIngredient.unit;
+    const accumulatedIngredient =
+      acc[acc.length - 1]?.parsedIngredient.ingredient;
+    const accumulatedUnit = acc[acc.length - 1]?.parsedIngredient.unit;
+
     const curIngredNotSameAsPrev =
-      arr[i - 1] &&
-      cur.parsedIngredient.ingredient !==
-        arr[i - 1]?.parsedIngredient.ingredient;
+      arr[i - 1] && currentIngredient !== previousIngredientIfExists;
 
     const curIngredSameButDiffUnit =
       arr[i - 1] &&
-      cur.parsedIngredient.ingredient ===
-        arr[i - 1]?.parsedIngredient.ingredient &&
-      cur.parsedIngredient.unit !== arr[i - 1]?.parsedIngredient.unit;
+      currentIngredient === previousIngredientIfExists &&
+      currentUnit !== previousUnitIfExists;
 
     // if the current item is not the same ingredient and measurement as the previous item or the ingredients are the same, but not the units, push the accumulated total of previous item to final list and create a new subarray
     if (curIngredNotSameAsPrev || curIngredSameButDiffUnit) {
@@ -168,15 +184,15 @@ const makeSubGroupsWithTotals = (list) => {
       subArrayCounter += 1;
     }
 
-    const prevQuantityExists = acc[acc.length - 1]?.parsedIngredient.quantity;
-    const curIngredSameAsPrev =
-      cur.parsedIngredient.ingredient ===
-      acc[acc.length - 1]?.parsedIngredient.ingredient;
-    const unitsAreSame =
-      cur.parsedIngredient.unit === acc[acc.length - 1]?.parsedIngredient.unit;
+    const curIngredSameAsPrev = currentIngredient === accumulatedIngredient;
+    const unitsAreSame = currentUnit === accumulatedUnit;
 
     // if the current item is the same ingredient and measurement as the previous item/previous accumulated total, add the amounts together and set as the new accumulated total
-    if (prevQuantityExists && curIngredSameAsPrev && unitsAreSame) {
+    if (
+      acc[acc.length - 1]?.parsedIngredient.quantity &&
+      curIngredSameAsPrev &&
+      unitsAreSame
+    ) {
       const addedAmounts =
         acc[acc.length - 1].parsedIngredient.quantity +
         cur.parsedIngredient.quantity;
@@ -197,7 +213,9 @@ const makeSubGroupsWithTotals = (list) => {
       isChecked: cur.isChecked,
     });
 
-    if (i === arr.length - 1) {
+    // push the last total on at the end
+    const lastIndex = i === arr.length - 1;
+    if (lastIndex) {
       const totalIngredient = createTotalString(
         acc[acc.length - 1].parsedIngredient,
       );
