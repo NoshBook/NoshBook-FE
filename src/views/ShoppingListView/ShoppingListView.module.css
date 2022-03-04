@@ -1,0 +1,32 @@
+.viewcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.viewcontainer input {
+  border-radius: 5px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.listcontainer {
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.itemcontainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+}
+
+.total {
+  display: flex;
+  justify-content: flex-end;
+  font-weight: bolder;
+  color: var(--orange);
+}

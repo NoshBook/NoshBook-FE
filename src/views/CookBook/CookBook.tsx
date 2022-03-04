@@ -1,10 +1,11 @@
-import React from 'react';
 import { removeRecipeFromCookbook } from '../../services/cookbook/cookbook';
 import { addPlannerRecipe } from '../../services/planner';
 import { useNavigate } from 'react-router-dom';
 import RecipeList from '../../components/RecipeList/RecipeList';
 import usePagination from '../../hooks/usePagination';
 import styles from './CookBook.module.css';
+import { motion } from 'framer-motion';
+import { upfadeinVariants } from '../../utils/variants';
 
 export default function CookBook() {
   const navigate = useNavigate();
@@ -28,15 +29,26 @@ export default function CookBook() {
   };
 
   return (
-    <main>
+    <motion.main
+      variants={upfadeinVariants}
+      initial={'initial'}
+      animate={'animate'}
+      className={styles.container}
+    >
+      <h2>Cookbook</h2>
       {isLoading ? (
-        'Loading...'
+        <div className="authcontextloading">
+          <h2>Loading...</h2>
+        </div>
       ) : currentPageData.length ? (
         <>
-          <button onClick={() => navigate('/recipes/new')}>
-            Create New Recipe
-          </button>
-          <section aria-label="Recipe list.">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            onClick={() => navigate('/recipes/new')}
+          >
+            Create new recipe
+          </motion.button>
+          <section aria-label="Recipe list">
             <RecipeList
               currentPageData={currentPageData}
               isCookbookView={true}
@@ -46,7 +58,7 @@ export default function CookBook() {
           </section>
         </>
       ) : (
-        <h2>No Recipes to render</h2>
+        <h2>No recipes to render</h2>
       )}
       <section aria-label="Pagination Options" className={styles.pagbuttons}>
         <button onClick={prevPage} disabled={currentPage === 1}>
@@ -56,6 +68,6 @@ export default function CookBook() {
           next page
         </button>
       </section>
-    </main>
+    </motion.main>
   );
 }

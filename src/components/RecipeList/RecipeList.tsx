@@ -10,35 +10,42 @@ interface RecipeListProps {
   currentPageData: Array<any>;
   isCookbookView?: boolean;
   plannerToggle?: boolean;
+  searchQuery?: string,
   setPlannerToggle?: React.Dispatch<React.SetStateAction<boolean>>;
   handleRemoveFromCookbookClick?: (id: string) => void;
   handleAddToPlannerClick?: (day: string, recipeId: string) => void;
+  setSearchQuery?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function RecipeList({
   currentPageData,
   isCookbookView,
+  searchQuery,
+  setSearchQuery,
   handleRemoveFromCookbookClick,
   handleAddToPlannerClick,
 }: RecipeListProps) {
-  const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
+
+  const handleSearchInputChange = (value: string) => {
+    if(setSearchQuery) setSearchQuery(value)
+  }
 
   return (
     <div className={styles.container}>
       <h1>Recipes</h1>
       <div className={styles.search}>
-        <form>
+        <div>
           <label htmlFor="search-items"></label>
           <input
             id="search-items"
             type="text"
             name="search-items"
-            value={searchInput}
+            value={searchQuery}
             autoComplete="off"
-            onChange={({ target }) => setSearchInput(target.value)}
+            onChange={({ target }) => handleSearchInputChange(target.value)}
           />
-        </form>
+        </div>
       </div>
       <ul className={styles.listcontainer}>
         {currentPageData.map((recipe: any) => {
