@@ -62,12 +62,8 @@ export default function RecipeDetail({ isCookbookView }) {
   };
 
   const handleRemoveRecipeFromCookbook = async (id, name) => {
-    const response = await removeRecipeFromCookbook(id);
-    if (response.id) {
-      giveUserFeedback(false, `${name} removed from cookbook!`);
-    } else {
-      giveUserFeedback(true);
-    }
+    await removeRecipeFromCookbook(id);
+    giveUserFeedback(false, `${name} removed from cookbook!`);
     setAdded(false);
   };
 
@@ -77,6 +73,7 @@ export default function RecipeDetail({ isCookbookView }) {
 
   const handleAddToPlanner = async (day, recipeId) => {
     await addPlannerRecipe({ recipeId, day });
+    giveUserFeedback(false, `Added to ${day}.`);
     setPlannerToggle(!plannerToggle);
   };
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './UserFeedback.module.css';
 
+// Feel free to change however you see fit
 const rightslideinVariants = {
   initial: {
     x: '150vw',
