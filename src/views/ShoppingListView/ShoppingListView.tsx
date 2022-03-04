@@ -71,7 +71,7 @@ export default function ShoppingListView() {
       initial={'initial'}
       animate={'animate'}
     >
-      <h2>ShoppingList</h2>
+      <h2>Shopping List</h2>
       <button onClick={getNewShoppingList}>Generate New List</button>
       <div>
         <label>

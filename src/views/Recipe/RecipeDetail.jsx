@@ -25,7 +25,7 @@ export default function RecipeDetail({ isCookbookView }) {
       setRecipe(response);
       setUserRating(response.rating);
       const cookbookResponse = await getUserCookbook(user.id);
-      if (cookbookResponse) {
+      if (Array.isArray(cookbookResponse)) {
         const recipeIds = cookbookResponse.map((entry) => entry.id);
         setAdded(recipeIds.includes(id));
       } else {

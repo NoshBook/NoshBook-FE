@@ -16,6 +16,7 @@ export default function RecipeForm({
     initialFormState.instructions ?? [],
   );
   const [tags, setTags] = useState(initialFormState.tags ?? []);
+  const [review, setReview] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -86,7 +87,7 @@ export default function RecipeForm({
   };
 
   const handleFormSubmit = () => {
-    handleSubmit({ ...formState, ingredients, instructions, tags });
+    handleSubmit({ ...formState, ingredients, instructions, tags, review });
   };
 
   return (
@@ -205,6 +206,19 @@ export default function RecipeForm({
           </label>
         </section>
       </main>
+      <div className={styles.reviewcheckbox}>
+        <label>
+          <input
+            type="checkbox"
+            id="review"
+            name="review"
+            onChange={() => setReview(!review)}
+          ></input>{' '}
+          I would like to this recipe to be considered for addition to the
+          publicly viewable list of user recipes on Noshbook.
+        </label>
+      </div>
+
       <button
         className={styles.submitbutton}
         type="submit"
