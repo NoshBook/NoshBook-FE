@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-// pairs with a component which takes takes in these states.
-//  if a feedback message is not offered, conditionally render a check or X. <-- design can be rescoped.
+/**
+ * Pairs with UserFeedback component.
+ */
 export default function useFeedback() {
   const [isFeedback, setIsFeedback] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState<null | string>(null);
