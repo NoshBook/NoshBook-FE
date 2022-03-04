@@ -96,7 +96,9 @@ describe('Planner', () => {
     );
 
     await screen.findByText(/banana bread/i);
-    const shoppingButton = await screen.findByText(/shopping list/i);
+    const shoppingButton = await screen.findByRole('button', {
+      name: /shopping list/i,
+    });
     fireEvent.click(shoppingButton);
 
     const something = await screen.findAllByText(/something/i);
