@@ -39,7 +39,7 @@ export default function RecipeCreateEdit(
   const handleSubmit = async (recipeData: any) => {
     try {
       if (isCreating) {
-        const { id } = await postRecipe(recipeData);
+        const id = await postRecipe(recipeData);
         navigate(`/recipes/${id}`);
       } else {
         const newId = await updateRecipeById(id, recipeData);
