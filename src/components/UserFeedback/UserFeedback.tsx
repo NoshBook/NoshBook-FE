@@ -8,7 +8,7 @@ const rightslideinVariants = {
   },
   animate: {
     x: ['150vw', '0vw', '0vw', '150vw'],
-    transition: { duration: 1.7, times: [0, 0.25, 0.75, 1] },
+    transition: { duration: 1.7, times: [0, 0.15, 0.85, 1] },
   },
 };
 
