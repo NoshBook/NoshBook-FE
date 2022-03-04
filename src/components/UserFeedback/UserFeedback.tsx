@@ -5,11 +5,11 @@ import styles from './UserFeedback.module.css';
 // Feel free to change however you see fit
 const rightslideinVariants = {
   initial: {
-    x: '150vw',
+    x: '125vw',
   },
   animate: {
-    x: ['150vw', '0vw', '0vw', '150vw'],
-    transition: { duration: 1.7, times: [0, 0.15, 0.85, 1] },
+    x: ['125vw', '0vw', '0vw', '125vw'],
+    transition: { duration: 2, times: [0, 0.15, 0.85, 1] },
   },
 };
 

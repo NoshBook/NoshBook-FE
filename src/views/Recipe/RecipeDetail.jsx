@@ -72,9 +72,13 @@ export default function RecipeDetail({ isCookbookView }) {
   };
 
   const handleAddToPlanner = async (day, recipeId) => {
-    await addPlannerRecipe({ recipeId, day });
-    giveUserFeedback(false, `Added to ${day}.`);
-    setPlannerToggle(!plannerToggle);
+    if (user.id) {
+      await addPlannerRecipe({ recipeId, day });
+      giveUserFeedback(false, `Added to ${day}.`);
+      setPlannerToggle(!plannerToggle);
+    } else {
+      giveUserFeedback(true, 'Login to add recipes to your planner!');
+    }
   };
 
   return (
