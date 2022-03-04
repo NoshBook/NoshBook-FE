@@ -1,11 +1,11 @@
 .container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 2em 13em 8em;
   width: 350px;
   background-color: var(--light-black);
   padding: 20px;
   border-radius: 10px;
-  min-height: 400px;
+  height: 100%;
   box-shadow: 0px 5px 15px rgb(18, 17, 17);
   cursor: pointer;
   gap: 10px;
@@ -19,6 +19,16 @@
 
 .cardh2 {
   margin-bottom: 10px;
+  align-self: center;
+}
+
+.cardp {
+  align-self: center;
+}
+
+.cardpsmalldescription {
+  align-self: center;
+  font-size: 90%;
 }
 
 .cookbookbuttons {

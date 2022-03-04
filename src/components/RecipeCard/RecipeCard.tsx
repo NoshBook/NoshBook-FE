@@ -103,7 +103,15 @@ export default function RecipeCard({
 
       <img className={styles.cardimg} src={image} alt={name} />
 
-      <p>{description}</p>
+      <p
+        className={
+          description?.length < 200
+            ? styles.cardp
+            : styles.cardpsmalldescription
+        }
+      >
+        {description}
+      </p>
     </article>
   );
 }
