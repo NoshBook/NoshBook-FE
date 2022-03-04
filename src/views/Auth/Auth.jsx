@@ -34,7 +34,7 @@ export default function Auth() {
       if (res.id) {
         await logIn(username, password);
         console.log(res);
-        setUser(res.username);
+        setUser(res);
         navigate(from, { replace: true });
       }
     } catch (error) {

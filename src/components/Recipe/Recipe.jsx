@@ -53,20 +53,26 @@ export default function Recipe({
             }
             onClick={() => handleRecipe(id, name)}
           >
-            {added ? <AiOutlineMinusCircle /> : <AiOutlinePlusCircle />}{' '}
+            {added ? (
+              <AiOutlineMinusCircle color={'var(--orange)'} />
+            ) : (
+              <AiOutlinePlusCircle color={'var(--blue)'} />
+            )}{' '}
             Cookbook
           </button>
-          <button
-            aria-label="Add to Planner"
-            title="Click to add to a day on your planner!"
-            className={styles.plannerbutton}
-            onClick={() => setPlannerToggle(!plannerToggle)}
-          >
-            <AiOutlinePlusCircle /> Planner
-          </button>
-          {plannerToggle && (
-            <DaysMenu handleAddToPlanner={handleAddToPlanner} />
-          )}
+          <div className={styles.daysmenucontainer}>
+            <button
+              aria-label="Add to Planner"
+              title="Click to add to a day on your planner!"
+              className={styles.plannerbutton}
+              onClick={() => setPlannerToggle(!plannerToggle)}
+            >
+              <AiOutlinePlusCircle color={'var(--blue)'} /> Planner
+            </button>
+            {plannerToggle && (
+              <DaysMenu handleAddToPlanner={handleAddToPlanner} recipeId={id} />
+            )}
+          </div>
         </div>
       </section>
       <img className={styles.img} src={image} alt={name} />

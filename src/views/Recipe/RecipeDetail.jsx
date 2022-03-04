@@ -31,6 +31,7 @@ export default function RecipeDetail() {
       } else {
         setAdded(false);
       }
+      setLoading(false);
     };
     loadRecipe();
   }, [id]);
@@ -43,7 +44,7 @@ export default function RecipeDetail() {
 
   const handleAddRecipeToCookbook = async (id, name) => {
     if (user.id) {
-      const response = await insertRecipeIntoCookbook(id, user.id);
+      const response = await insertRecipeIntoCookbook(id);
       if (response.message === 'Recipe already exists in user cookbook.') {
         window.alert(response.message);
       } else {
@@ -73,7 +74,11 @@ export default function RecipeDetail() {
 
   return (
     <div>
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <div className="authcontextloading">
+          <h2>Loading...</h2>
+        </div>
+      )}
       {recipe && (
         <Recipe
           {...recipe}

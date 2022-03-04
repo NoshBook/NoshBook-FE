@@ -6,6 +6,14 @@ import { useState } from 'react';
 import DaysMenu from '../DaysMenu/DaysMenu';
 import { useNavigate } from 'react-router-dom';
 import styles from './RecipeCard.module.css';
+import { motion } from 'framer-motion';
+
+import {
+  AiOutlinePlusCircle,
+  AiOutlineEdit,
+  AiOutlineMinusCircle,
+} from 'react-icons/ai';
+
 interface RecipeCardProps {
   recipe: BrowseRecipe;
   isCookbookView?: boolean;
@@ -37,45 +45,50 @@ export default function RecipeCard({
       />
 
       {isCookbookView && (
-        <section aria-label="Recipe Options">
-          <button
+        <section aria-label="Recipe Options" className={styles.cookbookbuttons}>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
             aria-label="Remove recipe from cookbook."
             onClick={(e) => {
               e.stopPropagation();
               handleRemoveFromCookbookClick?.(recipe.id);
             }}
           >
-            Remove From Cookbook
-          </button>
+            <AiOutlineMinusCircle color={'var(--orange)'} />
+            Cookbook
+          </motion.button>
+          <div className={styles.daysmenucontainer}>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              aria-label="Toggles planner options display."
+              aria-pressed={plannerToggle}
+              onClick={(e) => {
+                e.stopPropagation();
+                setPlannerToggle((prevState) => !prevState);
+              }}
+              disabled={user.id ? false : true}
+              // --- Can be removed
+              title={
+                user.id
+                  ? 'Click to interact with recipe options'
+                  : 'Login to interact with recipe options'
+              }
+              // ---
+            >
+              <AiOutlinePlusCircle color={'var(--blue)'} /> Planner
+            </motion.button>
 
-          <button
-            aria-label="Toggles planner options display."
-            aria-pressed={plannerToggle}
-            onClick={(e) => {
-              e.stopPropagation();
-              setPlannerToggle((prevState) => !prevState);
-            }}
-            disabled={user.id ? false : true}
-            // --- Can be removed
-            title={
-              user.id
-                ? 'Click to interact with recipe options'
-                : 'Login to interact with recipe options'
-            }
-            // ---
-          >
-            Add to planner
-          </button>
+            {plannerToggle && (
+              <DaysMenu
+                handleAddToPlanner={handleAddToPlannerClick}
+                recipeId={recipe.id}
+                setPlannerToggle={setPlannerToggle}
+              />
+            )}
+          </div>
 
-          {plannerToggle && (
-            <DaysMenu
-              handleAddToPlanner={handleAddToPlannerClick}
-              recipeId={recipe.id}
-              setPlannerToggle={setPlannerToggle}
-            />
-          )}
-
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
             aria-label="Edit Recipe. Redirects to new page."
             onClick={(e) => {
               e.stopPropagation();
@@ -83,8 +96,8 @@ export default function RecipeCard({
               navigate(`/recipes/edit/${recipe.id}`);
             }}
           >
-            Edit Recipe
-          </button>
+            <AiOutlineEdit color={'var(--blue)'} /> Edit
+          </motion.button>
         </section>
       )}
 
