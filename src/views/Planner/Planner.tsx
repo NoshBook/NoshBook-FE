@@ -93,6 +93,7 @@ export default function Planner(): JSX.Element {
       <h2>Planner</h2>
       <section className={styles.buttoncontainer}>
         <motion.button
+          aria-label="shopping list"
           whileHover={{ scale: 1.02 }}
           onClick={() => navigate('/shopping')}
         >
