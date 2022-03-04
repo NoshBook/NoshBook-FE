@@ -2,6 +2,7 @@ import { beUrl } from '../utils/beUrl.js';
 
 const getShoppingList = async () => {
   const res = await fetch(`${beUrl}/shoppinglist`, { credentials: 'include' });
+
   return await res.json();
 };
 
@@ -24,6 +25,7 @@ const putCheckedValue = async (id: string, isChecked: boolean) => {
     },
     body: JSON.stringify({ isChecked }),
   });
+
   return await res.json();
 };
 
