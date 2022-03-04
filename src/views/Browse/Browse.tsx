@@ -13,7 +13,6 @@ import { useEffect, useState } from 'react';
 export default function Browse() {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
-  const [searchNow, setSearchNow] = useState(false);
   const [timeoutHandle, setTimeoutHandle] = useState(0);
   const { nextPage, prevPage, currentPageData, currentPage, isLoading } =
     usePagination(20, false, debouncedSearchQuery);
