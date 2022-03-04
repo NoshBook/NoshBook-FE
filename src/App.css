@@ -22,11 +22,6 @@
   box-sizing: border-box;
 }
 
-body,
-html {
-  overflow-x: hidden;
-}
-
 html {
   background-color: var(--black);
   color: white;
