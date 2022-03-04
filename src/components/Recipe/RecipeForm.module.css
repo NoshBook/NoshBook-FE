@@ -60,3 +60,8 @@
   justify-content: center;
   margin: 40px;
 }
+
+.reviewcheckbox {
+  width: 350px;
+  margin-top: 10px;
+}
