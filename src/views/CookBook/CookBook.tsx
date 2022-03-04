@@ -1,6 +1,6 @@
 import { removeRecipeFromCookbook } from '../../services/cookbook/cookbook';
 import { addPlannerRecipe } from '../../services/planner';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import RecipeList from '../../components/RecipeList/RecipeList';
 import usePagination from '../../hooks/usePagination';
 import styles from './CookBook.module.css';
@@ -53,18 +53,19 @@ export default function CookBook() {
         <UserFeedback isError={isError} feedbackMessage={feedbackMessage} />
       )}
 
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        onClick={() => navigate('/recipes/new')}
+      >
+        Create new recipe
+      </motion.button>
+
       {isLoading ? (
         <div className="authcontextloading">
           <h2>Loading...</h2>
         </div>
       ) : currentPageData.length ? (
         <>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            onClick={() => navigate('/recipes/new')}
-          >
-            Create new recipe
-          </motion.button>
           <section aria-label="Recipe list">
             <RecipeList
               currentPageData={currentPageData}
@@ -73,18 +74,23 @@ export default function CookBook() {
               handleAddToPlannerClick={handleAddToPlanner}
             />
           </section>
+          <section
+            aria-label="Pagination Options"
+            className={styles.pagbuttons}
+          >
+            <button onClick={prevPage} disabled={currentPage === 1}>
+              prev page
+            </button>
+            <button onClick={nextPage} disabled={currentPageData.length < 20}>
+              next page
+            </button>
+          </section>
         </>
       ) : (
-        <h2>No recipes to render</h2>
+        <h3>
+          No recipes to here yet! <Link to="/">Add some</Link>.
+        </h3>
       )}
-      <section aria-label="Pagination Options" className={styles.pagbuttons}>
-        <button onClick={prevPage} disabled={currentPage === 1}>
-          prev page
-        </button>
-        <button onClick={nextPage} disabled={currentPageData.length < 20}>
-          next page
-        </button>
-      </section>
     </motion.main>
   );
 }
