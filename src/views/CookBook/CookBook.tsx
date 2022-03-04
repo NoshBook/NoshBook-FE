@@ -34,7 +34,7 @@ export default function CookBook() {
       day,
     });
     if (addRecipeToPlannerRes.id) {
-      giveUserFeedback(false);
+      giveUserFeedback(false, `Added to ${day}.`);
     } else {
       giveUserFeedback(true);
     }
