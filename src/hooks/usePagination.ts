@@ -27,6 +27,11 @@ export default function usePagination(
   const { user } = useAuth();
 
   useEffect(() => {
+    // Set the page back to 1 if the user changes the search query
+    setCurrentPage(1);
+  }, [searchQuery])
+
+  useEffect(() => {
     async function fetchRecipes() {
       // if rendering in cookbook view...
       if (isCookbookView) {
