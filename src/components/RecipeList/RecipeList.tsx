@@ -8,9 +8,9 @@ import { motion } from 'framer-motion';
 
 interface RecipeListProps {
   currentPageData: Array<any>;
-  isCookbookView?: boolean;
+  isCookbookView: boolean;
   plannerToggle?: boolean;
-  searchQuery?: string,
+  searchQuery?: string;
   setPlannerToggle?: React.Dispatch<React.SetStateAction<boolean>>;
   handleRemoveFromCookbookClick?: (id: string) => void;
   handleAddToPlannerClick?: (day: string, recipeId: string) => void;
@@ -28,37 +28,40 @@ export default function RecipeList({
   const navigate = useNavigate();
 
   const handleSearchInputChange = (value: string) => {
-    if(setSearchQuery) setSearchQuery(value)
-  }
+    if (setSearchQuery) setSearchQuery(value);
+  };
 
   return (
     <div className={styles.container}>
       <h1>Recipes</h1>
       <div className={styles.search}>
-        <div>
-          <label htmlFor="search-items"></label>
-          <input
-            id="search-items"
-            type="text"
-            name="search-items"
-            value={searchQuery}
-            autoComplete="off"
-            onChange={({ target }) => handleSearchInputChange(target.value)}
-          />
-        </div>
+        { !isCookbookView && (
+          <div>
+            <label htmlFor="search-items"></label>
+            <input
+              id="search-items"
+              type="text"
+              name="search-items"
+              value={searchQuery}
+              autoComplete="off"
+              onChange={({ target }) => handleSearchInputChange(target.value)}
+            />
+          </div>
+        )}
       </div>
       <ul className={styles.listcontainer}>
         {currentPageData.map((recipe: any) => {
+          const path = isCookbookView ? 'cookbook' : 'recipes';
           return (
             <motion.li
               whileHover={{ scale: 1.02 }}
               key={recipe.id}
-              onClick={() => navigate(`/recipes/${recipe.id}`)}
+              onClick={() => navigate(`/${path}/${recipe.id}`)}
             >
               {isCookbookView ? (
                 <RecipeCard
                   recipe={recipe}
-                  isCookbookView={true}
+                  isCookbookView={isCookbookView}
                   handleRemoveFromCookbookClick={handleRemoveFromCookbookClick}
                   handleAddToPlannerClick={handleAddToPlannerClick}
                 />

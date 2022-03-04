@@ -83,16 +83,20 @@ export default function ShoppingListView() {
           ></input>
         </label>
       </div>
-      <section>
+      <section className={styles.listcontainer}>
         {searchItems.length > 0 &&
           addTotals(searchItems).map((group: any, i) => {
             return (
-              <div key={i}>
+              <div className={styles.itemcontainer} key={i}>
                 <ShoppingList
                   items={group.slice(0, -1)}
                   setChecked={setChecked}
                 />
-                <div>{group[group.length - 1].total}</div>
+                {group.length > 2 && (
+                  <div className={styles.total}>
+                    {group[group.length - 1].total}
+                  </div>
+                )}
               </div>
             );
           })}
