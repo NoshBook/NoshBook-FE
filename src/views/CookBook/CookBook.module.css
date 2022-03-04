@@ -11,3 +11,7 @@
   gap: 20px;
   padding: 50px;
 }
+
+.container a {
+  color: var(--orange);
+}
