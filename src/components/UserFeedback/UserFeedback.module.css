@@ -1,7 +1,7 @@
 .feedbackcontainer {
   position: absolute;
   /* set to zero to push to bottom of screen, but won't be visible on mobile if the user isn't scrolled to bottom of page. */
-  bottom: 1;
+  bottom: 80%;
   right: 0;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
