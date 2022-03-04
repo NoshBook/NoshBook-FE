@@ -43,7 +43,7 @@ export default function RecipeCreateEdit(
         navigate(`/recipes/${id}`);
       } else {
         const newId = await updateRecipeById(id, recipeData);
-        navigate(`/recipes/${newId}`);
+        navigate(`/cookbook/${newId}`);
       }
     } catch (error: any) {
       console.log(error);

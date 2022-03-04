@@ -4,6 +4,7 @@ import DaysMenu from '../DaysMenu/DaysMenu';
 import { AiOutlineEdit, AiOutlinePlusCircle } from 'react-icons/ai';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 export default function Recipe({
   id,
@@ -25,6 +26,8 @@ export default function Recipe({
   added,
   isCookbookView
 }) {
+  const navigate = useNavigate();
+
   return (
     <main className={styles.container}>
       <section className={styles.detailheader}>
@@ -82,7 +85,7 @@ export default function Recipe({
               onClick={(e) => {
                 e.stopPropagation();
                 // may need to be updated after create/edit is pushed
-                navigate(`/recipes/edit/${recipe.id}`);
+                navigate(`/recipes/edit/${id}`);
               }}
             >
               <AiOutlineEdit color={'var(--blue)'} /> Edit
