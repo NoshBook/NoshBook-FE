@@ -1,4 +1,5 @@
-.container {
+.container,
+.containercookbook {
   display: grid;
   grid-template-rows: auto 2em 13em 8em;
   width: 350px;
@@ -9,6 +10,10 @@
   box-shadow: 0px 5px 15px rgb(18, 17, 17);
   cursor: pointer;
   gap: 10px;
+}
+
+.containercookbook {
+  grid-template-rows: auto 2em 3.5em 13em 8em;
 }
 
 .cardimg {
@@ -28,7 +33,7 @@
 
 .cardpsmalldescription {
   align-self: center;
-  font-size: 90%;
+  font-size: 80%;
 }
 
 .cookbookbuttons {
@@ -39,5 +44,6 @@
 }
 
 .cookbookbuttons button {
+  height: 2.5em;
   box-shadow: none;
 }
