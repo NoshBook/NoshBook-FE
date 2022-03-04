@@ -9,6 +9,8 @@ import {
   removeRecipeFromCookbook,
 } from '../../services/cookbook/cookbook';
 import { addPlannerRecipe } from '../../services/planner';
+import useFeedback from '../../hooks/useFeedback';
+import UserFeedback from '../../components/UserFeedback/UserFeedback';
 
 export default function RecipeDetail({ isCookbookView }) {
   const { id } = useParams();
@@ -17,6 +19,8 @@ export default function RecipeDetail({ isCookbookView }) {
   const [added, setAdded] = useState(null);
   const [userRating, setUserRating] = useState(null);
   const [plannerToggle, setPlannerToggle] = useState(false);
+  const { isFeedback, feedbackMessage, isError, giveUserFeedback } =
+    useFeedback();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -46,20 +50,20 @@ export default function RecipeDetail({ isCookbookView }) {
     if (user.id) {
       const response = await insertRecipeIntoCookbook(id);
       if (response.message === 'Recipe already exists in user cookbook.') {
-        window.alert(response.message);
+        giveUserFeedback(true, response.message);
       } else {
-        window.alert(`${name} added to your cookbook!`);
+        giveUserFeedback(false, `${name} added to your cookbook!`);
         setAdded(true);
       }
     } else {
       // could be a redirect if desired
-      window.alert('Login to add recipes to your cookbook!');
+      giveUserFeedback(true, 'Login to add recipes to your cookbook!');
     }
   };
 
   const handleRemoveRecipeFromCookbook = async (id, name) => {
     await removeRecipeFromCookbook(id);
-    window.alert(`${name} removed from cookbook!`);
+    giveUserFeedback(false, `${name} removed from cookbook!`);
     setAdded(false);
   };
 
@@ -69,6 +73,7 @@ export default function RecipeDetail({ isCookbookView }) {
 
   const handleAddToPlanner = async (day, recipeId) => {
     await addPlannerRecipe({ recipeId, day });
+    giveUserFeedback(false, `Added to ${day}.`);
     setPlannerToggle(!plannerToggle);
   };
 
@@ -100,6 +105,9 @@ export default function RecipeDetail({ isCookbookView }) {
           handleAddToPlanner={handleAddToPlanner}
           added={added}
         />
+      )}
+      {isFeedback && (
+        <UserFeedback isError={isError} feedbackMessage={feedbackMessage} />
       )}
     </div>
   );
