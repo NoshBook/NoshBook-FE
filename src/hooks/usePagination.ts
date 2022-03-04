@@ -17,7 +17,7 @@ interface PaginationFeatures {
 export default function usePagination(
   itemsPerPage: number,
   isCookbookView?: boolean,
-  searchQuery?: string
+  searchQuery?: string,
 ): PaginationFeatures {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageData, setCurrentPageData] = useState<Array<BrowseRecipe>>(
@@ -38,12 +38,12 @@ export default function usePagination(
         // if rendering elsewhere(browse all)...
       } else {
         let newPageData;
-        if(searchQuery) {
+        if (searchQuery) {
           newPageData = await searchRecipes(
             searchQuery,
             currentPage,
-            itemsPerPage
-          )
+            itemsPerPage,
+          );
         } else {
           newPageData = await getPaginatedRecipes(
             currentPage,

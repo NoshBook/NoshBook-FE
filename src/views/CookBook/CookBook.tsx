@@ -6,6 +6,8 @@ import usePagination from '../../hooks/usePagination';
 import styles from './CookBook.module.css';
 import { motion } from 'framer-motion';
 import { upfadeinVariants } from '../../utils/variants';
+import useFeedback from '../../hooks/useFeedback';
+import UserFeedback from '../../components/UserFeedback/UserFeedback';
 
 export default function CookBook() {
   const navigate = useNavigate();
@@ -17,6 +19,8 @@ export default function CookBook() {
     isLoading,
     fetchCookbookRecipeData,
   } = usePagination(20, true);
+  const { isFeedback, feedbackMessage, isError, giveUserFeedback } =
+    useFeedback();
 
   const handleRemoveRecipeFromCookbook = async (id: string) => {
     await removeRecipeFromCookbook(id);
@@ -25,7 +29,15 @@ export default function CookBook() {
 
   const handleAddToPlanner = async (day: string, recipeId: string) => {
     const recipeIdNumber = Number(recipeId);
-    await addPlannerRecipe({ recipeId: recipeIdNumber, day });
+    const addRecipeToPlannerRes = await addPlannerRecipe({
+      recipeId: recipeIdNumber,
+      day,
+    });
+    if (addRecipeToPlannerRes.id) {
+      giveUserFeedback(false, `Added to ${day}.`);
+    } else {
+      giveUserFeedback(true);
+    }
   };
 
   return (
@@ -36,12 +48,18 @@ export default function CookBook() {
       className={styles.container}
     >
       <h2>Cookbook</h2>
+
+      {isFeedback && (
+        <UserFeedback isError={isError} feedbackMessage={feedbackMessage} />
+      )}
+
       <motion.button
         whileHover={{ scale: 1.02 }}
         onClick={() => navigate('/recipes/new')}
       >
         Create new recipe
       </motion.button>
+
       {isLoading ? (
         <div className="authcontextloading">
           <h2>Loading...</h2>
