@@ -32,6 +32,7 @@ export default function usePagination(
   }, [searchQuery])
 
   useEffect(() => {
+
     async function fetchRecipes() {
       // if rendering in cookbook view...
       if (isCookbookView) {
