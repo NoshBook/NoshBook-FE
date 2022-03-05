@@ -9,6 +9,7 @@ import ShoppingListView from './views/ShoppingListView/ShoppingListView';
 import RecipeDetail from './views/Recipe/RecipeDetail';
 import RecipeCreateEdit from './views/Recipe/RecipeCreateEdit';
 import CookBook from './views/CookBook/CookBook';
+import About from './views/About/About';
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/about" element={<About />} />
           <Route path="/" element={<Browse />} />
         </Routes>
       </Router>
