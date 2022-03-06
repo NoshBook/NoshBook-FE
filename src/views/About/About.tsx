@@ -60,10 +60,9 @@ export default function About() {
               <img src={linkedinPic} className={styles.socialIcon} />
             </a>
           </div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eu tempus
-          tellus. Cras lobortis enim quis augue efficitur volutpat. Donec eget
-          tortor condimentum, bibendum libero nec, posuere nulla. Vivamus
-          interdum laoreet vestibulum.
+          Michael X Rider is a software developer with eight years of operations
+          and project management experience. His favorite foods are fresh
+          ceviche and chicken tortilla soup.
         </div>
         <div className={`${styles.flexCol} ${styles.card}`}>
           <h3>Zack Lyon</h3>
