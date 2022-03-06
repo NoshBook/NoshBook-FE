@@ -23,52 +23,63 @@ export default function About() {
           <img src={diyanaPic} />
           <div className={styles.socials}>
             <a href="https://github.com/diyanamendoza/">
-              <img src={githubPic} className={styles.socialIcon}/>
+              <img src={githubPic} className={styles.socialIcon} />
             </a>
             <a href="https://www.linkedin.com/in/diyana-mendoza-price/">
-              <img src={linkedinPic} className={styles.socialIcon}/>
+              <img src={linkedinPic} className={styles.socialIcon} />
             </a>
           </div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eu tempus tellus. Cras lobortis enim quis augue efficitur volutpat. Donec eget tortor condimentum, bibendum libero nec, posuere nulla. Vivamus interdum laoreet vestibulum.
+          Diyana (aka Dee, she/her pronouns) is a full stack developer who
+          shifted from nonprofit management to tech back in 2019. One of her
+          favorite foods to cook and eat is a dairy-free version of butter
+          mochi.
         </div>
         <div className={`${styles.flexCol} ${styles.card}`}>
           <h3>Dylan Floyd</h3>
           <img src={dylanPic} />
           <div className={styles.socials}>
             <a href="https://github.com/Dylan-Floyd/">
-              <img src={githubPic} className={styles.socialIcon}/>
+              <img src={githubPic} className={styles.socialIcon} />
             </a>
             <a href="https://www.linkedin.com/in/dylan-c-floyd/">
-              <img src={linkedinPic} className={styles.socialIcon}/>
+              <img src={linkedinPic} className={styles.socialIcon} />
             </a>
           </div>
-          Dylan is an experienced software developer pivoting into web development. His favorite food is a toasted bagel with an egg, creamcheese, and ham.
+          Dylan is an experienced software developer pivoting into web
+          development. His favorite food is a toasted bagel with an egg,
+          creamcheese, and ham.
         </div>
         <div className={`${styles.flexCol} ${styles.card}`}>
           <h3>Michael Rider</h3>
           <img src={michaelPic} />
           <div className={styles.socials}>
             <a href="https://github.com/MikepdXRider">
-              <img src={githubPic} className={styles.socialIcon}/>
+              <img src={githubPic} className={styles.socialIcon} />
             </a>
             <a href="https://www.linkedin.com/in/mikepdxrider/">
-              <img src={linkedinPic} className={styles.socialIcon}/>
+              <img src={linkedinPic} className={styles.socialIcon} />
             </a>
           </div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eu tempus tellus. Cras lobortis enim quis augue efficitur volutpat. Donec eget tortor condimentum, bibendum libero nec, posuere nulla. Vivamus interdum laoreet vestibulum.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eu tempus
+          tellus. Cras lobortis enim quis augue efficitur volutpat. Donec eget
+          tortor condimentum, bibendum libero nec, posuere nulla. Vivamus
+          interdum laoreet vestibulum.
         </div>
         <div className={`${styles.flexCol} ${styles.card}`}>
           <h3>Zack Lyon</h3>
           <img src={zackPic} />
           <div className={styles.socials}>
             <a href="https://github.com/ZackLyon">
-              <img src={githubPic} className={styles.socialIcon}/>
+              <img src={githubPic} className={styles.socialIcon} />
             </a>
             <a href="https://www.linkedin.com/in/zacklyon/">
-              <img src={linkedinPic} className={styles.socialIcon}/>
+              <img src={linkedinPic} className={styles.socialIcon} />
             </a>
           </div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eu tempus tellus. Cras lobortis enim quis augue efficitur volutpat. Donec eget tortor condimentum, bibendum libero nec, posuere nulla. Vivamus interdum laoreet vestibulum.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eu tempus
+          tellus. Cras lobortis enim quis augue efficitur volutpat. Donec eget
+          tortor condimentum, bibendum libero nec, posuere nulla. Vivamus
+          interdum laoreet vestibulum.
         </div>
       </section>
     </motion.main>
