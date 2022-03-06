@@ -10,9 +10,9 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const getCurrentUser = async () => {
       const res = await getUser();
-      console.log(res);
-      // The nullish coalescing operator prevents user from being set to undefined
-      setUser(res ?? { showUserContent: false });
+      if(res?.id) {
+        setUser(res);
+      }
       setLoading(false);
     };
     getCurrentUser();

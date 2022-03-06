@@ -18,3 +18,8 @@ Backend repo: https://github.com/NoshBook/NoshBook-BE
 - Zack Lyon | https://github.com/ZackLyon
 - Michael Rider | https://github.com/MikepdXRider
 - Diyana Mendoza | https://github.com/diyanamendoza
+
+### Planning
+
+Check out our planning process by viewing our Miro board:
+https://miro.com/app/board/uXjVOLcjGkk=/?invite_link_id=194601351445
