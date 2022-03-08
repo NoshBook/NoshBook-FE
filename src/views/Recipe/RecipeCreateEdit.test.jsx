@@ -100,9 +100,9 @@ describe('RecipeCreateEdit', () => {
               }
             />
             <Route
-              path="/recipes/:id"
+              path="/cookbook/:id"
               element={
-                <RecipeDetail />
+                <RecipeDetail isCookbookView={true} />
               }
             />
           </Routes>

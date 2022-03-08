@@ -40,10 +40,10 @@ export default function RecipeCreateEdit(
     try {
       if (isCreating) {
         const id = await postRecipe(recipeData);
-        navigate(`/recipes/${id}`);
+        navigate(`/cookbook/${id}`);
       } else {
         const newId = await updateRecipeById(id, recipeData);
-        navigate(`/recipes/${newId}`);
+        navigate(`/cookbook/${newId}`);
       }
     } catch (error: any) {
       console.log(error);

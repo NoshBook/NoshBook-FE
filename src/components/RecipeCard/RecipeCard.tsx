@@ -34,7 +34,9 @@ export default function RecipeCard({
   const { user } = useAuth();
   const { name, rating, image, description } = recipe;
   return (
-    <article className={styles.container}>
+    <article
+      className={isCookbookView ? styles.containercookbook : styles.container}
+    >
       <h2 className={styles.cardh2}>{name}</h2>
 
       <Rating
@@ -103,7 +105,15 @@ export default function RecipeCard({
 
       <img className={styles.cardimg} src={image} alt={name} />
 
-      <p>{description}</p>
+      <p
+        className={
+          description?.length < 200
+            ? styles.cardp
+            : styles.cardpsmalldescription
+        }
+      >
+        {description}
+      </p>
     </article>
   );
 }
