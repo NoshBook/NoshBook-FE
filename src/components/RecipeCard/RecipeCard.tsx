@@ -18,7 +18,6 @@ interface RecipeCardProps {
   recipe: BrowseRecipe;
   isCookbookView?: boolean;
   plannerToggle?: boolean;
-  setPlannerToggle?: React.Dispatch<React.SetStateAction<boolean>>;
   handleRemoveFromCookbookClick?: (id: string) => void;
   handleAddToPlannerClick?: (day: string, recipeId: string) => void;
 }
@@ -68,10 +67,10 @@ export default function RecipeCard({
                 e.stopPropagation();
                 setPlannerToggle((prevState) => !prevState);
               }}
-              disabled={user.id ? false : true}
+              disabled={user?.id ? false : true}
               // --- Can be removed
               title={
-                user.id
+                user?.id
                   ? 'Click to interact with recipe options'
                   : 'Login to interact with recipe options'
               }
