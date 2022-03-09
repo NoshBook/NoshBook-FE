@@ -4,13 +4,14 @@ import {
   fireEvent,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter, Routes, Route } from 'react-router';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import Browse from './Browse';
 import { AuthProvider } from '../../context/AuthContext';
 import App from '../../App';
 import { beUrl } from '../../utils/beUrl';
+import RecipeDetail from '../Recipe/RecipeDetail';
 
 // TODO:
 // - FAILING DUE TO ONCLICK EVENT NOT TRIGGERING: Redirects user to recipe detail on click of recipe.
@@ -27,6 +28,7 @@ const mockRecipe = {
   servings: 'test',
   image: 'test',
   totalTime: 'test',
+  rating: 5,
 };
 
 // pagination setup
@@ -76,6 +78,12 @@ const server = setupServer(
       ctx.json({ success: true, message: 'Signed out successfully!' }),
     );
   }),
+  // 🟡 Need to find a way to access this request parameter. Currently only able to find documentation on accessing query parameters in MSW.
+  rest.delete(`${beUrl}/recipes/:id`, (req, res, ctx) => {
+    return res(
+      ctx.json({ success: true, message: 'Signed out successfully!' }),
+    );
+  }),
 );
 
 describe('Browse', () => {
@@ -99,15 +107,23 @@ describe('Browse', () => {
     await screen.findAllByText('test');
   });
 
-  //
+  // 🟡 Update mocked paths before revisiting this.
   it.skip('redirects user to recipe detail on click of recipe', async () => {
     render(
       <AuthProvider>
-        <MemoryRouter>
-          <Browse />
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<Browse />} />
+            <Route
+              path="/recipes/:id"
+              element={<RecipeDetail isCookbookView={false} />}
+            />
+          </Routes>
         </MemoryRouter>
       </AuthProvider>,
     );
+
+    screen.getAllByText(/Loading/i);
 
     const recipeArray = await screen.findAllByRole('listitem');
     const firstRecipe = recipeArray[0];
