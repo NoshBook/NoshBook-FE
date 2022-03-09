@@ -23,7 +23,8 @@ jest.mock('../../context/AuthContext');
 const mockRecipe = {
   id: 1,
   name: 'test',
-  ingredients: 'test',
+  ingredients: ['test-ing-1'],
+  instructions: ['test-inst-1'],
   tags: 'test',
   servings: 'test',
   image: 'test',
@@ -78,11 +79,9 @@ const server = setupServer(
       ctx.json({ success: true, message: 'Signed out successfully!' }),
     );
   }),
-  // 🟡 Need to find a way to access this request parameter. Currently only able to find documentation on accessing query parameters in MSW.
-  rest.delete(`${beUrl}/recipes/:id`, (req, res, ctx) => {
-    return res(
-      ctx.json({ success: true, message: 'Signed out successfully!' }),
-    );
+  rest.get(`${beUrl}/recipes/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+    return res(ctx.json({ ...mockRecipe, rating: 5, id }));
   }),
 );
 
@@ -107,8 +106,7 @@ describe('Browse', () => {
     await screen.findAllByText('test');
   });
 
-  // 🟡 Update mocked paths before revisiting this.
-  it.skip('redirects user to recipe detail on click of recipe', async () => {
+  it('redirects user to recipe detail on click of recipe', async () => {
     render(
       <AuthProvider>
         <MemoryRouter initialEntries={['/']}>
@@ -129,8 +127,8 @@ describe('Browse', () => {
     const firstRecipe = recipeArray[0];
     fireEvent.click(firstRecipe);
 
-    await waitForElementToBeRemoved(() => firstRecipe);
-    expect(global.window.location.href).toContain('/recipes');
+    await screen.findByText(/test-ing-1/i);
+    await screen.findByText(/test-inst-1/i);
   });
 
   it('renders new data when pagination buttons are clicked', async () => {
