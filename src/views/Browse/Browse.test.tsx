@@ -4,13 +4,14 @@ import {
   fireEvent,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter, Routes, Route } from 'react-router';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import Browse from './Browse';
 import { AuthProvider } from '../../context/AuthContext';
 import App from '../../App';
 import { beUrl } from '../../utils/beUrl';
+import RecipeDetail from '../Recipe/RecipeDetail';
 
 // TODO:
 // - FAILING DUE TO ONCLICK EVENT NOT TRIGGERING: Redirects user to recipe detail on click of recipe.
@@ -22,11 +23,13 @@ jest.mock('../../context/AuthContext');
 const mockRecipe = {
   id: 1,
   name: 'test',
-  ingredients: 'test',
+  ingredients: ['test-ing-1'],
+  instructions: ['test-inst-1'],
   tags: 'test',
   servings: 'test',
   image: 'test',
   totalTime: 'test',
+  rating: 5,
 };
 
 // pagination setup
@@ -76,6 +79,10 @@ const server = setupServer(
       ctx.json({ success: true, message: 'Signed out successfully!' }),
     );
   }),
+  rest.get(`${beUrl}/recipes/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+    return res(ctx.json({ ...mockRecipe, rating: 5, id }));
+  }),
 );
 
 describe('Browse', () => {
@@ -99,22 +106,29 @@ describe('Browse', () => {
     await screen.findAllByText('test');
   });
 
-  //
-  it.skip('redirects user to recipe detail on click of recipe', async () => {
+  it('redirects user to recipe detail on click of recipe', async () => {
     render(
       <AuthProvider>
-        <MemoryRouter>
-          <Browse />
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<Browse />} />
+            <Route
+              path="/recipes/:id"
+              element={<RecipeDetail isCookbookView={false} />}
+            />
+          </Routes>
         </MemoryRouter>
       </AuthProvider>,
     );
+
+    screen.getAllByText(/Loading/i);
 
     const recipeArray = await screen.findAllByRole('listitem');
     const firstRecipe = recipeArray[0];
     fireEvent.click(firstRecipe);
 
-    await waitForElementToBeRemoved(() => firstRecipe);
-    expect(global.window.location.href).toContain('/recipes');
+    await screen.findByText(/test-ing-1/i);
+    await screen.findByText(/test-inst-1/i);
   });
 
   it('renders new data when pagination buttons are clicked', async () => {
